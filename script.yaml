@@ -1,0 +1,150 @@
+restart_hass:
+  alias: 'Restart HASS'
+  sequence:
+    - alias: 'Restart HASS'
+      service: homeassistant.restart
+
+harm_living_watch_tv:
+  alias: 'Living Room Watch TV'
+  sequence:
+    - service: remote.turn_on
+      data:
+        entity_id: remote.living_room
+        activity: 'Watch TV'
+
+harm_living_turn_off:
+  alias: 'Living Turn Off'
+  sequence:
+    - service: remote.turn_off
+      entity_id: remote.living_room
+
+harm_living_watch_apple_tv:
+  alias: 'Living Room Watch Apple TV'
+  sequence:
+    - service: remote.turn_on
+      data:
+        entity_id: remote.living_room
+        activity: 'Watch Apple TV'
+
+harm_living_watch_smart_tv:
+  alias: 'Living Room Watch Smart TV'
+  sequence:
+    - service: remote.turn_on
+      data:
+        entity_id: remote.living_room
+        activity: 'Watch Smart TV'
+
+harm_living_channel_90:
+  alias: 'Channel 90'
+  sequence:
+    - service: remote.send_command
+      data:
+        entity_id: remote.living_room
+        device: 36174724
+        delay_secs: 0.4
+        command:
+          - 9
+          - 0
+harm_living_channel_13:
+  alias: 'Channel 13'
+  sequence:
+    - service: remote.send_command
+      data:
+        entity_id: remote.living_room
+        device: 36174724
+        delay_secs: 0.4
+        command:
+          - 1
+          - 3
+harm_living_channel_70:
+  alias: 'Channel 70'
+  sequence:
+    - service: remote.send_command
+      data:
+        entity_id: remote.living_room
+        device: 36174724
+        delay_secs: 0.4
+        command:
+          - 7
+          - 0
+harm_living_channel_24:
+  alias: 'Channel 24'
+  sequence:
+    - service: remote.send_command
+      data:
+        entity_id: remote.living_room
+        device: 36174724
+        delay_secs: 0.4
+        command:
+          - 2
+          - 4
+lounge_air_fan_auto:
+  alias: 'Loungeroom Aircon Fan Auto'
+  sequence:
+    - service: climate.set_fan_mode
+      data:
+        entity_id: climate.loungeroom_aircon
+        fan_mode: 'auto'
+lounge_air_fan_low:
+  alias: 'Loungeroom Aircon Fan Low'
+  sequence:
+    - service: climate.set_fan_mode
+      data:
+        entity_id: climate.loungeroom_aircon
+        fan_mode: 'low'
+lounge_air_fan_medium:
+  alias: 'Loungeroom Aircon Fan Medium'
+  sequence:
+    - service: climate.set_fan_mode
+      data:
+        entity_id: climate.loungeroom_aircon
+        fan_mode: 'medium'
+lounge_air_fan_high:
+  alias: 'Loungeroom Aircon Fan High'
+  sequence:
+    - service: climate.set_fan_mode
+      data:
+        entity_id: climate.loungeroom_aircon
+        fan_mode: 'high'
+
+bedroom_reading:
+  alias: 'Bedroom Reading Lights'
+  sequence:
+    - service: light.turn_on
+      entity_id: light.hue_ambiance_lamp_6
+      data:
+        brightness: 100
+        color_temp: 278
+    - service: light.turn_on
+      entity_id: light.hue_ambiance_lamp_4
+      data:
+        brightness: 100
+        color_temp: 278
+    - service: light.turn_off
+      entity_id: light.hue_ambiance_lamp_3
+    - service: light.turn_off
+      entity_id: light.hue_ambiance_lamp_5
+
+reset_bedroom_lights:
+  alias: 'Reset Bedroom Lights'
+  sequence:
+    - service: light.turn_on
+      entity_id: light.hue_ambiance_lamp_6
+      data:
+        brightness: 180
+        color_temp: 278
+    - service: light.turn_on
+      entity_id: light.hue_ambiance_lamp_4
+      data:
+        brightness: 180
+        color_temp: 278
+    - service: light.turn_on
+      entity_id: light.hue_ambiance_lamp_3
+      data:
+        brightness: 180
+        color_temp: 278
+    - service: light.turn_on
+      entity_id: light.hue_ambiance_lamp_5
+      data:
+        brightness: 180
+        color_temp: 278

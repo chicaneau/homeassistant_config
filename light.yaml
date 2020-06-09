@@ -1,0 +1,82 @@
+  - platform: group
+    name: Kitchen
+    entities:
+      - light.kitchen_1
+      - light.kitchen_2
+
+  - platform: group
+    name: Loungeroom
+    entities:
+      - light.loungeroom_1
+      - light.loungeroom_2
+      - light.loungeroom_3
+      - light.loungeroom_4
+
+  - platform: group
+    name: Bedroom Night Lamps
+    entities:
+      - light.hue_ambiance_lamp_6
+      - light.hue_ambiance_lamp_4
+
+  - platform: template
+    lights:
+      outside:
+        friendly_name: Outside
+        value_template: "{{ states.light.outside_real.state }}"
+
+        turn_on:
+          - service: light.turn_on
+            entity_id: light.outside_real
+          - service: input_boolean.turn_on
+            entity_id: input_boolean.outside_triggered
+        turn_off:
+          - service: light.turn_off
+            entity_id: light.outside_real
+          - service: input_boolean.turn_off
+            entity_id: input_boolean.outside_triggered
+
+  - platform: mqtt
+    name: Office
+    command_topic: "office/lights/cmnd/POWER"
+    availability_topic: "office/lights/tele/LWT"
+    state_topic: "office/lights/tele/STATE"
+    value_template: "{{ value_json.POWER }}"
+    payload_on: "ON"
+    payload_off: "OFF"
+    payload_available: "Online"
+    payload_not_available: "Offline"
+
+  - platform: mqtt
+    name: Outside Real
+    command_topic: "outside/lights/cmnd/POWER"
+    availability_topic: "outside/lights/tele/LWT"
+    state_topic: "outside/lights/tele/STATE"
+    value_template: "{{ value_json.POWER }}"
+    payload_on: "ON"
+    payload_off: "OFF"
+    payload_available: "Online"
+    payload_not_available: "Offline"
+    qos: 1
+    retain: false
+
+  - platform: mqtt
+    name: Dining Room
+    command_topic: "dining/lights/cmnd/POWER1"
+    availability_topic: "dining/lights/tele/LWT"
+    state_topic: "dining/lights/tele/STATE"
+    value_template: "{{ value_json.POWER1 }}"
+    payload_on: "ON"
+    payload_off: "OFF"
+    payload_available: "Online"
+    payload_not_available: "Offline"
+
+  - platform: mqtt
+    name: Niche
+    command_topic: "dining/lights/cmnd/POWER2"
+    availability_topic: "dining/lights/tele/LWT"
+    state_topic: "dining/lights/tele/STATE"
+    value_template: "{{ value_json.POWER2 }}"
+    payload_on: "ON"
+    payload_off: "OFF"
+    payload_available: "Online"
+    payload_not_available: "Offline"

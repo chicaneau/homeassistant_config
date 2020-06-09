@@ -1,0 +1,467 @@
+###BEDROOM LIGHTS###
+- alias: 'Auto Reset Bedroom Lights Daytime'
+  trigger:
+    - platform: state
+      entity_id: light.hue_ambiance_lamp_3
+      from: 'off'
+      to: 'on'
+  condition:
+    condition: time
+    after: '5:00:00'
+    before: '17:00:00'
+  action:
+    - service: script.turn_on
+      entity_id: script.reset_bedroom_lights
+
+- alias: 'Auto Reset Bedroom Lights 5pm-830pm'
+  trigger:
+    - platform: state
+      entity_id: light.hue_ambiance_lamp_3
+      from: 'off'
+      to: 'on'
+  condition:
+    condition: time
+    after: '17:00:00'
+    before: '20:30:00'
+  action:
+    - service: light.turn_on
+      entity_id: light.hue_ambiance_lamp_6
+      data:
+        brightness: 100
+        color_temp: 278
+    - service: light.turn_on
+      entity_id: light.hue_ambiance_lamp_4
+      data:
+        brightness: 100
+        color_temp: 278
+    - service: light.turn_on
+      entity_id: light.hue_ambiance_lamp_3
+      data:
+        brightness: 100
+        color_temp: 278
+    - service: light.turn_on
+      entity_id: light.hue_ambiance_lamp_5
+      data:
+        brightness: 100
+        color_temp: 278
+
+- alias: 'Auto Reset Bedroom Lights 830pm-5am'
+  trigger:
+    - platform: state
+      entity_id: light.hue_ambiance_lamp_3
+      from: 'off'
+      to: 'on'
+  condition:
+    condition: time
+    after: '20:30:00'
+    before: '5:00:00'
+  action:
+    - service: light.turn_on
+      entity_id: light.hue_ambiance_lamp_6
+      data:
+        brightness: 55
+        color_temp: 278
+    - service: light.turn_on
+      entity_id: light.hue_ambiance_lamp_4
+      data:
+        brightness: 55
+        color_temp: 278
+    - service: light.turn_on
+      entity_id: light.hue_ambiance_lamp_3
+      data:
+        brightness: 55
+        color_temp: 278
+    - service: light.turn_on
+      entity_id: light.hue_ambiance_lamp_5
+      data:
+        brightness: 55
+        color_temp: 278
+
+- alias: 'Auto Set Bedroom Lights 830pm'
+  trigger:
+    platform: time
+    at: '20:30:00'
+  condition:
+    condition: state
+    entity_id: light.hue_ambiance_lamp_3
+    state: 'on'
+  action:
+    - service: light.turn_on
+      entity_id: light.hue_ambiance_lamp_6
+      data:
+        brightness: 55
+        color_temp: 278
+    - service: light.turn_on
+      entity_id: light.hue_ambiance_lamp_4
+      data:
+        brightness: 55
+        color_temp: 278
+    - service: light.turn_on
+      entity_id: light.hue_ambiance_lamp_3
+      data:
+        brightness: 55
+        color_temp: 278
+    - service: light.turn_on
+      entity_id: light.hue_ambiance_lamp_5
+      data:
+        brightness: 55
+        color_temp: 278
+
+- alias: 'Auto Set Bedroom Lights 5pm'
+  trigger:
+    platform: time
+    at: '17:00:00'
+  condition:
+    condition: state
+    entity_id: light.hue_ambiance_lamp_3
+    state: 'on'
+  action:
+    - service: light.turn_on
+      entity_id: light.hue_ambiance_lamp_6
+      data:
+        brightness: 100
+        color_temp: 278
+    - service: light.turn_on
+      entity_id: light.hue_ambiance_lamp_4
+      data:
+        brightness: 100
+        color_temp: 278
+    - service: light.turn_on
+      entity_id: light.hue_ambiance_lamp_3
+      data:
+        brightness: 100
+        color_temp: 278
+    - service: light.turn_on
+      entity_id: light.hue_ambiance_lamp_5
+      data:
+        brightness: 100
+        color_temp: 278
+
+###BEDROOM LIGHT APPLETV###
+#- alias: 'Dim Bedroom AppleTV Playing'
+#  trigger:
+#    - platform: state
+#      entity_id: media_player.bedroom
+#      to: 'playing'
+#  condition:
+#    condition: and
+#    conditions:
+#      - condition: state
+#        entity_id: light.hue_ambiance_lamp_5
+#        state: 'on'
+#      - condition: template
+#        value_template: "{{ (state_attr('light.hue_ambiance_lamp_5', 'brightness')|int) > 50 }}"
+#  action:
+#    - service: light.turn_on
+#      data:
+#        entity_id: light.bedroom
+#        brightness: 1
+#        color_temp: 278
+
+###BEDROOM MOTION###
+- alias: Bedroom Motion Main Lights
+  trigger:
+    platform: state
+    entity_id: binary_sensor.motion_sensor_158d000291042d
+    from: 'off'
+    to: 'on'
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: light.hue_ambiance_lamp_4
+        state: 'off'
+      - condition: state
+        entity_id: input_boolean.bedtime_triggered
+        state: 'off'
+      #- condition: time
+      #  before: '21:30:00'
+      - condition: sun
+        after: sunset
+        after_offset: "-00:45:00"
+  action:
+    - service: light.turn_on
+      entity_id: light.bedroom
+
+
+- alias: Bedroom Motion Off Main Lights
+  trigger:
+    platform: state
+    entity_id: binary_sensor.motion_sensor_158d000291042d
+    from: 'on'
+    to: 'off'
+    for: '00:10:00'
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: light.hue_ambiance_lamp_4
+        state: 'on'
+      - condition: state
+        entity_id: input_boolean.bedtime_triggered
+        state: 'off'
+  action:
+    - service: light.turn_off
+      entity_id: light.bedroom
+
+- alias: Bedroom Motion Bathroom Light
+  trigger:
+    platform: state
+    entity_id: binary_sensor.motion_sensor_158d000291042d
+    from: 'off'
+    to: 'on'
+  condition:
+    condition: time
+    after: '20:00:00'
+    before: '06:30:00'
+  action:
+    - service: light.turn_on
+      entity_id: light.gateway_light_7c49ebb0d82c
+    - delay: '00:03:00'
+    - service: light.turn_off
+      entity_id: light.gateway_light_7c49ebb0d82c
+
+###BEDROOM SWITCHES###
+
+- alias: Bed Single Click 2 lights
+  trigger:
+    - platform: event
+      event_type: xiaomi_aqara.click
+      event_data:
+        #DANNY
+        entity_id: binary_sensor.switch_158d00023e3e51
+        click_type: single
+    - platform: event
+      event_type: xiaomi_aqara.click
+      event_data:
+        #LIZ
+        entity_id: binary_sensor.switch_158d00023dc1df
+        click_type: single
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: light.hue_ambiance_lamp_4
+        state: 'on'
+      - condition: state
+        entity_id: light.hue_ambiance_lamp_6
+        state: 'on'
+      - condition: state
+        entity_id: light.hue_ambiance_lamp_3
+        state: 'off'
+      - condition: state
+        entity_id: light.hue_ambiance_lamp_5
+        state: 'off'
+  action:
+    - service: light.toggle
+      entity_id: light.hue_ambiance_lamp_4
+    - service: light.toggle
+      entity_id: light.hue_ambiance_lamp_6
+
+#- alias: Bed Single Click 4 lights
+#  trigger:
+#    - platform: event
+#      event_type: xiaomi_aqara.click
+#      event_data:
+#        #DANNY
+#        entity_id: binary_sensor.switch_158d00023e3e51
+#        click_type: single
+#    - platform: event
+#      event_type: xiaomi_aqara.click
+#      event_data:
+#        #LIZ
+#        entity_id: binary_sensor.switch_158d00023dc1df
+#        click_type: single
+#  condition:
+#    condition: or
+#    conditions:
+#      - condition: and
+#        conditions:
+#          - condition: state
+#            entity_id: light.hue_ambiance_lamp_4
+#            state: 'on'
+#          - condition: state
+#            entity_id: light.hue_ambiance_lamp_6
+#            state: 'on'
+#          - condition: state
+#            entity_id: light.hue_ambiance_lamp_3
+#            state: 'on'
+#          - condition: state
+#            entity_id: light.hue_ambiance_lamp_5
+#            state: 'on'
+#      - condition: and
+#        conditions:
+#          - condition: state
+#            entity_id: light.hue_ambiance_lamp_4
+#            state: 'off'
+#          - condition: state
+#            entity_id: light.hue_ambiance_lamp_6
+#            state: 'off'
+#          - condition: state
+#            entity_id: light.hue_ambiance_lamp_3
+#            state: 'off'
+#          - condition: state
+#            entity_id: light.hue_ambiance_lamp_5
+#            state: 'off'
+#  action:
+#    service: light.toggle
+#    entity_id: light.bedroom
+
+
+- alias: Bed Single Click 4 lights
+  trigger:
+    - platform: event
+      event_type: xiaomi_aqara.click
+      event_data:
+        #DANNY
+        entity_id: binary_sensor.switch_158d00023e3e51
+        click_type: single
+    - platform: event
+      event_type: xiaomi_aqara.click
+      event_data:
+        #LIZ
+        entity_id: binary_sensor.switch_158d00023dc1df
+        click_type: single
+  condition:
+    condition: or
+    conditions:
+      - condition: and
+        conditions:
+          - condition: state
+            entity_id: light.hue_ambiance_lamp_4
+            state: 'on'
+          - condition: state
+            entity_id: light.hue_ambiance_lamp_6
+            state: 'on'
+          - condition: state
+            entity_id: light.hue_ambiance_lamp_3
+            state: 'on'
+          - condition: state
+            entity_id: light.hue_ambiance_lamp_5
+            state: 'on'
+      - condition: and
+        conditions:
+          - condition: state
+            entity_id: light.hue_ambiance_lamp_4
+            state: 'off'
+          - condition: state
+            entity_id: light.hue_ambiance_lamp_6
+            state: 'off'
+          - condition: state
+            entity_id: light.hue_ambiance_lamp_3
+            state: 'off'
+          - condition: state
+            entity_id: light.hue_ambiance_lamp_5
+            state: 'off'
+          - condition: state
+            entity_id: input_boolean.bedtime_triggered
+            state: 'off'
+  action:
+    service: light.toggle
+    entity_id: light.bedroom
+
+- alias: Bed Single Click 2 lights on
+  trigger:
+    - platform: event
+      event_type: xiaomi_aqara.click
+      event_data:
+        #DANNY
+        entity_id: binary_sensor.switch_158d00023e3e51
+        click_type: single
+    - platform: event
+      event_type: xiaomi_aqara.click
+      event_data:
+        #LIZ
+        entity_id: binary_sensor.switch_158d00023dc1df
+        click_type: single
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: light.hue_ambiance_lamp_4
+        state: 'off'
+      - condition: state
+        entity_id: light.hue_ambiance_lamp_6
+        state: 'off'
+      - condition: state
+        entity_id: light.hue_ambiance_lamp_3
+        state: 'off'
+      - condition: state
+        entity_id: light.hue_ambiance_lamp_5
+        state: 'off'
+      - condition: state
+        entity_id: input_boolean.bedtime_triggered
+        state: 'on'
+
+  action:
+    - service: light.turn_on
+      entity_id: light.hue_ambiance_lamp_4
+      data:
+        brightness: 2
+        color_temp: 278
+    - service: light.turn_on
+      entity_id: light.hue_ambiance_lamp_6
+      data:
+        brightness: 2
+        color_temp: 278
+
+
+- alias: Bed Double Click
+  trigger:
+    - platform: event
+      event_type: xiaomi_aqara.click
+      event_data:
+        # DANNY
+        entity_id: binary_sensor.switch_158d00023e3e51
+        click_type: double
+    - platform: event
+      event_type: xiaomi_aqara.click
+      event_data:
+        # LIZ
+        entity_id: binary_sensor.switch_158d00023dc1df
+        click_type: double
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: light.hue_ambiance_lamp_4
+        state: 'on'
+      - condition: state
+        entity_id: light.hue_ambiance_lamp_6
+        state: 'on'
+      - condition: state
+        entity_id: light.hue_ambiance_lamp_3
+        state: 'off'
+      - condition: state
+        entity_id: light.hue_ambiance_lamp_5
+        state: 'off'
+      - condition: state
+        entity_id: input_boolean.bedtime_triggered
+        state: 'on'
+  action:
+    service: scene.turn_on
+    entity_id: scene.goodnight_scene
+
+- alias: Bed Double Click Bedtime
+  trigger:
+    - platform: event
+      event_type: xiaomi_aqara.click
+      event_data:
+        # DANNY
+        entity_id: binary_sensor.switch_158d00023e3e51
+        click_type: double
+    - platform: event
+      event_type: xiaomi_aqara.click
+      event_data:
+        # LIZ
+        entity_id: binary_sensor.switch_158d00023dc1df
+        click_type: double
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: input_boolean.bedtime_triggered
+        state: 'off'
+  action:
+    service: scene.turn_on
+    entity_id: scene.bedtime_scene

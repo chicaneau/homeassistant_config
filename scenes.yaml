@@ -1,0 +1,417 @@
+- id: '1576734523138'
+  name: Bedtime
+  entities:
+    input_boolean.bedtime_triggered:
+      editable: false
+      friendly_name: Bedtime Triggered
+      icon: mdi:hotel
+      state: 'on'
+    light.hue_ambiance_lamp_1:
+      friendly_name: Hallway 1
+      max_mireds: 454
+      min_mireds: 153
+      state: 'off'
+      supported_features: 43
+    light.hue_ambiance_lamp_2:
+      friendly_name: Hallway 2
+      max_mireds: 454
+      min_mireds: 153
+      state: 'off'
+      supported_features: 43
+    light.hue_ambiance_lamp_3:
+      friendly_name: Bedroom 3
+      max_mireds: 454
+      min_mireds: 153
+      state: 'off'
+      supported_features: 43
+    light.hue_ambiance_lamp_4:
+      brightness: 2
+      color_temp: 278
+      friendly_name: Bedroom 1
+      max_mireds: 454
+      min_mireds: 153
+      state: 'on'
+      supported_features: 43
+    light.hue_ambiance_lamp_5:
+      friendly_name: Bedroom 4
+      max_mireds: 454
+      min_mireds: 153
+      state: 'off'
+      supported_features: 43
+    light.hue_ambiance_lamp_6:
+      brightness: 2
+      color_temp: 278
+      friendly_name: Bedroom 2
+      max_mireds: 454
+      min_mireds: 153
+      state: 'on'
+      supported_features: 43
+    light.kitchen_1:
+      effect_list:
+      - effect_colorloop
+      - effect_pulse
+      - effect_stop
+      friendly_name: Kitchen 1
+      max_mireds: 400
+      min_mireds: 111
+      state: 'off'
+      supported_features: 55
+    light.kitchen_2:
+      effect_list:
+      - effect_colorloop
+      - effect_pulse
+      - effect_stop
+      friendly_name: Kitchen 2
+      max_mireds: 400
+      min_mireds: 111
+      state: 'off'
+      supported_features: 55
+    light.loungeroom_1:
+      effect_list:
+      - effect_colorloop
+      - effect_pulse
+      - effect_stop
+      friendly_name: Loungeroom 1
+      max_mireds: 400
+      min_mireds: 111
+      state: 'off'
+      supported_features: 55
+    light.loungeroom_2:
+      effect_list:
+      - effect_colorloop
+      - effect_pulse
+      - effect_stop
+      friendly_name: Loungeroom 2
+      max_mireds: 400
+      min_mireds: 111
+      state: 'off'
+      supported_features: 55
+    light.loungeroom_3:
+      effect_list:
+      - effect_colorloop
+      - effect_pulse
+      - effect_stop
+      friendly_name: Loungeroom 3
+      max_mireds: 400
+      min_mireds: 111
+      state: 'off'
+      supported_features: 55
+    light.loungeroom_4:
+      effect_list:
+      - effect_colorloop
+      - effect_pulse
+      - effect_stop
+      friendly_name: Loungeroom 4
+      max_mireds: 400
+      min_mireds: 111
+      state: 'off'
+      supported_features: 55
+    light.niche:
+      friendly_name: Niche
+      state: 'off'
+      supported_features: 0
+    light.office:
+      friendly_name: Office
+      state: 'off'
+      supported_features: 0
+    light.outside:
+      friendly_name: Outside
+      state: 'off'
+      supported_features: 0
+    light.dining_room:
+      friendly_name: Dining Room
+      state: 'off'
+      supported_features: 0
+    switch.mozzie_zapper:
+      friendly_name: Mozzie Zapper
+      state: 'off'
+- id: '1576734523139'
+  name: Goodnight
+  entities:
+    input_boolean.bedtime_triggered:
+      editable: false
+      friendly_name: Bedtime Triggered
+      icon: mdi:hotel
+      state: 'on'
+    light.hue_ambiance_lamp_1:
+      friendly_name: Hallway 1
+      max_mireds: 454
+      min_mireds: 153
+      state: 'off'
+      supported_features: 43
+    light.hue_ambiance_lamp_2:
+      friendly_name: Hallway 2
+      max_mireds: 454
+      min_mireds: 153
+      state: 'off'
+      supported_features: 43
+    light.hue_ambiance_lamp_3:
+      friendly_name: Bedroom 3
+      max_mireds: 454
+      min_mireds: 153
+      state: 'off'
+      supported_features: 43
+    light.hue_ambiance_lamp_4:
+      friendly_name: Bedroom 1
+      max_mireds: 454
+      min_mireds: 153
+      state: 'off'
+      supported_features: 43
+    light.hue_ambiance_lamp_5:
+      friendly_name: Bedroom 4
+      max_mireds: 454
+      min_mireds: 153
+      state: 'off'
+      supported_features: 43
+    light.hue_ambiance_lamp_6:
+      friendly_name: Bedroom 2
+      max_mireds: 454
+      min_mireds: 153
+      state: 'off'
+      supported_features: 43
+    light.kitchen_1:
+      effect_list:
+      - effect_colorloop
+      - effect_pulse
+      - effect_stop
+      friendly_name: Kitchen 1
+      max_mireds: 400
+      min_mireds: 111
+      state: 'off'
+      supported_features: 55
+    light.kitchen_2:
+      effect_list:
+      - effect_colorloop
+      - effect_pulse
+      - effect_stop
+      friendly_name: Kitchen 2
+      max_mireds: 400
+      min_mireds: 111
+      state: 'off'
+      supported_features: 55
+    light.loungeroom_1:
+      effect_list:
+      - effect_colorloop
+      - effect_pulse
+      - effect_stop
+      friendly_name: Loungeroom 1
+      max_mireds: 400
+      min_mireds: 111
+      state: 'off'
+      supported_features: 55
+    light.loungeroom_2:
+      effect_list:
+      - effect_colorloop
+      - effect_pulse
+      - effect_stop
+      friendly_name: Loungeroom 2
+      max_mireds: 400
+      min_mireds: 111
+      state: 'off'
+      supported_features: 55
+    light.loungeroom_3:
+      effect_list:
+      - effect_colorloop
+      - effect_pulse
+      - effect_stop
+      friendly_name: Loungeroom 3
+      max_mireds: 400
+      min_mireds: 111
+      state: 'off'
+      supported_features: 55
+    light.loungeroom_4:
+      effect_list:
+      - effect_colorloop
+      - effect_pulse
+      - effect_stop
+      friendly_name: Loungeroom 4
+      max_mireds: 400
+      min_mireds: 111
+      state: 'off'
+      supported_features: 55
+    light.niche:
+      friendly_name: Niche
+      state: 'off'
+      supported_features: 0
+    light.office:
+      friendly_name: Office
+      state: 'off'
+      supported_features: 0
+    light.outside:
+      friendly_name: Outside
+      state: 'off'
+      supported_features: 0
+    light.dining_room:
+      friendly_name: Dining Room
+      state: 'off'
+      supported_features: 0
+    switch.mozzie_zapper:
+      friendly_name: Mozzie Zapper
+      state: 'off'
+- id: '1589517046897'
+  name: Gaming Time
+  entities:
+    input_boolean.bedtime_triggered:
+      editable: false
+      friendly_name: Bedtime Triggered
+      icon: mdi:hotel
+      state: 'on'
+    light.hue_ambiance_lamp_1:
+      brightness: 1
+      color_temp: 278
+      friendly_name: Hallway 1
+      max_mireds: 454
+      min_mireds: 153
+      state: 'on'
+      supported_features: 43
+    light.hue_ambiance_lamp_2:
+      brightness: 1
+      color_temp: 278
+      friendly_name: Hallway 2
+      max_mireds: 454
+      min_mireds: 153
+      state: 'on'
+      supported_features: 43
+    light.hue_ambiance_lamp_3:
+      friendly_name: Bedroom 3
+      max_mireds: 454
+      min_mireds: 153
+      state: 'off'
+      supported_features: 43
+    light.hue_ambiance_lamp_4:
+      friendly_name: Bedroom 1
+      max_mireds: 454
+      min_mireds: 153
+      state: 'off'
+      supported_features: 43
+    light.hue_ambiance_lamp_5:
+      friendly_name: Bedroom 4
+      max_mireds: 454
+      min_mireds: 153
+      state: 'off'
+      supported_features: 43
+    light.hue_ambiance_lamp_6:
+      friendly_name: Bedroom 2
+      max_mireds: 454
+      min_mireds: 153
+      state: 'off'
+      supported_features: 43
+    light.kitchen_1:
+      effect_list:
+      - effect_colorloop
+      - effect_pulse
+      - effect_stop
+      friendly_name: Kitchen 1
+      max_mireds: 400
+      min_mireds: 111
+      state: 'off'
+      supported_features: 55
+    light.kitchen_2:
+      effect_list:
+      - effect_colorloop
+      - effect_pulse
+      - effect_stop
+      friendly_name: Kitchen 2
+      max_mireds: 400
+      min_mireds: 111
+      state: 'off'
+      supported_features: 55
+    light.loungeroom_1:
+      effect_list:
+      - effect_colorloop
+      - effect_pulse
+      - effect_stop
+      friendly_name: Loungeroom 1
+      max_mireds: 400
+      min_mireds: 111
+      state: 'off'
+      supported_features: 55
+    light.loungeroom_2:
+      effect_list:
+      - effect_colorloop
+      - effect_pulse
+      - effect_stop
+      friendly_name: Loungeroom 2
+      max_mireds: 400
+      min_mireds: 111
+      state: 'off'
+      supported_features: 55
+    light.loungeroom_3:
+      effect_list:
+      - effect_colorloop
+      - effect_pulse
+      - effect_stop
+      friendly_name: Loungeroom 3
+      max_mireds: 400
+      min_mireds: 111
+      state: 'off'
+      supported_features: 55
+    light.loungeroom_4:
+      effect_list:
+      - effect_colorloop
+      - effect_pulse
+      - effect_stop
+      friendly_name: Loungeroom 4
+      max_mireds: 400
+      min_mireds: 111
+      state: 'off'
+      supported_features: 55
+    light.niche:
+      friendly_name: Niche
+      state: 'off'
+      supported_features: 0
+    light.office:
+      friendly_name: Office
+      state: 'on'
+      supported_features: 0
+    light.outside:
+      friendly_name: Outside
+      state: 'off'
+      supported_features: 0
+    light.dining_room:
+      friendly_name: Dining Room
+      state: 'off'
+      supported_features: 0
+    switch.mozzie_zapper:
+      friendly_name: Mozzie Zapper
+      state: 'off'
+- id: '1591523295189'
+  name: Lights On
+  entities:
+    light.hallway:
+      brightness: 150
+      color_temp: 278
+      friendly_name: Hallway
+      is_hue_group: true
+      max_mireds: 500
+      min_mireds: 153
+      state: 'on'
+      supported_features: 43
+    light.kitchen:
+      brightness: 255
+      color_temp: 153
+      effect_list:
+      - effect_stop
+      - effect_colorloop
+      - effect_pulse
+      friendly_name: Kitchen
+      max_mireds: 400
+      min_mireds: 111
+      state: 'on'
+      supported_features: 55
+    light.loungeroom:
+      brightness: 163
+      color_temp: 153
+      effect_list:
+      - effect_stop
+      - effect_colorloop
+      - effect_pulse
+      friendly_name: Loungeroom
+      max_mireds: 400
+      min_mireds: 111
+      state: 'on'
+      supported_features: 55
+    light.niche:
+      friendly_name: Niche
+      state: 'on'
+      supported_features: 0

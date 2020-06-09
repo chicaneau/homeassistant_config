@@ -1,0 +1,76 @@
+cover.garage_door:
+  device_class: garage
+sensor.normal_bin_day:
+  icon: mdi:delete
+sensor.recycling_bin_day:
+  icon: mdi:recycle
+sensor.bom_sunshine_coast_air_temp_c:
+  homebridge_hidden: true
+  icon: mdi:thermometer
+sensor.bom_sunshine_coast_feels_like_c:
+  homebridge_hidden: true
+  icon: mdi:thermometer
+sensor.bom_sunshine_coast_relative_humidity:
+  homebridge_hidden: true
+  icon: mdi:water-percent
+switch.living_room_harmony_watch_tv:
+  icon: mdi:television-box
+switch.living_room_harmony_watch_apple_tv:
+  icon: mdi:apple
+switch.living_room_harmony_watch_smart_tv:
+  icon: mdi:youtube-tv
+switch.dannys_pc:
+  icon: mdi:windows
+switch.coffee_machine:
+  icon: mdi:coffee
+switch.bedroom_heater:
+  icon: mdi:radiator
+sensor.bom_sunshine_coast_rain_today:
+  icon: mdi:weather-rainy
+sensor.bom_sunshine_coast_wind_direction:
+  icon: mdi:weather-windy-variant
+sensor.bom_sunshine_coast_wind_gust_kmh:
+  icon: mdi:weather-windy-variant
+sensor.bom_sunshine_coast_wind_speed_kmh:
+  icon: mdi:weather-windy-variant
+script.restart_hass:
+  icon: mdi:restart
+  homebridge_hidden: true
+sensor.installed_hass_release:
+  icon: mdi:home-variant
+# sensor.current_hass_release:
+#  icon: mdi:home-outline
+script.harm_living_channel_90:
+  homebridge_hidden: false
+script.harm_living_watch_firetv:
+  homebridge_hidden: true
+script.harm_living_watch_smart_tv:
+  homebridge_hidden: true
+script.harm_living_watch_tv:
+  homebridge_hidden: true
+script.harm_living_turn_off:
+  homebridge_hidden: true
+sensor.bom_sunshine_coast_pressure_msl:
+  unit_of_measurement: hPa
+binary_sensor.switch_158d00023e3e51:
+  friendly_name: Danny Bed
+binary_sensor.switch_158d00023dc1df:
+  friendly_name: Liz Bed
+binary_sensor.switch_158d000285fb3b:
+  friendly_name: Loungeroom
+binary_sensor.motion_sensor_158d000291042d:
+  friendly_name: Bedroom Motion
+binary_sensor.door_window_sensor_158d0002890d18:
+  friendly_name: Door Sensor 1
+light.gateway_light_7c49ebb0d82c:
+  friendly_name: Bathroom Light
+sensor.humidity_158d00023d043d:
+  friendly_name: Outside Humidity
+sensor.hacs:
+  friendly_name: HACS Package Updates
+sensor.home_chicane_me:
+  friendly_name: home.chicane.me
+sensor.whitehavendesignhouse_com_au:
+  friendly_name: whitehavendesignhouse.com.au
+sensor.server_uptime:
+  icon: mdi:clock-check-outline

@@ -1,0 +1,393 @@
+homeassistant:
+  # Name of the location where Home Assistant is running
+  name: Venus Residence
+  # Location required to calculate the time the sun rises and sets
+  latitude: !secret home_lat
+  longitude: !secret home_long
+  # Impacts weather/sunrise data (altitude above sea level in meters)
+  elevation: 21
+  # metric for Metric, imperial for Imperial
+  unit_system: metric
+  # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+  time_zone: Australia/Brisbane
+  # include Customize
+  customize: !include customize.yaml
+
+# Show links to resources in log and frontend
+# introduction:
+
+zone:
+  - name: Home
+    latitude: !secret home_lat
+    longitude: !secret home_long
+    icon: mdi:home
+    radius: 150
+
+  - name: SCUH
+    latitude: -26.74760336442635
+    longitude: 153.11310311071207
+    icon: mdi:briefcase
+    radius: 400
+
+# Enables the frontend
+frontend:
+  themes: !include_dir_merge_named themes
+
+config:
+
+automation: !include_dir_merge_list automation/
+
+scene: !include scenes.yaml
+
+map:
+
+# upnp:
+# port_mapping: false
+
+http:
+  # Uncomment this to add a password (recommended!)
+  # Uncomment this if you are using SSL or running in Docker etc
+  # base_url: example.duckdns.org:8123
+  ssl_certificate: !secret ssl_certificate
+  ssl_key: !secret ssl_key
+  use_x_forwarded_for: true
+  trusted_proxies:
+    - !secret server_ip
+
+lovelace:
+  mode: yaml
+  resources:
+    - url: /hacsfiles/light-entity-card/light-entity-card.js
+      type: module
+    - url: /hacsfiles/bom-weather-card/bom-weather-card.js
+      type: module
+    - url: /hacsfiles/lovelace-slider-entity-row/slider-entity-row.js
+      type: module
+    - url: /hacsfiles/mini-graph-card/mini-graph-card-bundle.js
+      type: module
+# Checks for available updates
+updater:
+  include_used_components: true
+
+# Discover some devices automatically
+# discovery:
+
+# Allows you to issue voice commands from the frontend in enabled browsers
+conversation:
+
+# Enables support for tracking state changes over time.
+history:
+  exclude:
+    domains:
+      - automation
+      - graph
+    entities:
+      - sensor.server_uptime
+      - sensor.date
+      - sensor.date_time
+      - sensor.time
+      - sensor.time_date
+      - sensor.time_utc
+# View all events in a logbook
+logbook:
+
+# Track the sun
+sun:
+
+hacs:
+  token: !secret hacs_token
+
+recorder:
+  db_url: !secret db_url
+  purge_keep_days: 31
+
+mobile_app:
+
+ios:
+  push:
+    categories:
+      - name: Garage
+        identifier: 'garage'
+        actions:
+          - identifier: 'CLOSE_GARAGE'
+            title: 'Close Garage'
+            destructive: true
+            authenticationRequired: true
+          - identifier: 'DO_NOTHING'
+            title: 'Do Nothing'
+
+mqtt:
+  broker: server
+  discovery: true
+
+system_health:
+
+notify:
+  - name: 'chicane_pushbullet'
+    platform: 'pushbullet'
+    api_key: !secret pb_apikey
+
+hue:
+  bridges:
+    - host: !secret hue_host
+      allow_unreachable: true
+      allow_hue_groups: true
+
+# binary_sensor:
+#  - platform: huesensor
+
+xiaomi_aqara:
+  discovery_retry: 5
+  gateways:
+    - key: !secret xiaomi_key
+      host: !secret xiaomi_ip
+
+# Text to speech
+tts:
+  platform: google_translate
+  base_url: !secret base_url
+
+logger:
+  default: error
+  logs:
+    homeassistant.components.http.ban: warning
+    # homeassistant.components.media_player: warning
+    # homeassistant.components.sensor.sensor.bom_sunshine_coast_air_temp_c: debug
+    # homeassistant.components.bom: debug
+    # homeassistant.components.shell_command.chicane_sleep: debug
+    # homeassistant.components.switch.dannys_pc: debug
+
+sensor: !include sensor.yaml
+
+remote:
+  - platform: harmony
+    name: Living Room
+    host: !secret harmony_ip
+    activity: Watch TV
+
+emulated_roku:
+  servers:
+    - name: Home Assistant
+      listen_port: 8060
+
+#media_player:
+#  - platform: androidtv
+#    name: Fire TV
+#    host: x.x.x.x
+#    adb_server_ip: 127.0.0.1
+#    adbkey: '/config/config/android/adbkey'
+#    device_class: firetv
+
+shell_command:
+  chicane_sleep: 'touch /config/config/sleepchicane.txt'
+
+apple_tv:
+
+lifx:
+  light:
+
+light: !include light.yaml
+
+switch: !include switch.yaml
+
+script: !include script.yaml
+
+climate: !include climate.yaml
+
+group: !include groups.yaml
+
+cover:
+  - platform: mqtt
+    name: 'Garage Door'
+    command_topic: "garage/trigger"
+    payload_open: "OPEN"
+    payload_close: "CLOSE"
+    state_topic: "garage/stats/position"
+
+camera:
+  - platform: bom
+    name: 'BOM Radar'
+    location: Brisbane
+
+tplink:
+  switch:
+    - host: !secret tplink_1
+    - host: !secret tplink_2
+
+garbage_collection:
+  sensors:
+    - name: Normal Bin
+      frequency: "weekly"
+      collection_days: wed
+      verbose_state: true
+    - name: Recycling Bin
+      frequency: "odd-weeks"
+      collection_days: wed
+      verbose_state: true
+
+input_boolean:
+  dannyhome:
+    icon: mdi:home
+    name: Danny Home Status
+
+  lizhome:
+    icon: mdi:home
+    name: Liz Home Status
+
+  danny_bin_alerted:
+    icon: mdi:home
+    name: Danny Bin Alerted
+
+  liz_bin_alerted:
+    icon: mdi:home
+    name: Liz Bin Alerted
+
+  both_bin_alerted:
+    icon: mdi:home
+    name: Both Bin Alerted
+
+  on_holidays:
+    icon: mdi:beach
+    name: On Holidays
+
+  bedtime_triggered:
+    icon: mdi:hotel
+    name: Bedtime Triggered
+
+  outside_triggered:
+    name: Outside Triggered
+
+input_number:
+  heater_on_below_temp:
+    name: "Heater On Below"
+    min: 16
+    max: 24
+    step: 0.5
+    unit_of_measurement: "°C"
+    icon: mdi:snowman
+
+  heater_off_above_temp:
+    name: "Heater Off Above"
+    min: 20
+    max: 26
+    step: 0.5
+    unit_of_measurement: "°C"
+    icon: mdi:hot-tub
+
+google_assistant:
+  project_id: hass-cc443
+  service_account: !include HASS-66445e08203e.json
+  expose_by_default: false
+  entity_config:
+    switch.mozzie_zapper:
+      name: Mozzie Zapper
+      expose: true
+      room: Kitchen
+    switch.coffee_machine:
+      name: Coffee Machine
+      expose: true
+      room: Kitchen
+    climate.loungeroom_aircon:
+      name: Loungeroom Aircon
+      expose: true
+      room: Lounge Room
+    climate.office_aircon:
+      name: Office Aircon
+      expose: true
+      room: Office
+    # cover.garage_door:
+    #  name: Garage Door
+    #  expose: true
+    #  room: Garage
+    # switch.living_room_harmony_watch_tv:
+    #  name: Lounge TV
+    #  expose: true
+    #  room: Lounge Room
+    switch.cooking_light:
+      name: Cooking Light
+      expose: true
+      room: Cooking
+    light.loungeroom:
+      name: Loungeroom Light
+      expose: true
+      room: Lounge Room
+    light.kitchen:
+      name: Kitchen Light
+      expose: true
+      room: Kitchen
+    scene.goodnight_scene:
+      name: Goodnight
+      expose: true
+    scene.bedtime_scene:
+      name: Bed Time
+      expose: true
+    scene.gaming_time:
+      name: Gaming Time
+      expose: true
+      # light.pantry:
+      #   name: Pantry Light
+      #   expose: true
+      #   room: Pantry
+
+homekit:
+  auto_start: false
+  entity_config:
+    sensor.temperature_158d00023d043d:
+      name: Outside Temperature
+    sensor.humidity_158d00023d043d:
+      name: Outside Humidity
+    binary_sensor.door_window_sensor_158d0002890d18:
+      name: Outside Door
+    switch.mozzie_zapper:
+      type: outlet
+    switch.cooking_light:
+      type: outlet
+  filter:
+    exclude_domains:
+      - automation
+      - device_tracker
+      - light
+      - remote
+      - binary_sensor
+    exclude_entities:
+      - input_boolean.danny_bin_alerted
+      - input_boolean.liz_bin_alerted
+      - input_boolean.both_bin_alerted
+      - script.harm_living_turn_off
+      - script.harm_living_watch_apple_tv
+      - script.harm_living_watch_tv
+      - script.harm_living_watch_smart_tv
+      - script.restart_hass
+      - sensor.today_temp_bom
+      - sensor.bom_sunshine_coast_air_temp_c
+      - sensor.bom_sunshine_coast_delta_temp_c
+      - sensor.bom_sunshine_coast_dew_point_c
+      - sensor.bom_sunshine_coast_feels_like_c
+      - sensor.bom_sunshine_coast_max_temp_c_0
+      - sensor.bom_sunshine_coast_max_temp_c_1
+      - sensor.bom_sunshine_coast_max_temp_c_2
+      - sensor.bom_sunshine_coast_max_temp_c_3
+      - sensor.bom_sunshine_coast_max_temp_c_4
+      - sensor.bom_sunshine_coast_max_temp_c_5
+      - sensor.bom_sunshine_coast_max_temp_c_6
+      - sensor.bom_sunshine_coast_min_temp_c_0
+      - sensor.bom_sunshine_coast_min_temp_c_1
+      - sensor.bom_sunshine_coast_min_temp_c_2
+      - sensor.bom_sunshine_coast_min_temp_c_3
+      - sensor.bom_sunshine_coast_min_temp_c_4
+      - sensor.bom_sunshine_coast_min_temp_c_5
+      - sensor.bom_sunshine_coast_min_temp_c_6
+      - sensor.bom_sunshine_coast_relative_humidity
+
+    include_entities:
+      - switch.cooking_light
+      - light.gateway_light_7c49ebb0d82c
+      - binary_sensor.door_window_sensor_158d0002890d18
+      - light.loungeroom_1
+      - light.loungeroom_2
+      - light.loungeroom_3
+      - light.loungeroom_4
+      - light.outside
+      - light.office
+      - light.niche
+      - light.dining_room

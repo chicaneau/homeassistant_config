@@ -1,0 +1,698 @@
+- platform: time_date
+  display_options:
+    - 'time'
+    - 'date'
+    - 'date_time'
+    - 'time_date'
+    - 'time_utc'
+
+- platform: bom
+  station: IDQ60901.94569
+  name: "Sunshine Coast"
+  monitored_conditions:
+    - apparent_t
+    - delta_t
+    - gust_kmh
+    - gust_kt
+    - air_temp
+    - dewpt
+    - press_msl
+    - rain_trace
+    - rel_hum
+    - wind_dir
+    - wind_spd_kmh
+    - wind_spd_kt
+- platform: bom_forecast
+  product_id: IDQ10611
+  name: "Sunshine Coast"
+  forecast_days: 6
+  rest_of_today: true
+  friendly: false
+  friendly_state_format: '{max}, {summary}'
+  monitored_conditions:
+    - 'max'
+    - 'min'
+    - 'chance_of_rain'
+    - 'possible_rainfall'
+    - 'summary'
+    - 'detailed_summary'
+    - 'icon'
+    - 'uv_alert'
+    - 'fire_danger'
+
+
+#- platform: rest
+#  resource: https://pypi.python.org/pypi/homeassistant/json
+#  name: 'Current HASS Release'
+#  value_template: '{{ value_json.info.version }}'
+#  scan_interval: 3600
+
+#- platform: rest
+#  name: 'Current Docker HASS Build'
+#  scan_interval: 3600
+#  resource: https://registry.hub.docker.com/v1/repositories/homeassistant/home-assistant/tags
+#  headers:
+#    Content-Type: application/json
+#    User-Agent: Home Assistant REST sensor
+#  value_template: >-
+#   {%- for image_build in value_json if image_build.name.split(".")[0]=="0" and "b" not in image_build.name.split(".")[2] and "dev" not in image_build.name.split(".")[3] -%}
+#    {%- if loop.first -%}
+#     {{ image_build.name }}
+#    {%- endif -%}
+#   {% endfor %}
+
+#- platform: rest
+#  name: 'Current Docker HASS Build'
+#  scan_interval: 3600
+#  resource: https://registry.hub.docker.com/v2/repositories/homeassistant/home-assistant/tags
+#  headers:
+#    Content-Type: application/json
+#    User-Agent: Home Assistant REST sensor
+#  value_template: >-
+#   {%- if value_json.results.8.name.split(".")[0]=="1" and "dev" not in value_json.results.8.name.split(".")[3] and "b" not in value_json.results.8.name.split(".")[2] -%}
+#    {{ value_json.results.8.name }}
+#   {%- endif -%}
+
+- platform: version
+  name: 'Current HASS Release'
+  source: hassio
+
+- platform: version
+  name: 'Current Docker HASS Build'
+  source: docker
+
+- platform: rest
+  name: 'Current Docker Portainer Build'
+  scan_interval: 3600
+  resource: https://registry.hub.docker.com/v1/repositories/portainer/portainer/tags
+  headers:
+    Content-Type: application/json
+    User-Agent: Home Assistant REST sensor
+  value_template: >-
+   {%- for image_build in value_json | reverse if image_build.name.split(".")[0]=="1" and "9" != image_build.name.split(".")[1] -%}
+    {%- if loop.first -%}
+     {{ image_build.name }}
+    {%- endif -%}
+   {% endfor %}
+
+- platform: mqtt
+  name: "Loungeroom Temperature"
+  state_topic: "lounge/stats/temperature"
+  device_class: temperature
+  unit_of_measurement: "°C"
+
+- platform: mqtt
+  name: "Loungeroom Humidity"
+  state_topic: "lounge/stats/humidity"
+  device_class: humidity
+  unit_of_measurement: "%"
+
+- platform: mqtt
+  name: "Loungeroom Pressure"
+  state_topic: "lounge/stats/pressure"
+  unit_of_measurement: "hPa"
+
+- platform: mqtt
+  name: "Office Temperature"
+  state_topic: "office/stats/temperature"
+  device_class: temperature
+  unit_of_measurement: "°C"
+
+- platform: mqtt
+  name: "Office Humidity"
+  state_topic: "office/stats/humidity"
+  device_class: humidity
+  unit_of_measurement: "%"
+
+- platform: mqtt
+  name: "Office Pressure"
+  state_topic: "office/stats/pressure"
+  unit_of_measurement: "hPa"
+
+- platform: mqtt
+  name: "Bedroom Temperature"
+  state_topic: "bed/stats/temperature"
+  device_class: temperature
+  unit_of_measurement: "°C"
+
+- platform: mqtt
+  name: "Bedroom Humidity"
+  state_topic: "bed/stats/humidity"
+  device_class: humidity
+  unit_of_measurement: "%"
+
+- platform: mqtt
+  name: "Bedroom Pressure"
+  state_topic: "bed/stats/pressure"
+  unit_of_measurement: "hPa"
+
+- platform: mqtt
+  name: "Garage Temperature"
+  state_topic: "garage/stats/temperature"
+  device_class: temperature
+  unit_of_measurement: "°C"
+
+- platform: mqtt
+  name: "Garage Humidity"
+  state_topic: "garage/stats/humidity"
+  device_class: humidity
+  unit_of_measurement: "%"
+
+- platform: mqtt
+  name: "Garage Pressure"
+  state_topic: "garage/stats/pressure"
+  unit_of_measurement: "hPa"
+
+- platform: mold_indicator
+  name: Loungeroom Mould
+  indoor_temp_sensor: sensor.loungeroom_temperature
+  indoor_humidity_sensor: sensor.loungeroom_humidity
+  outdoor_temp_sensor: sensor.temperature_158d00023d043d
+  calibration_factor: 2
+
+- platform: mold_indicator
+  name: Bedroom Mould
+  indoor_temp_sensor: sensor.bedroom_temperature
+  indoor_humidity_sensor: sensor.bedroom_humidity
+  outdoor_temp_sensor: sensor.temperature_158d00023d043d
+  calibration_factor: 2
+
+- platform: mold_indicator
+  name: Office Mould
+  indoor_temp_sensor: sensor.office_temperature
+  indoor_humidity_sensor: sensor.office_humidity
+  outdoor_temp_sensor: sensor.temperature_158d00023d043d
+  calibration_factor: 2
+
+- platform: mold_indicator
+  name: Garage Mould
+  indoor_temp_sensor: sensor.garage_temperature
+  indoor_humidity_sensor: sensor.garage_humidity
+  outdoor_temp_sensor: sensor.temperature_158d00023d043d
+  calibration_factor: 2
+
+- platform: version
+  name: 'Installed HASS Release'
+
+- platform: cert_expiry
+  host: !secret cert1
+
+- platform: cert_expiry
+  host: !secret cert2
+
+- platform: cert_expiry
+  host: !secret cert2
+
+#- platform: snmp
+#  host: !secret server_ip
+#  baseoid: .1.3.6.1.2.1.25.3.3.1.2.16
+#  name: 'Server CPU 1'
+#  version: '2c'
+#  unit_of_measurement: "%"
+#
+#- platform: snmp
+#  host: !secret server_ip
+#  baseoid: .1.3.6.1.2.1.25.3.3.1.2.17
+#  name: 'Server CPU 2'
+#  version: '2c'
+#  unit_of_measurement: "%"
+#
+#- platform: snmp
+#  host: !secret server_ip
+#  baseoid: .1.3.6.1.2.1.25.3.3.1.2.18
+#  name: 'Server CPU 3'
+#  version: '2c'
+#  unit_of_measurement: "%"
+#
+#- platform: snmp
+#  host: !secret server_ip
+#  baseoid: .1.3.6.1.2.1.25.3.3.1.2.19
+#  name: 'Server CPU 4'
+#  version: '2c'
+#  unit_of_measurement: "%"
+
+- platform: snmp
+  host: !secret server_ip
+  baseoid: .1.3.6.1.2.1.25.2.3.1.4.4
+  name: 'Server RAID Allocation Units'
+  version: '2c'
+
+- platform: snmp
+  host: !secret server_ip
+  baseoid: .1.3.6.1.2.1.25.2.3.1.5.4
+  name: 'Server RAID Size'
+  version: '2c'
+
+- platform: snmp
+  host: !secret server_ip
+  baseoid: .1.3.6.1.2.1.25.2.3.1.6.4
+  name: 'Server RAID Used'
+  version: '2c'
+
+- platform: snmp
+  host: !secret server_ip
+  baseoid: .1.3.6.1.2.1.25.2.3.1.4.3
+  name: 'Server Torrents Allocation Units'
+  version: '2c'
+
+- platform: snmp
+  host: !secret server_ip
+  baseoid: .1.3.6.1.2.1.25.2.3.1.5.3
+  name: 'Server Torrents Size'
+  version: '2c'
+
+- platform: snmp
+  host: !secret server_ip
+  baseoid: .1.3.6.1.2.1.25.2.3.1.6.3
+  name: 'Server Torrents Used'
+  version: '2c'
+
+- platform: snmp
+  host: !secret server_ip
+  baseoid: .1.3.6.1.2.1.25.2.3.1.4.6
+  name: 'Server RAM Allocation Units'
+  version: '2c'
+
+- platform: snmp
+  host: !secret server_ip
+  baseoid: .1.3.6.1.2.1.25.2.3.1.5.6
+  name: 'Server RAM Size'
+  version: '2c'
+
+- platform: snmp
+  host: !secret server_ip
+  baseoid: .1.3.6.1.2.1.25.2.3.1.6.6
+  name: 'Server RAM Used'
+  version: '2c'
+
+- platform: snmp
+  host: !secret server_ip
+  baseoid: .1.3.6.1.2.1.25.1.1.0
+  name: 'Server Uptime'
+  version: '2c'
+  value_template: >-
+    {% set timetick = value | int %}
+    {% set minutes = ((timetick % 360000) / 6000) | int%}
+    {% set hours = ((timetick % 8640000) / 360000) | int %}
+    {% set days = (timetick / 8640000) | int %}
+    {%- if timetick < 6000 -%}
+      Less than a minute
+    {%- else -%}
+      {%- if days > 0 -%}
+        {%- if days == 1 -%}
+          1 day
+        {%- else -%}
+          {{ days }} days
+        {%- endif -%}
+      {%- endif -%}
+      {%- if hours > 0 -%}
+        {%- if days > 0 -%}
+          {{ ', ' }}
+        {%- endif -%}
+        {%- if hours == 1 -%}
+          1 hr
+        {%- else -%}
+          {{ hours }} hrs
+        {%- endif -%}
+      {%- endif -%}
+      {%- if minutes > 0 -%}
+        {%- if days > 0 or hours > 0 -%}
+          {{ ', ' }}
+        {%- endif -%}
+        {%- if minutes == 1 -%}
+          1 min
+        {%- else -%}
+          {{ minutes }} min
+        {%- endif -%}
+      {%- endif -%}
+    {%- endif -%}
+
+- platform: template
+  sensors:
+#      server_cpu_avg:
+#         friendly_name: Server CPU Average
+#         value_template: >
+#           {{ ((states.sensor.server_cpu_1.state|float + states.sensor.server_cpu_2.state|float + states.sensor.server_cpu_3.state|float + states.sensor.server_cpu_4.state|float) / 4)|round(2) }}
+#         unit_of_measurement: "%"
+      recycling_bin_today:
+        friendly_name: Recycling Bin Today
+        value_template: >-
+          {% if is_state('sensor.recycling_bin', 'today') %}
+            Today
+          {% elif not is_state('sensor.recycling_bin', 'Today') %}
+            Not Today
+          {% else %}
+            failed
+          {% endif %}
+      normal_bin_today:
+        friendly_name: Normal Bin Today
+        value_template: >-
+          {% if is_state('sensor.normal_bin', 'today') %}
+            Today
+          {% elif not is_state('sensor.normal_bin', 'today') %}
+            Not Today
+          {% else %}
+            failed
+          {% endif %}
+      server_raid_capacity:
+         friendly_name: Server RAID Capacity
+         value_template: >
+           {{ ((states.sensor.server_raid_used.state|int * states.sensor.server_raid_allocation_units.state|int * 100) / (states.sensor.server_raid_size.state|int * states.sensor.server_raid_allocation_units.state|int))|round(2) }}
+         unit_of_measurement: "%"
+         icon_template: mdi:harddisk
+      server_raid_free:
+         friendly_name: Server RAID Free
+         value_template: >
+           {{ (((states.sensor.server_raid_size.state|int * states.sensor.server_raid_allocation_units.state|int) - (states.sensor.server_raid_used.state|int * states.sensor.server_raid_allocation_units.state|int)) / 1024 / 1024 / 1024)|round(2) }}
+         unit_of_measurement: "GB"
+         icon_template: mdi:harddisk-plus
+
+      server_torrents_capacity:
+         friendly_name: Server Torrents Capacity
+         value_template: >
+           {{ ((states.sensor.server_torrents_used.state|int * states.sensor.server_torrents_allocation_units.state|int * 100) / (states.sensor.server_torrents_size.state|int * states.sensor.server_torrents_allocation_units.state|int))|round(2) }}
+         unit_of_measurement: "%"
+         icon_template: mdi:harddisk
+      server_torrents_free:
+         friendly_name: Server Torrents Free
+         value_template: >
+           {{ (((states.sensor.server_torrents_size.state|int * states.sensor.server_torrents_allocation_units.state|int) - (states.sensor.server_torrents_used.state|int * states.sensor.server_torrents_allocation_units.state|int)) / 1024 / 1024 / 1024)|round(2) }}
+         unit_of_measurement: "GB"
+         icon_template: mdi:harddisk-plus
+
+      server_ram_capacity:
+         friendly_name: Server RAM Capacity
+         value_template: >
+           {{ ((states.sensor.server_ram_used.state|int * states.sensor.server_ram_allocation_units.state|int * 100) / (states.sensor.server_ram_size.state|int * states.sensor.server_ram_allocation_units.state|int))|round(2) }}
+         unit_of_measurement: "%"
+         icon_template: mdi:memory
+      server_ram_free:
+         friendly_name: Server RAM Free
+         value_template: >
+           {{ (((states.sensor.server_ram_size.state|int * states.sensor.server_ram_allocation_units.state|int) - (states.sensor.server_ram_used.state|int * states.sensor.server_ram_allocation_units.state|int)) / 1024 / 1024 / 1024)|round(2) }}
+         unit_of_measurement: "GB"
+         icon_template: mdi:memory
+
+      outside_door:
+        friendly_name: Outside Door
+        value_template: >-
+          {% if is_state('binary_sensor.door_window_sensor_158d0002890d18', 'off') %}
+            Closed
+          {% elif is_state('binary_sensor.door_window_sensor_158d0002890d18', 'on') %}
+            Open
+          {% else %}
+            failed
+          {% endif %}
+        icon_template: >-
+          {% if is_state('binary_sensor.door_window_sensor_158d0002890d18', 'off') %}
+            mdi:door-closed
+          {% elif is_state('binary_sensor.door_window_sensor_158d0002890d18', 'on') %}
+            mdi:door-open
+          {% endif %}
+
+      bedroom_temp_feels_like:
+          friendly_name: 'Bedroom Temp Feels Like'
+          value_template: >-
+           {% if (states.sensor.bedroom_temperature.state|float > 27 and states.sensor.bedroom_humidity.state|float > 40) %}
+            {{ (((-42.379 + (2.04901523 * (states.sensor.bedroom_temperature.state|float * 1.8 + 32)|float) + (10.14333127 * (states.sensor.bedroom_humidity.state)|float) + (-0.22475541 * (states.sensor.bedroom_temperature.state|float * 1.8 + 32)|float * (states.sensor.bedroom_humidity.state)|float) + ((-6.83783*(10**-3)) * ((states.sensor.bedroom_temperature.state|float * 1.8 + 32)|float**2)) + ((-5.481717*(10**-2)) * ((states.sensor.bedroom_humidity.state)|float**2)) + ((1.22874*(10**-3)) * ((states.sensor.bedroom_temperature.state|float * 1.8 + 32)|float**2) * (states.sensor.bedroom_humidity.state)|float) + ((8.5282*(10**-4)) * (states.sensor.bedroom_temperature.state|float * 1.8 + 32)|float * ((states.sensor.bedroom_humidity.state)|float**2)) + ((-1.99*(10**-6)) * ((states.sensor.bedroom_temperature.state|float * 1.8 + 32)|float**2) * ((states.sensor.bedroom_humidity.state)|float**2)))|float - 32) * 5 / 9)|round(2) }}
+           {% else %}
+            {{ states.sensor.bedroom_temperature.state|round(2) }}
+           {% endif %}
+          unit_of_measurement: "°C"
+
+      office_temp_feels_like:
+          friendly_name: 'Office Temp Feels Like'
+          value_template: >-
+           {% if (states.sensor.office_temperature.state|float > 27 and states.sensor.office_humidity.state|float > 40) %}
+            {{ (((-42.379 + (2.04901523 * (states.sensor.office_temperature.state|float * 1.8 + 32)|float) + (10.14333127 * (states.sensor.office_humidity.state)|float) + (-0.22475541 * (states.sensor.office_temperature.state|float * 1.8 + 32)|float * (states.sensor.office_humidity.state)|float) + ((-6.83783*(10**-3)) * ((states.sensor.office_temperature.state|float * 1.8 + 32)|float**2)) + ((-5.481717*(10**-2)) * ((states.sensor.office_humidity.state)|float**2)) + ((1.22874*(10**-3)) * ((states.sensor.office_temperature.state|float * 1.8 + 32)|float**2) * (states.sensor.office_humidity.state)|float) + ((8.5282*(10**-4)) * (states.sensor.office_temperature.state|float * 1.8 + 32)|float * ((states.sensor.office_humidity.state)|float**2)) + ((-1.99*(10**-6)) * ((states.sensor.office_temperature.state|float * 1.8 + 32)|float**2) * ((states.sensor.office_humidity.state)|float**2)))|float - 32) * 5 / 9)|round(2) }}
+           {% else %}
+            {{ states.sensor.office_temperature.state|round(2) }}
+           {% endif %}
+          unit_of_measurement: "°C"
+
+      loungeroom_temp_feels_like:
+          friendly_name: 'Loungeroom Temp Feels Like'
+          value_template: >-
+           {% if (states.sensor.loungeroom_temperature.state|float > 27 and states.sensor.loungeroom_humidity.state|float > 40) %}
+            {{ (((-42.379 + (2.04901523 * (states.sensor.loungeroom_temperature.state|float * 1.8 + 32)|float) + (10.14333127 * (states.sensor.loungeroom_humidity.state)|float) + (-0.22475541 * (states.sensor.loungeroom_temperature.state|float * 1.8 + 32)|float * (states.sensor.loungeroom_humidity.state)|float) + ((-6.83783*(10**-3)) * ((states.sensor.loungeroom_temperature.state|float * 1.8 + 32)|float**2)) + ((-5.481717*(10**-2)) * ((states.sensor.loungeroom_humidity.state)|float**2)) + ((1.22874*(10**-3)) * ((states.sensor.loungeroom_temperature.state|float * 1.8 + 32)|float**2) * (states.sensor.loungeroom_humidity.state)|float) + ((8.5282*(10**-4)) * (states.sensor.loungeroom_temperature.state|float * 1.8 + 32)|float * ((states.sensor.loungeroom_humidity.state)|float**2)) + ((-1.99*(10**-6)) * ((states.sensor.loungeroom_temperature.state|float * 1.8 + 32)|float**2) * ((states.sensor.loungeroom_humidity.state)|float**2)))|float - 32) * 5 / 9)|round(2) }}
+           {% else %}
+            {{ states.sensor.loungeroom_temperature.state|round(2) }}
+           {% endif %}
+          unit_of_measurement: "°C"
+
+      outside_temp_feels_like:
+          friendly_name: 'Outside Temp Feels Like'
+          value_template: >-
+           {% if (states.sensor.temperature_158d00023d043d.state|float > 27 and states.sensor.humidity_158d00023d043d.state|float > 40) %}
+            {{ (((-42.379 + (2.04901523 * (states.sensor.temperature_158d00023d043d.state|float * 1.8 + 32)|float) + (10.14333127 * (states.sensor.humidity_158d00023d043d.state)|float) + (-0.22475541 * (states.sensor.temperature_158d00023d043d.state|float * 1.8 + 32)|float * (states.sensor.humidity_158d00023d043d.state)|float) + ((-6.83783*(10**-3)) * ((states.sensor.temperature_158d00023d043d.state|float * 1.8 + 32)|float**2)) + ((-5.481717*(10**-2)) * ((states.sensor.humidity_158d00023d043d.state)|float**2)) + ((1.22874*(10**-3)) * ((states.sensor.temperature_158d00023d043d.state|float * 1.8 + 32)|float**2) * (states.sensor.humidity_158d00023d043d.state)|float) + ((8.5282*(10**-4)) * (states.sensor.temperature_158d00023d043d.state|float * 1.8 + 32)|float * ((states.sensor.humidity_158d00023d043d.state)|float**2)) + ((-1.99*(10**-6)) * ((states.sensor.temperature_158d00023d043d.state|float * 1.8 + 32)|float**2) * ((states.sensor.humidity_158d00023d043d.state)|float**2)))|float - 32) * 5 / 9)|round(2) }}
+           {% else %}
+            {{ states.sensor.temperature_158d00023d043d.state|round(2) }}
+           {% endif %}
+          unit_of_measurement: "°C"
+
+####GARAGE#######
+
+      garage_temp_feels_like:
+          friendly_name: 'Garage Temp Feels Like'
+          value_template: >-
+           {% if (states.sensor.garage_temperature.state|float > 27 and states.sensor.garage_humidity.state|float > 40) %}
+            {{ (((-42.379 + (2.04901523 * (states.sensor.garage_temperature.state|float * 1.8 + 32)|float) + (10.14333127 * (states.sensor.garage_humidity.state)|float) + (-0.22475541 * (states.sensor.garage_temperature.state|float * 1.8 + 32)|float * (states.sensor.garage_humidity.state)|float) + ((-6.83783*(10**-3)) * ((states.sensor.garage_temperature.state|float * 1.8 + 32)|float**2)) + ((-5.481717*(10**-2)) * ((states.sensor.garage_humidity.state)|float**2)) + ((1.22874*(10**-3)) * ((states.sensor.garage_temperature.state|float * 1.8 + 32)|float**2) * (states.sensor.garage_humidity.state)|float) + ((8.5282*(10**-4)) * (states.sensor.garage_temperature.state|float * 1.8 + 32)|float * ((states.sensor.garage_humidity.state)|float**2)) + ((-1.99*(10**-6)) * ((states.sensor.garage_temperature.state|float * 1.8 + 32)|float**2) * ((states.sensor.garage_humidity.state)|float**2)))|float - 32) * 5 / 9)|round(2) }}
+           {% else %}
+            {{ states.sensor.garage_temperature.state|round(2) }}
+           {% endif %}
+          unit_of_measurement: "°C"
+
+###POWER CONSUMPTION###
+      cooking_light_load_power:
+        friendly_name: "Cooking Light Power Use"
+        value_template: "{{ states.switch.cooking_light.attributes.load_power }}"
+        unit_of_measurement: "Wh"
+        device_class: power
+
+      coffee_machine_load_power:
+        friendly_name: "Coffee Machine Power Use"
+        value_template: "{{ states.switch.coffee_machine.attributes.load_power }}"
+        unit_of_measurement: "Wh"
+        device_class: power
+
+      battery_bedroom_motion:
+        friendly_name: "Bedroom Motion Sensor"
+        value_template: "{{ states.binary_sensor.motion_sensor_158d000291042d.attributes.battery_level }}"
+        device_class: battery
+        unit_of_measurement: "%"
+      battery_pantry_motion:
+        friendly_name: "Pantry Motion Sensor"
+        value_template: "{{ states.binary_sensor.motion_sensor_pantry.attributes.battery_level }}"
+        device_class: battery
+        unit_of_measurement: "%"
+      battery_danny_bed_switch:
+        friendly_name: "Bedroom Danny Bed Switch"
+        value_template: "{{ states.binary_sensor.switch_158d00023e3e51.attributes.battery_level }}"
+        device_class: battery
+        unit_of_measurement: "%"
+      battery_liz_bed_switch:
+        friendly_name: "Bedroom Liz Bed Switch"
+        value_template: "{{ states.binary_sensor.switch_158d00023dc1df.attributes.battery_level }}"
+        device_class: battery
+        unit_of_measurement: "%"
+      battery_loungeroom_switch:
+        friendly_name: "Loungeroom Switch"
+        value_template: "{{ states.binary_sensor.switch_158d000285fb3b.attributes.battery_level }}"
+        device_class: battery
+        unit_of_measurement: "%"
+      battery_outside_door_sensor:
+        friendly_name: "Outside Door Sensor"
+        value_template: "{{ states.binary_sensor.door_window_sensor_158d0002890d18.attributes.battery_level }}"
+        device_class: battery
+        unit_of_measurement: "%"
+      battery_outside_temp_sensor:
+        friendly_name: "Outside Temp Sensor"
+        value_template: "{{ states.sensor.temperature_158d00023d043d.attributes.battery_level }}"
+        device_class: battery
+        unit_of_measurement: "%"
+
+      bom_current_text:
+        value_template: >
+            {% set val = states("sensor.bom_sunshine_coast_detailed_summary_0") %}
+            {{ val.split('.')[0] | title }}
+
+      bom_forecast_0:
+        entity_id:
+          - sensor.bom_today_max
+          - sensor.bom_today_min
+          - sensor.bom_sunshine_coast_chance_of_rain_0
+          - sensor.bom_sunshine_coast_icon_0
+        friendly_name: "Today"
+        value_template: >
+          {{states('sensor.bom_today_max')|round(0)}}°/{{states('sensor.bom_today_min')|round(0)}}°/{{states('sensor.bom_sunshine_coast_chance_of_rain_0')|round(0)}}%
+        entity_picture_template: >-
+          {%- if now().strftime('%H:%M') > '18:00' and (states('sensor.bom_sunshine_coast_icon_0') == 'fog' or states('sensor.bom_sunshine_coast_icon_0') == 'haze' or states('sensor.bom_sunshine_coast_icon_0') == ' light-showers' or states('sensor.bom_sunshine_coast_icon_0') == 'partly-cloudy' or states('sensor.bom_sunshine_coast_icon_0') == 'showers') -%}
+          {{ '/local/icons/bom_icons/' ~ states('sensor.bom_sunshine_coast_icon_0') ~ '-night.png' }}
+          {%- else -%}
+          {{ '/local/icons/bom_icons/' ~ states('sensor.bom_sunshine_coast_icon_0') ~ '.png' }}
+          {%- endif -%}
+
+      bom_forecast_1:
+        entity_id:
+          - sensor.bom_sunshine_coast_max_temp_c_1
+          - sensor.bom_sunshine_coast_min_temp_c_1
+          - sensor.bom_sunshine_coast_chance_of_rain_1
+          - sensor.bom_sunshine_coast_icon_1
+        friendly_name_template: >
+          {%- set date = as_timestamp(now()) + (1 * 86400 ) -%}
+          {{ date | timestamp_custom("Tomorrow (%d/%m)") | replace("(0", "(") | replace("/0", "/") }}
+        value_template: >
+          {{states('sensor.bom_sunshine_coast_max_temp_c_1')|round(0)}}°/{{states('sensor.bom_sunshine_coast_min_temp_c_1')|round(0)}}°/{{states('sensor.bom_sunshine_coast_chance_of_rain_1')|round(0)}}%
+        entity_picture_template: >-
+          {{ '/local/icons/bom_icons/' ~ states('sensor.bom_sunshine_coast_icon_1') ~ '.png' }}
+
+      bom_forecast_2:
+        entity_id:
+          - sensor.bom_sunshine_coast_max_temp_c_2
+          - sensor.bom_sunshine_coast_min_temp_c_2
+          - sensor.bom_sunshine_coast_chance_of_rain_2
+          - sensor.bom_sunshine_coast_icon_2
+        friendly_name_template: >
+          {%- set date = as_timestamp(now()) + (2 * 86400 ) -%}
+          {{ date | timestamp_custom("%A (%d/%m)") | replace("(0", "(") | replace("/0", "/") }}
+        value_template: >
+          {{states('sensor.bom_sunshine_coast_max_temp_c_2')|round(0)}}°/{{states('sensor.bom_sunshine_coast_min_temp_c_2')|round(0)}}°/{{states('sensor.bom_sunshine_coast_chance_of_rain_2')|round(0)}}%
+        entity_picture_template: >-
+          {{ '/local/icons/bom_icons/' ~ states('sensor.bom_sunshine_coast_icon_2') ~ '.png' }}
+
+      bom_forecast_3:
+        entity_id:
+          - sensor.bom_sunshine_coast_max_temp_c_3
+          - sensor.bom_sunshine_coast_min_temp_c_3
+          - sensor.bom_sunshine_coast_chance_of_rain_3
+          - sensor.bom_sunshine_coast_icon_3
+        friendly_name_template: >
+          {%- set date = as_timestamp(now()) + (3 * 86400 ) -%}
+          {{ date | timestamp_custom("%A (%d/%m)") | replace("(0", "(") | replace("/0", "/") }}
+        value_template: >
+          {{states('sensor.bom_sunshine_coast_max_temp_c_3')|round(0)}}°/{{states('sensor.bom_sunshine_coast_min_temp_c_3')|round(0)}}°/{{states('sensor.bom_sunshine_coast_chance_of_rain_3')|round(0)}}%
+        entity_picture_template: >-
+          {{ '/local/icons/bom_icons/' ~ states('sensor.bom_sunshine_coast_icon_3') ~ '.png' }}
+
+      bom_forecast_4:
+        entity_id:
+          - sensor.bom_sunshine_coast_max_temp_c_4
+          - sensor.bom_sunshine_coast_min_temp_c_4
+          - sensor.bom_sunshine_coast_chance_of_rain_4
+          - sensor.bom_sunshine_coast_icon_4
+        friendly_name_template: >
+          {%- set date = as_timestamp(now()) + (4 * 86400 ) -%}
+          {{ date | timestamp_custom("%A (%d/%m)") | replace("(0", "(") | replace("/0", "/") }}
+        value_template: >
+          {{states('sensor.bom_sunshine_coast_max_temp_c_4')|round(0)}}°/{{states('sensor.bom_sunshine_coast_min_temp_c_4')|round(0)}}°/{{states('sensor.bom_sunshine_coast_chance_of_rain_4')|round(0)}}%
+        entity_picture_template: >-
+          {{ '/local/icons/bom_icons/' ~ states('sensor.bom_sunshine_coast_icon_4') ~ '.png' }}
+
+      bom_forecast_5:
+        entity_id:
+          - sensor.bom_sunshine_coast_max_temp_c_5
+          - sensor.bom_sunshine_coast_min_temp_c_5
+          - sensor.bom_sunshine_coast_chance_of_rain_5
+          - sensor.bom_sunshine_coast_icon_5
+        friendly_name_template: >
+          {%- set date = as_timestamp(now()) + (5 * 86400 ) -%}
+          {{ date | timestamp_custom("%A (%d/%m)") | replace("(0", "(") | replace("/0", "/") }}
+        value_template: >
+          {{states('sensor.bom_sunshine_coast_max_temp_c_5')|round(0)}}°/{{states('sensor.bom_sunshine_coast_min_temp_c_5')|round(0)}}°/{{states('sensor.bom_sunshine_coast_chance_of_rain_5')|round(0)}}%
+        entity_picture_template: >-
+          {{ '/local/icons/bom_icons/' ~ states('sensor.bom_sunshine_coast_icon_5') ~ '.png' }}
+
+      bom_forecast_6:
+        entity_id:
+          - sensor.bom_sunshine_coast_max_temp_c_6
+          - sensor.bom_sunshine_coast_min_temp_c_6
+          - sensor.bom_sunshine_coast_chance_of_rain_6
+          - sensor.bom_sunshine_coast_icon_6
+        friendly_name_template: >
+          {%- set date = as_timestamp(now()) + (6 * 86400 ) -%}
+          {{ date | timestamp_custom("%A (%d/%m)") | replace("(0", "(") | replace("/0", "/") }}
+        value_template: >
+          {{states('sensor.bom_sunshine_coast_max_temp_c_6')|round(0)}}°/{{states('sensor.bom_sunshine_coast_min_temp_c_6')|round(0)}}°/{{states('sensor.bom_sunshine_coast_chance_of_rain_6')|round(0)}}%
+        entity_picture_template: >-
+          {{ '/local/icons/bom_icons/' ~ states('sensor.bom_sunshine_coast_icon_6') ~ '.png' }}
+
+      bom_today_max:
+        entity_id:
+          - sensor.bom_sunshine_coast_max_temp_c_0
+          - sensor.today_temp_bom
+        value_template: >
+          {%- if states('sensor.bom_sunshine_coast_max_temp_c_0') == 'n/a' -%}
+            {{ state_attr('sensor.today_temp_bom', 'max_value') }}
+          {% else %}
+            {{ states('sensor.bom_sunshine_coast_max_temp_c_0') }}
+          {% endif %}
+      bom_today_min:
+        entity_id:
+          - sensor.bom_sunshine_coast_min_temp_c_0
+          - sensor.today_temp_bom
+        value_template: >
+          {%- if states('sensor.bom_sunshine_coast_min_temp_c_0') == 'n/a' -%}
+            {{ state_attr('sensor.today_temp_bom', 'min_value') }}
+          {% else %}
+            {{ states('sensor.bom_sunshine_coast_min_temp_c_0') }}
+          {% endif %}
+
+      bom_uv_alert:
+        value_template: >
+            {%- if states('sensor.bom_sunshine_coast_uv_alert_0') == '##' -%}
+            UV Today: No Data
+            {%- elif states('sensor.bom_sunshine_coast_uv_alert_0') != 'n/a' -%}
+            UV Today: {{ states('sensor.bom_sunshine_coast_uv_alert_0') }}
+            {%- elif states('sensor.bom_sunshine_coast_uv_alert_1') == '##' -%}
+            UV Tomorrow: No Data
+            {%- else -%}
+            UV Tomorrow: {{ states('sensor.bom_sunshine_coast_uv_alert_1') }}
+            {%- endif -%}
+
+      bom_uv_alert_summary:
+        value_template: >
+            {%- if states('sensor.bom_sunshine_coast_uv_alert_0') == '##' -%}
+            {% set val = 'No Data' %}
+            {%- elif states('sensor.bom_sunshine_coast_uv_alert_0') != 'n/a' -%}
+            {% set val = states('sensor.bom_sunshine_coast_uv_alert_0').split('[')[1].split(']')[0] %}
+            {%- elif states('sensor.bom_sunshine_coast_uv_alert_1') == '##' -%}
+            {% set val = 'No Data' %}
+            {%- elif states('sensor.bom_sunshine_coast_uv_alert_1') != 'n/a' -%}
+            {% set val = states('sensor.bom_sunshine_coast_uv_alert_1').split('[')[1].split(']')[0] %}
+            {%- else -%}
+            {%- set val = 'No Data' -%}
+            {%- endif -%}
+            {{ val | title }}
+
+      bom_fire_danger:
+        value_template: >
+            {%- if states('sensor.bom_sunshine_coast_fire_danger_0') == '##' -%}
+            Fire Danger Today: No Data
+            {%- elif states('sensor.bom_sunshine_coast_fire_danger_0') != 'n/a' -%}
+            Fire Danger Today: {{ states('sensor.bom_sunshine_coast_fire_danger_0') }}
+            {%- elif states('sensor.bom_sunshine_coast_fire_danger_1') == '##' -%}
+            Fire Danger Tomorrow: No Data
+            {%- else -%}
+            Fire Danger Tomorrow: {{ states('sensor.bom_sunshine_coast_fire_danger_1') }}
+            {%- endif -%}
+
+      bom_fire_danger_summary:
+        value_template: >
+            {%- if states('sensor.bom_sunshine_coast_fire_danger_0') == '##' -%}
+            No Data
+            {%- elif states('sensor.bom_sunshine_coast_fire_danger_0') != 'n/a' -%}
+            {{ states('sensor.bom_sunshine_coast_fire_danger_0') }}
+            {%- elif states('sensor.bom_sunshine_coast_fire_danger_1') == '##' -%}
+            No Data
+            {%- else -%}
+            {{ states('sensor.bom_sunshine_coast_fire_danger_1') }}
+            {%- endif -%}
+
+####GARAGE END#######
+
+- platform: statistics
+  name: today_temp_bom
+  sampling_size: 150
+  entity_id: sensor.bom_sunshine_coast_air_temp_c
+  max_age:
+    hours: 24

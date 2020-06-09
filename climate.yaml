@@ -1,0 +1,59 @@
+  - platform: mqtt
+    name: Loungeroom Aircon
+    # send_if_off: false
+    initial: 22
+    modes:
+      - "off"
+      - auto
+      - cool
+      - heat
+      - dry
+    swing_modes:
+      - static
+      - swing
+    fan_modes:
+      - auto
+      - quiet
+      - low
+      - medium
+      - high
+    power_command_topic: "lounge/air/power"
+    payload_on: "on"
+    payload_off: "off"
+    mode_command_topic: "lounge/air/mode"
+    temperature_command_topic: "lounge/air/temp"
+    current_temperature_topic: "lounge/stats/temperature"
+    fan_mode_command_topic: "lounge/air/fan"
+    swing_mode_command_topic: "lounge/air/swing"
+    min_temp: 18
+    max_temp: 30
+
+  - platform: mqtt
+    name: Office Aircon
+    # send_if_off: false
+    initial: 24
+    modes:
+      - "off"
+      - auto
+      - cool
+      - heat
+      - dry
+    swing_modes:
+      - static
+      - swing
+    fan_modes:
+      - auto
+      - quiet
+      - low
+      - medium
+      - high
+    power_command_topic: "office/air/power"
+    payload_on: "on"
+    payload_off: "off"
+    mode_command_topic: "office/air/mode"
+    temperature_command_topic: "office/air/temp"
+    current_temperature_topic: "office/stats/temperature"
+    fan_mode_command_topic: "office/air/fan"
+    swing_mode_command_topic: "office/air/swing"
+    min_temp: 18
+    max_temp: 30

@@ -1,0 +1,8 @@
+#Bedroom: sensor.bedroom_temperature, sensor.bedroom_temp_feels_like, sensor.bedroom_humidity, sensor.bedroom_pressure, light.bedroom, light.hue_ambiance_lamp_3, light.hue_ambiance_lamp_4, light.hue_ambiance_lamp_5, light.hue_ambiance_lamp_6
+#Office: sensor.office_temperature, sensor.office_temp_feels_like, sensor.office_humidity, sensor.office_pressure, climate.office_aircon, switch.danny_s_pc, sensor.homechicaneme
+#Loungeroom: sensor.loungeroom_temperature, sensor.loungeroom_temp_feels_like, sensor.loungeroom_humidity, sensor.loungeroom_pressure, climate.loungeroom_aircon
+#Garage: sensor.garage_temperature, sensor.garage_temp_feels_like, sensor.garage_humidity, sensor.garage_pressure, cover.garage_door
+#Kitchen: switch.coffee_machine, light.kitchen, switch.mozzie_zapper
+#Hallway: light.hallway, light.hue_ambiance_lamp_1, light.hue_ambiance_lamp_2
+At Home HomeKit: input_boolean.dannyhome, input_boolean.lizhome
+At Home: device_tracker.ichicane, device_tracker.lizsiphone

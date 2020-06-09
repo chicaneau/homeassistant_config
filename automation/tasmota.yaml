@@ -1,0 +1,19 @@
+- alias: 'Check Tasmota State on Start'
+  id: 'Check Tasmota State on Start'
+  initial_state: true
+  trigger:
+    - platform: homeassistant
+      event: start
+  action:
+    - service: mqtt.publish
+      data:
+        topic: office/lights/cmnd/STATE
+        payload: ''
+    - service: mqtt.publish
+      data:
+        topic: outside/lights/cmnd/STATE
+        payload: ''
+    - service: mqtt.publish
+      data:
+        topic: dining/lights/cmnd/STATE
+        payload: ''

@@ -1,0 +1,323 @@
+####BINS ARRIVE HOME#####
+- alias: 'Recyling Bin - Danny Arrives Home'
+  trigger:
+    platform: state
+    entity_id: device_tracker.ichicane
+    to: 'home'
+    for:
+      minutes: 4
+  condition:
+    condition: and
+    conditions:
+      - condition: time
+        before: '23:59:59'
+        after: '14:00:00'
+      - condition: state
+        entity_id: sensor.recycling_bin
+        state: 'today'
+      - condition: state
+        entity_id: input_boolean.danny_bin_alerted
+        state: 'off'
+  action:
+    - service: notify.mobile_app_ichicane
+      data:
+        title: "Take out both bins"
+        message: "Recycling Week"
+        #target: 'device/iChicane'
+    - service: input_boolean.turn_on
+      entity_id: input_boolean.danny_bin_alerted
+
+- alias: 'Recyling Bin - Liz Arrives Home'
+  trigger:
+    platform: state
+    entity_id: device_tracker.lizsiphone
+    to: 'home'
+    for:
+      minutes: 4
+  condition:
+    condition: and
+    conditions:
+      - condition: time
+        before: '23:59:59'
+        after: '14:00:00'
+      - condition: state
+        entity_id: sensor.recycling_bin
+        state: 'today'
+      - condition: state
+        entity_id: input_boolean.liz_bin_alerted
+        state: 'off'
+  action:
+    - service: notify.mobile_app_duffel
+      data:
+        title: "Take out both bins"
+        message: "Take out both bins"
+    - service: input_boolean.turn_on
+      entity_id: input_boolean.liz_bin_alerted
+
+- alias: 'Recyling Bin - Both Arrives Home'
+  trigger:
+    platform: state
+    entity_id: group.at_home
+    to: 'home'
+    for:
+      minutes: 4
+  condition:
+    condition: and
+    conditions:
+      - condition: time
+        before: '23:59:59'
+        after: '14:00:00'
+      - condition: state
+        entity_id: sensor.recycling_bin
+        state: 'today'
+      - condition: state
+        entity_id: input_boolean.both_bin_alerted
+        state: 'off'
+  action:
+    - service: tts.google_translate_say
+      data:
+        entity_id: "all"
+        message: "Good Afternoon, today is Recycling Bin day"
+    - service: input_boolean.turn_on
+      entity_id: input_boolean.both_bin_alerted
+
+- alias: 'Normal Bin - Danny Arrives Home'
+  trigger:
+    platform: state
+    entity_id: device_tracker.ichicane
+    to: 'home'
+    for:
+      minutes: 4
+  condition:
+    condition: and
+    conditions:
+      - condition: time
+        before: '23:59:59'
+        after: '14:00:00'
+      - condition: state
+        entity_id: sensor.normal_bin
+        state: 'today'
+      - condition: template
+        value_template: "{{ not is_state('sensor.recycling_bin', 'today') }}"
+      - condition: state
+        entity_id: input_boolean.danny_bin_alerted
+        state: 'off'
+  action:
+    - service: notify.mobile_app_ichicane
+      data:
+        title: "Take out normal bin only"
+        message: "Green Bin week"
+        #target: 'device/iChicane'
+    - service: input_boolean.turn_on
+      entity_id: input_boolean.danny_bin_alerted
+
+- alias: 'Normal Bin - Liz Arrives Home'
+  trigger:
+    platform: state
+    entity_id: device_tracker.lizsiphone
+    to: 'home'
+    for:
+      minutes: 4
+  condition:
+    condition: and
+    conditions:
+      - condition: time
+        before: '23:59:59'
+        after: '14:00:00'
+      - condition: state
+        entity_id: sensor.normal_bin
+        state: 'today'
+      - condition: template
+        value_template: "{{ not is_state('sensor.recycling_bin', 'today') }}"
+      - condition: state
+        entity_id: input_boolean.liz_bin_alerted
+        state: 'off'
+  action:
+    - service: notify.mobile_app_duffel
+      data:
+        title: "Take out normal bin only"
+        message: "Take out normal bin only"
+    - service: input_boolean.turn_on
+      entity_id: input_boolean.liz_bin_alerted
+
+- alias: 'Normal Bin - Both Arrives Home'
+  trigger:
+    platform: state
+    entity_id: group.at_home
+    to: 'home'
+    for:
+      minutes: 4
+  condition:
+    condition: and
+    conditions:
+      - condition: time
+        before: '23:59:59'
+        after: '14:00:00'
+      - condition: state
+        entity_id: sensor.normal_bin
+        state: 'today'
+      - condition: template
+        value_template: "{{ not is_state('sensor.recycling_bin', 'today') }}"
+      - condition: state
+        entity_id: input_boolean.both_bin_alerted
+        state: 'off'
+  action:
+    - service: tts.google_translate_say
+      data:
+        entity_id: "all"
+        message: "Good Afternoon, today is Normal Bin day"
+    - service: input_boolean.turn_on
+      entity_id: input_boolean.both_bin_alerted
+
+###BINS ALREADY HOME###
+- alias: 'Recyling Bin - Danny Is Home'
+  trigger:
+    platform: time
+    at: '17:00:00'
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: device_tracker.ichicane
+        state: 'home'
+      - condition: state
+        entity_id: sensor.recycling_bin
+        state: 'today'
+      - condition: state
+        entity_id: input_boolean.danny_bin_alerted
+        state: 'off'
+  action:
+    - service: notify.mobile_app_ichicane
+      data:
+        title: "Take out both bins"
+        message: "Recycling Week"
+        #target: 'device/iChicane'
+    - service: input_boolean.turn_on
+      entity_id: input_boolean.danny_bin_alerted
+
+- alias: 'Recyling Bin - Liz Is Home'
+  trigger:
+    platform: time
+    at: '17:00:00'
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: device_tracker.lizsiphone
+        state: 'home'
+      - condition: state
+        entity_id: sensor.recycling_bin
+        state: 'today'
+      - condition: state
+        entity_id: input_boolean.liz_bin_alerted
+        state: 'off'
+  action:
+    - service: notify.mobile_app_duffel
+      data:
+        title: "Take out both bins"
+        message: "Take out both bins"
+    - service: input_boolean.turn_on
+      entity_id: input_boolean.liz_bin_alerted
+
+- alias: 'Recyling Bin - Both Is Home'
+  trigger:
+    platform: time
+    at: '17:00:00'
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: group.at_home
+        state: 'home'
+      - condition: state
+        entity_id: sensor.recycling_bin
+        state: 'today'
+      - condition: state
+        entity_id: input_boolean.both_bin_alerted
+        state: 'off'
+  action:
+    - service: tts.google_translate_say
+      data:
+        entity_id: "all"
+        message: "Good Afternoon, today is Recycling Bin day"
+    - service: input_boolean.turn_on
+      entity_id: input_boolean.both_bin_alerted
+
+- alias: 'Normal Bin - Danny Is Home'
+  trigger:
+    platform: time
+    at: '17:00:00'
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: device_tracker.ichicane
+        state: 'home'
+      - condition: state
+        entity_id: sensor.normal_bin
+        state: 'today'
+      - condition: template
+        value_template: "{{ not is_state('sensor.recycling_bin', 'today') }}"
+      - condition: state
+        entity_id: input_boolean.danny_bin_alerted
+        state: 'off'
+  action:
+    - service: notify.mobile_app_ichicane
+      data:
+        title: "Take out normal bin only"
+        message: "Green Bin Week"
+        #target: 'device/iChicane'
+    - service: input_boolean.turn_on
+      entity_id: input_boolean.danny_bin_alerted
+
+- alias: 'Normal Bin - Liz Is Home'
+  trigger:
+    platform: time
+    at: '17:00:00'
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: device_tracker.lizsiphone
+        state: 'home'
+      - condition: state
+        entity_id: sensor.normal_bin
+        state: 'today'
+      - condition: template
+        value_template: "{{ not is_state('sensor.recycling_bin', 'today') }}"
+      - condition: state
+        entity_id: input_boolean.liz_bin_alerted
+        state: 'off'
+  action:
+    - service: notify.mobile_app_duffel
+      data:
+        title: "Take out normal bin only"
+        message: "Take out normal bin only"
+    - service: input_boolean.turn_on
+      entity_id: input_boolean.liz_bin_alerted
+
+- alias: 'Normal Bin - Both Is Home'
+  trigger:
+    platform: time
+    at: '17:00:00'
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: group.at_home
+        state: 'home'
+      - condition: state
+        entity_id: sensor.normal_bin
+        state: 'today'
+      - condition: template
+        value_template: "{{ not is_state('sensor.recycling_bin', 'today') }}"
+      - condition: state
+        entity_id: input_boolean.both_bin_alerted
+        state: 'off'
+  action:
+    - service: tts.google_translate_say
+      data:
+        entity_id: "all"
+        message: "Good Afternoon, today is Normal Bin day"
+    - service: input_boolean.turn_on
+      entity_id: input_boolean.both_bin_alerted

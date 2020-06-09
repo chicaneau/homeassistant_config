@@ -1,0 +1,939 @@
+####GARAGE#####
+- alias: 'Garage night alarm 15 min'
+  trigger:
+    platform: time_pattern
+    minutes: 15
+    seconds: 00
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: cover.garage_door
+        state: 'open'
+      - condition: time
+        after: '19:00:00'
+  action:
+    - service: notify.mobile_app_ichicane
+      data:
+        message: 'You might want to close it :)'
+        title: 'Garage Door open!'
+        data:
+          push:
+            category: "garage"
+    - service: notify.mobile_app_duffel
+      data:
+        title: 'Garage Door open!'
+        message: 'You might want to close it :)'
+    - service: tts.google_translate_say
+      data:
+        entity_id: "all"
+        message: "Alert!, Garage door is open"
+
+- alias: 'Garage night alarm on open'
+  trigger:
+    platform: state
+    entity_id: cover.garage_door
+    to: 'open'
+
+  condition:
+    condition: time
+    after: '20:00:00'
+
+  action:
+    - service: notify.mobile_app_ichicane
+      data:
+        message: "It's late, was that a mistake? You might want to close it :)"
+        title: 'Garage Door just opened!'
+        data:
+          push:
+            category: 'garage'
+    - service: notify.mobile_app_duffel
+      data:
+        title: 'Garage Door just opened!'
+        message: "It's late, was that a mistake? You might want to close it :)"
+    - service: tts.google_translate_say
+      data:
+        entity_id: "all"
+        message: "Alert!, Garage door just opened"
+
+
+- alias: 'Garage not home alarm on open'
+  trigger:
+    platform: state
+    entity_id: cover.garage_door
+    to: 'open'
+  condition:
+    condition: template
+    value_template: "{{ not is_state('group.at_home', 'home') }}"
+  action:
+#    service: notify.chicane_pushbullet
+#    data:
+#      title: 'Garage Door just opened and no-ones home!'
+#      message: "No-one's home, was that a mistake? You might want to close it :)"
+#      target: 'device/iChicane'
+    service: notify.mobile_app_ichicane
+    data:
+      title: "Garage Door just opened and no-one's home!"
+      message: "No-one's home, was that a mistake? You might want to close it :)"
+      data:
+        push:
+          category: 'garage'
+
+- alias: 'Garage leaving home alarm'
+  trigger:
+    platform: state
+    entity_id: group.at_home
+    from: 'home'
+  condition:
+    condition: state
+    entity_id: cover.garage_door
+    state: 'open'
+  action:
+#    service: notify.chicane_pushbullet
+#    data:
+#      title: 'Garage Door just opened and no-ones home!'
+#      message: "No-one's home, was that a mistake? You might want to close it :)"
+#      target: 'device/iChicane'
+    service: notify.mobile_app_ichicane
+    data:
+      title: "Garage Doors still open and no-one's home!"
+      message: "No-one's home, was that a mistake? You might want to close it :)"
+      data:
+        push:
+          category: 'garage'
+
+###IOS GARAGE PUSH BUTTON###
+
+- alias: iOS Push - Close the Garage
+  trigger:
+    platform: event
+    event_type: ios.notification_action_fired
+    event_data:
+      actionName: CLOSE_GARAGE
+  condition:
+    condition: state
+    entity_id: cover.garage_door
+    state: 'open'
+  action:
+    service: cover.close_cover
+    entity_id: cover.garage_door
+
+
+  ####Leave Home Test#####
+- alias: 'Danny Arrives Home'
+  trigger:
+    - platform: state
+      entity_id: device_tracker.ichicane
+      to: 'home'
+  action:
+    service: notify.chicane_pushbullet
+    data:
+      title: 'Danny just got home'
+      message: "Danny home"
+      target: 'device/iChicane'
+
+- alias: 'Danny Leaves Home'
+  trigger:
+    - platform: state
+      entity_id: device_tracker.ichicane
+      from: 'home'
+  action:
+    service: notify.mobile_app_duffel
+    data:
+      title: 'Danny just left home'
+      message: "Danny left home"
+
+###Bedroom Heater###
+- alias: 'Turn on Bedroom Heater when cold'
+  trigger:
+    platform: template
+    value_template: "{% if states.sensor.bedroom_temperature.state | float < states.input_number.heater_on_below_temp.state | float %} true {% endif %}"
+  condition:
+    condition: and
+    conditions:
+      - condition: time
+        after: '20:00:00'
+        before: '06:30:00'
+      - condition: state
+        entity_id: group.at_home
+        state: 'home'
+      - condition: state
+        entity_id: switch.bedroom_heater
+        state: 'off'
+  action:
+    service: switch.turn_on
+    entity_id: switch.bedroom_heater
+
+- alias: 'Turn on Bedroom Heater when 8pm'
+  trigger:
+    platform: time
+    at: '20:00:00'
+  condition:
+    condition: and
+    conditions:
+      - condition: template
+        #entity_id: sensor.bedroom_temperature
+        #below: {{ states.input_number.heater_on_below_temp.state }}
+        value_template: "{% if states.sensor.bedroom_temperature.state | float < states.input_number.heater_on_below_temp.state | float %} true {% endif %}"
+#        weekday:
+#         - mon
+#         - tue
+#         - wed
+#         - thu
+#         - fri
+#         - sat
+#         - sun
+      - condition: state
+        entity_id: group.at_home
+        state: 'home'
+      - condition: state
+        entity_id: switch.bedroom_heater
+        state: 'off'
+  action:
+    service: switch.turn_on
+    entity_id: switch.bedroom_heater
+
+
+- alias: 'Turn off Bedroom Heater when hot'
+  trigger:
+    #platform: numeric_state
+    #entity_id: sensor.bedroom_temperature
+    #above: {{ states.input_number.heater_off_above_temp.state }}
+    platform: template
+    value_template: "{% if states.sensor.bedroom_temperature.state | float > states.input_number.heater_off_above_temp.state | float %} true {% endif %}"
+  condition:
+    condition: state
+    entity_id: switch.bedroom_heater
+    state: 'on'
+#  condition:
+#    condition: and
+#    conditions:
+#    - condition: time
+#      after: '21:00:00'
+#      before: '06:30:00'
+#      weekday:
+#       - mon
+#       - tue
+#       - wed
+#       - thu
+#       - fri
+#       - sat
+#       - sun
+#    - condition: state
+#      entity_id: group.at_home
+#      state: 'on'
+  action:
+    service: switch.turn_off
+    entity_id: switch.bedroom_heater
+
+- alias: 'Turn off Bedroom Heater after 8am'
+  #id: turnoncoffeemachinewkday
+  #initial_state: True
+  trigger:
+    platform: time
+    at: '08:00:00'
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: switch.bedroom_heater
+        state: 'on'
+      - condition: state
+        entity_id: group.at_home
+        state: 'home'
+  action:
+    service: switch.turn_off
+    entity_id: switch.bedroom_heater
+
+- alias: 'Turn on Bedroom Heater at 4:30am'
+  #id: turnoncoffeemachinewkday
+  #initial_state: True
+  trigger:
+    platform: time
+    at: '04:30:00'
+  condition:
+    condition: state
+    entity_id: switch.bedroom_heater
+    state: 'off'
+  action:
+    service: switch.turn_on
+    entity_id: switch.bedroom_heater
+
+###Coffee Machine###
+- alias: 'Turn on coffee machine weekday morning'
+  #id: turnoncoffeemachinewkday
+  #initial_state: True
+  trigger:
+    platform: time
+    at: '06:00:00'
+  condition:
+    condition: and
+    conditions:
+      - condition: time
+        weekday:
+          - mon
+          - tue
+          - wed
+          - thu
+          - fri
+      - condition: state
+        entity_id: device_tracker.ichicane
+        #group.at_home
+        state: 'home'
+  action:
+    service: switch.turn_on
+    entity_id: switch.coffee_machine
+
+- alias: 'Turn on coffee machine holidays weekday morning'
+  #id: turnoncoffeemachinewkday
+  #initial_state: True
+  trigger:
+    platform: time
+    at: '07:20:00'
+  condition:
+    condition: and
+    conditions:
+      - condition: time
+        weekday:
+          - mon
+          - tue
+          - wed
+          - thu
+          - fri
+      - condition: state
+        entity_id: device_tracker.ichicane
+        state: 'home'
+  action:
+    service: switch.turn_on
+    entity_id: switch.coffee_machine
+
+- alias: 'Turn on coffee machine weekend morning'
+  #id: turnoncoffeemachinewkday
+  #initial_state: True
+  trigger:
+    platform: time
+    at: '07:30:00'
+  condition:
+    condition: and
+    conditions:
+      - condition: time
+        weekday:
+          - sat
+          - sun
+      - condition: state
+        entity_id: device_tracker.ichicane
+        state: 'home'
+  action:
+    service: switch.turn_on
+    entity_id: switch.coffee_machine
+
+- alias: 'Turn off Coffee Machine 2 hours'
+  trigger:
+    platform: state
+    entity_id: switch.coffee_machine
+    from: 'off'
+    to: 'on'
+    for:
+      hours: 2
+  action:
+    service: switch.turn_off
+    entity_id: switch.coffee_machine
+
+- alias: 'Turn off Mozzie Zapper 5 hours'
+  trigger:
+    platform: state
+    entity_id: switch.mozzie_zapper
+    from: 'off'
+    to: 'on'
+    for:
+      hours: 5
+  action:
+    service: switch.turn_off
+    entity_id: switch.mozzie_zapper
+
+###HOLIDAYS####
+- alias: 'Turn off on-holidays on arrive home'
+  trigger:
+    platform: state
+    entity_id: group.at_home
+    to: 'home'
+    for:
+      minutes: 5
+  action:
+    service: input_boolean.turn_off
+    entity_id: input_boolean.on_holidays
+
+###DEPART HOME###
+
+- alias: 'Depart Home'
+  #id: departhome
+  #initial_state: True
+  trigger:
+    - platform: state
+      entity_id: group.at_home
+      from: 'home'
+#      for:
+#        minutes: 1
+  action:
+    - service: light.turn_off
+      entity_id: light.kitchen
+    - service: light.turn_off
+      entity_id: light.hallway
+    - service: light.turn_off
+      entity_id: light.bedroom
+    - service: light.turn_off
+      entity_id: light.loungeroom
+    - service: switch.turn_off
+      entity_id: switch.coffee_machine
+    - service: switch.turn_off
+      entity_id: switch.bedroom_heater
+    - service: switch.turn_off
+      entity_id: switch.cooking_light
+
+###ARRIVE HOME###
+- alias: 'Arrive Home after dark'
+  #id: departhome
+  #initial_state: True
+  trigger:
+    - platform: state
+      entity_id: group.at_home
+      to: 'home'
+  condition:
+    condition: sun
+    after: sunset
+    after_offset: "-00:45:00"
+  action:
+    - service: scene.turn_on
+      entity_id: scene.lights_on
+    #- service: light.turn_on
+    #  entity_id: light.kitchen
+    #  data:
+    #    brightness: 255
+    #    color_temp: 153
+    #- service: light.turn_on
+    #  entity_id: light.loungeroom
+    #  data:
+    #    brightness: 163
+    #    color_temp: 153
+    #- service: light.turn_on
+    #  entity_id: light.hallway
+    #  data:
+    #    brightness: 150
+    #    color_temp: 278
+#    - service: light.turn_on
+#      entity_id: light.bedroom
+#      data:
+#        brightness: 180
+#        color_temp: 278
+###SUNSET###
+- alias: 'Sunset at home'
+  #initial_state: True
+  trigger:
+    - platform: sun
+      event: sunset
+      offset: "-00:45:00"
+  condition:
+    condition: or
+    conditions:
+      - condition: state
+        entity_id: group.at_home
+        state: 'home'
+      - condition: state
+        entity_id: input_boolean.on_holidays
+        state: 'on'
+  action:
+    - service: scene.turn_on
+      entity_id: scene.lights_on
+    #- service: light.turn_on
+    #  entity_id: light.kitchen
+    #  data:
+    #    brightness: 255
+    #    color_temp: 153
+    #- service: light.turn_on
+    #  entity_id: light.loungeroom
+    #  data:
+    #    brightness: 163
+    #    color_temp: 153
+    #- service: light.turn_on
+    #  entity_id: light.hallway
+    #  data:
+    #    brightness: 150
+    #    color_temp: 278
+
+- alias: 'Christmas Tree at home'
+  #initial_state: True
+  trigger:
+    - platform: sun
+      event: sunset
+     # offset: "00:30:00"
+  condition:
+    condition: or
+    conditions:
+      - condition: state
+        entity_id: group.at_home
+        state: 'home'
+  action:
+    - service: switch.turn_on
+      entity_id: switch.christmas_tree
+###TURN OFF ALL LIGHTS###
+- alias: 'Turn Off All Lights - Holiday'
+  trigger:
+    platform: time
+    at: '21:30:00'
+  condition:
+    condition: state
+    entity_id: input_boolean.on_holidays
+    state: 'on'
+  action:
+    - service: light.turn_off
+      entity_id: all
+
+- alias: Pantry Motion On Light
+  trigger:
+    platform: state
+    entity_id: binary_sensor.motion_sensor_pantry
+    from: 'off'
+    to: 'on'
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: light.pantry
+        state: 'off'
+  action:
+    - service: light.turn_on
+      entity_id: light.pantry
+      data:
+        brightness: 254
+        color_temp: 202
+
+
+- alias: Pantry Motion Off Light
+  trigger:
+    platform: state
+    entity_id: binary_sensor.motion_sensor_pantry
+    from: 'on'
+    to: 'off'
+    for: '00:10:00'
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: light.pantry
+        state: 'on'
+  action:
+    - service: light.turn_off
+      entity_id: light.pantry
+
+- alias: Loungeroom Single Click
+  trigger:
+    - platform: event
+      event_type: xiaomi_aqara.click
+      event_data:
+        #DANNY
+        entity_id: binary_sensor.switch_158d000285fb3b
+        click_type: single
+  action:
+    - service: light.toggle
+      entity_id: light.loungeroom
+#    - service: light.turn_off
+#      entity_id: light.cooking_light
+
+- alias: Loungeroom Long Click
+  trigger:
+    - platform: event
+      event_type: xiaomi_aqara.click
+      event_data:
+        #DANNY
+        entity_id: binary_sensor.switch_158d000285fb3b
+        click_type: long_click_press
+  action:
+    - service: light.turn_on
+      entity_id: light.kitchen
+      data:
+        brightness: 100
+        color_temp: 278
+    - service: light.turn_on
+      entity_id: light.loungeroom
+      data:
+        brightness: 75
+        color_temp: 278
+    - service: switch.turn_off
+      entity_id: switch.cooking_light
+
+- alias: Test Hue Dimmer
+  trigger:
+    platform: event
+    event_type: hue_event
+    event_data:
+      entity_id: remote.hue_dimmer_switch_1
+      event: 2002
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: light.kitchen
+        state: 'on'
+  action:
+    - service: light.turn_on
+      entity_id: light.kitchen
+      data_template:
+        brightness: '{{states.light.kitchen.attributes.brightness | int + 25}}'
+
+- alias: Test Hue Switch On
+  trigger:
+    platform: event
+    event_type: hue_event
+    event_data:
+      entity_id: remote.hue_dimmer_switch_1
+      event: 1002
+      #new_state: '3_click_up'
+#  condition:
+#    condition: and
+#    conditions:
+#    - condition: template
+#      value_template: "{{ trigger.event.data.new_state.state == '1_click_up' }}"
+  action:
+    - service: light.turn_on
+      entity_id: light.kitchen
+      data_template:
+        brightness: 255
+        color_temp: >
+          {% if states.light.kitchen.state == 'off' %}
+           153
+          {% elif states.light.kitchen.attributes.color_temp > 153 %}
+            153
+          {% else %}
+            278
+          {% endif %}
+        #278 153
+
+- alias: Test Hue Switch Off
+  trigger:
+    platform: event
+    event_type: hue_event
+    event_data:
+      entity_id: remote.hue_dimmer_switch_1
+      event: 4002
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: light.kitchen
+        state: 'on'
+#    - condition: template
+#      value_template: "{{ trigger.event.data.new_state.state == '4_click_up' }}"
+  action:
+    - service: light.turn_off
+      entity_id: light.kitchen
+
+- alias: Test Hue Dimmer Down
+  trigger:
+    platform: event
+    event_type: hue_event
+    event_data:
+      entity_id: remote.hue_dimmer_switch_1
+      event: 3002
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: light.kitchen
+        state: 'on'
+#    - condition: template
+#      value_template: "{{ trigger.event.data.new_state.state == '3_click_up' }}"
+  action:
+    - service: light.turn_on
+      entity_id: light.kitchen
+      data_template:
+        brightness: '{{states.light.kitchen.attributes.brightness | int - 25}}'
+
+- alias: Test Hue Dimmer Hold Down
+  trigger:
+    platform: event
+    event_type: hue_event
+    event_data:
+      entity_id: remote.hue_dimmer_switch_1
+      event: 3003
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: light.kitchen
+        state: 'on'
+#    - condition: template
+#      value_template: "{{ trigger.event.data.new_state.state == '3_hold_up' }}"
+  action:
+    - service: light.turn_on
+      entity_id: light.kitchen
+      data_template:
+        brightness: >
+          {% if states.light.kitchen.attributes.brightness > 192 %}
+            192
+          {% elif states.light.kitchen.attributes.brightness > 128 %}
+            128
+          {% elif states.light.kitchen.attributes.brightness > 64 %}
+            64
+          {% elif states.light.kitchen.attributes.brightness > 0 %}
+            1
+          {% endif %}
+
+- alias: Test Hue Dimmer Hold Up
+  trigger:
+    platform: event
+    event_type: hue_event
+    event_data:
+      entity_id: remote.hue_dimmer_switch_1
+      event: 2003
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: light.kitchen
+        state: 'on'
+  action:
+    - service: light.turn_on
+      entity_id: light.kitchen
+      data_template:
+        brightness: >
+          {% if states.light.kitchen.attributes.brightness < 64 %}
+            64
+          {% elif states.light.kitchen.attributes.brightness < 128 %}
+            128
+          {% elif states.light.kitchen.attributes.brightness < 192 %}
+            192
+          {% elif states.light.kitchen.attributes.brightness <= 255 %}
+            255
+          {% endif %}
+
+- alias: Loungeroom Double Click
+  trigger:
+    - platform: event
+      event_type: xiaomi_aqara.click
+      event_data:
+        #DANNY
+        entity_id: binary_sensor.switch_158d000285fb3b
+        click_type: double
+  action:
+    - service: light.turn_on
+      entity_id: light.kitchen
+      data:
+        brightness: 255
+        color_temp: 153
+    - service: switch.turn_on
+      entity_id: switch.cooking_light
+
+###DOOR SENSORS###
+- alias: Open Loungeroom Door
+  trigger:
+    platform: state
+    entity_id: binary_sensor.door_window_sensor_158d0002890d18
+    from: 'off'
+    to: 'on'
+  condition:
+    condition: sun
+    after: sunset
+    after_offset: "-00:45:00"
+  action:
+    - service: switch.turn_on
+      entity_id: switch.mozzie_zapper
+    - service: light.turn_on
+      entity_id: light.outside_real
+#   - delay: '01:00:00'
+#   - condition: template
+#     value_template: '{{ (as_timestamp(now())-as_timestamp(states.binary_sensor.door_window_sensor_158d0002890d18.last_updated)) > 3300 }}'
+#   - service: switch.turn_off
+#     entity_id: switch.mozzie_zapper
+    ##3600 = 1 hour
+- alias: Close Loungeroom Door
+  trigger:
+    platform: state
+    entity_id: binary_sensor.door_window_sensor_158d0002890d18
+    from: 'on'
+    to: 'off'
+    for:
+      minutes: 60
+  condition:
+    condition: sun
+    after: sunset
+    after_offset: "-00:45:00"
+  action:
+    - service: switch.turn_off
+      entity_id: switch.mozzie_zapper
+
+- alias: Close Loungeroom Door for Light
+  trigger:
+    platform: state
+    entity_id: binary_sensor.door_window_sensor_158d0002890d18
+    from: 'on'
+    to: 'off'
+    for:
+      minutes: 10
+  condition:
+    condition: and
+    conditions:
+      - condition: sun
+        after: sunset
+        after_offset: "-00:45:00"
+  action:
+    - condition: state
+      entity_id: input_boolean.outside_triggered
+      state: "off"
+    - service: light.turn_off
+      entity_id: light.outside_real
+
+###TASMOTA/SONOFF###
+#- alias: Auto On Office Tasmota
+#  trigger:
+#    platform: state
+#    entity_id: light.office
+#    from: 'unavailable'
+#  action:
+#    - delay: "00:00:01"
+#    - service: light.turn_on
+#      entity_id: light.office
+
+###THEME ON STARTUP###
+- alias: 'Set theme/start homekit at startup'
+  #initial_state: 'on'
+  trigger:
+    - platform: homeassistant
+      event: start
+  action:
+    - service: frontend.set_theme
+      data:
+        name: midnight_blue
+#    - delay: "00:00:30"
+    - wait_template: >-
+        {% if not states.light.loungeroom_1 %}
+          false
+        {% elif not states.light.loungeroom_2 %}
+          false
+        {% elif not states.light.loungeroom_3 %}
+          false
+        {% elif not states.light.loungeroom_4 %}
+          false
+        {% elif not states.light.kitchen_1 %}
+          false
+        {% elif not states.light.kitchen_2 %}
+          false
+        {% elif not states.light.gateway_light_7c49ebb0d82c %}
+          false
+        # Repeat for every entity
+        {% else %}
+          true
+        {% endif %}
+      timeout: 00:02  # Waits 2 minutes
+      continue_on_timeout: false
+#    - condition: template
+#      value_template: "{{ states('light.gateway_light_7c49ebb0d82c') != 'unknown' }}"
+    - service: homekit.start
+
+- alias: 'Restart HASS if xiaomi fails at startup'
+  #initial_state: 'on'
+  trigger:
+    - platform: homeassistant
+      event: start
+  action:
+    - delay: "00:02:05"
+    - condition: template
+      value_template: "{{ states('light.gateway_light_7c49ebb0d82c') == 'unknown' }}"
+    - service: homeassistant.restart
+
+- alias: 'Turn off bin alert bools'
+  trigger:
+    platform: time
+    at: '00:00:01'
+  action:
+    - service: input_boolean.turn_off
+      entity_id: input_boolean.danny_bin_alerted
+    - service: input_boolean.turn_off
+      entity_id: input_boolean.liz_bin_alerted
+    - service: input_boolean.turn_off
+      entity_id: input_boolean.both_bin_alerted
+
+- alias: 'Turn off bedtime bool'
+  trigger:
+    platform: time
+    at: '06:30:00'
+  action:
+    - service: input_boolean.turn_off
+      entity_id: input_boolean.bedtime_triggered
+
+
+#Roku Emulations
+- id: turn_all_lights_off
+  alias: Turns All Lights Off
+  trigger:
+    - platform: event
+      event_type: roku_command
+      event_data:
+        source_name: Home Assistant
+        type: keypress
+        key: Play
+  action:
+    - service: light.toggle
+      entity_id: all
+
+###NEW VERSIONS###
+- alias: 'New HASS released'
+  #initial_state: 'on'
+  trigger:
+    - platform: state
+      entity_id: sensor.current_hass_release
+  action:
+    - delay: 00:00:03
+    - service: notify.mobile_app_ichicane
+      data_template:
+        title: 'Home Assistant V{{states.sensor.current_hass_release.state}} Released'
+        message: 'https://www.home-assistant.io/blog/'
+        #target: 'device/iChicane'
+- alias: 'New HASS Docker released'
+  #initial_state: 'on'
+  trigger:
+    - platform: state
+      entity_id: sensor.current_docker_hass_build
+  action:
+    - delay: 00:00:03
+    - service: notify.mobile_app_ichicane
+      data_template:
+        title: 'Home Assistant Docker V{{states.sensor.current_docker_hass_build.state}} Available'
+        message: 'https://www.home-assistant.io/blog/'
+        #target: 'device/iChicane'
+
+- alias: 'New Portainer Docker released'
+  #initial_state: 'on'
+  trigger:
+    - platform: state
+      entity_id: sensor.current_docker_portainer_build
+  action:
+    - delay: 00:00:03
+    - service: notify.mobile_app_ichicane
+      data_template:
+        title: 'Portainer Docker V{{states.sensor.current_docker_portainer_build.state}} Available'
+        message: 'https://hub.docker.com/r/portainer/portainer/'
+        #target: 'device/iChicane'
+
+- alias: Server Torrents Low
+  trigger:
+    - platform: numeric_state
+      entity_id: sensor.server_torrents_free
+      below: 30.0
+  action:
+    - delay: 00:00:10
+    - service: notify.mobile_app_ichicane
+      data:
+        message: "Torrent drive in server has {{states.sensor.server_torrents_free.state}} GB Free"
+        title: 'Server torrent drive is low!'
+
+- alias: Server RAID Low
+  trigger:
+    - platform: numeric_state
+      entity_id: sensor.server_raid_free
+      below: 30.0
+  action:
+    - delay: 00:00:10
+    - service: notify.mobile_app_ichicane
+      data:
+        message: "RAID in server has {{states.sensor.server_raid_free.state}} GB Free"
+        title: 'Server RAID is low!'
