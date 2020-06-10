@@ -415,3 +415,38 @@
       friendly_name: Niche
       state: 'on'
       supported_features: 0
+- id: '1591749480739'
+  name: Lights Off
+  entities:
+    light.kitchen:
+      effect_list:
+      - effect_stop
+      - effect_colorloop
+      - effect_pulse
+      friendly_name: Kitchen
+      max_mireds: 400
+      min_mireds: 111
+      state: 'off'
+      supported_features: 55
+    light.kitchen:
+      state: 'off'
+    light.hallway:
+      state: 'off'
+    light.bedroom:
+      state: 'off'
+    light.office:
+      state: 'off'
+    light.dining:
+      state: 'off'
+    light.outside:
+      state: 'off'
+    light.niche:
+      state: 'off'
+    light.loungeroom:
+      state: 'off'
+    switch.coffee_machine:
+      state: 'off'
+    switch.bedroom_heater:
+      state: 'off'
+    switch.cooking_light:
+      state: 'off'
