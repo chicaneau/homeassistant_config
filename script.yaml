@@ -125,26 +125,26 @@ bedroom_reading:
     - service: light.turn_off
       entity_id: light.hue_ambiance_lamp_5
 
-reset_bedroom_lights:
-  alias: 'Reset Bedroom Lights'
-  sequence:
-    - service: light.turn_on
-      entity_id: light.hue_ambiance_lamp_6
-      data:
-        brightness: 180
-        color_temp: 278
-    - service: light.turn_on
-      entity_id: light.hue_ambiance_lamp_4
-      data:
-        brightness: 180
-        color_temp: 278
-    - service: light.turn_on
-      entity_id: light.hue_ambiance_lamp_3
-      data:
-        brightness: 180
-        color_temp: 278
-    - service: light.turn_on
-      entity_id: light.hue_ambiance_lamp_5
-      data:
-        brightness: 180
-        color_temp: 278
+# reset_bedroom_lights:
+  # alias: 'Reset Bedroom Lights'
+  # sequence:
+    # - service: light.turn_on
+      # entity_id: light.hue_ambiance_lamp_6
+      # data:
+        # brightness: 180
+        # color_temp: 278
+    # - service: light.turn_on
+      # entity_id: light.hue_ambiance_lamp_4
+      # data:
+        # brightness: 180
+        # color_temp: 278
+    # - service: light.turn_on
+      # entity_id: light.hue_ambiance_lamp_3
+      # data:
+        # brightness: 180
+        # color_temp: 278
+    # - service: light.turn_on
+      # entity_id: light.hue_ambiance_lamp_5
+      # data:
+        # brightness: 180
+        # color_temp: 278

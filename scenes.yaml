@@ -436,3 +436,60 @@
       state: 'off'
     switch.cooking_light:
       state: 'off'
+- id: '1593653725707'
+  name: Bedroom Lights Step 2
+  entities:
+    light.hue_ambiance_lamp_6:
+      state: 'on'
+      brightness: 100
+      color_temp: 278
+    light.hue_ambiance_lamp_4:
+      state: 'on'
+      brightness: 100
+      color_temp: 278
+    light.hue_ambiance_lamp_3:
+      state: 'on'
+      brightness: 100
+      color_temp: 278
+    light.hue_ambiance_lamp_5:
+      state: 'on'
+      brightness: 100
+      color_temp: 278
+- id: '1593653750112'
+  name: Bedroom Lights Step 3
+  entities:
+    light.hue_ambiance_lamp_6:
+      state: 'on'
+      brightness: 55
+      color_temp: 278
+    light.hue_ambiance_lamp_4:
+      state: 'on'
+      brightness: 55
+      color_temp: 278
+    light.hue_ambiance_lamp_3:
+      state: 'on'
+      brightness: 55
+      color_temp: 278
+    light.hue_ambiance_lamp_5:
+      state: 'on'
+      brightness: 55
+      color_temp: 278
+- id: '1593655093419'
+  name: Reset Bedroom Lights
+  entities:
+    light.hue_ambiance_lamp_6:
+      state: 'on'
+      brightness: 180
+      color_temp: 278
+    light.hue_ambiance_lamp_4:
+      state: 'on'
+      brightness: 180
+      color_temp: 278
+    light.hue_ambiance_lamp_3:
+      state: 'on'
+      brightness: 180
+      color_temp: 278
+    light.hue_ambiance_lamp_5:
+      state: 'on'
+      brightness: 180
+      color_temp: 278

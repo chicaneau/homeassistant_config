@@ -6,12 +6,15 @@
       from: 'off'
       to: 'on'
   condition:
-    condition: time
-    after: '5:00:00'
-    before: '17:00:00'
+    condition: and
+    conditions:
+      - condition: time
+        after: '5:00:00'
+      - condition: sun
+        after: sunset
   action:
-    - service: script.turn_on
-      entity_id: script.reset_bedroom_lights
+    - service: scene.turn_on
+      entity_id: scene.reset_bedroom_lights
 
 - alias: 'Auto Reset Bedroom Lights 5pm-830pm'
   trigger:
@@ -20,30 +23,15 @@
       from: 'off'
       to: 'on'
   condition:
-    condition: time
-    after: '17:00:00'
-    before: '20:30:00'
+    condition: and
+    conditions:
+      - condition: time
+        before: '20:30:00'
+      - condition: sun
+        after: sunset
   action:
-    - service: light.turn_on
-      entity_id: light.hue_ambiance_lamp_6
-      data:
-        brightness: 100
-        color_temp: 278
-    - service: light.turn_on
-      entity_id: light.hue_ambiance_lamp_4
-      data:
-        brightness: 100
-        color_temp: 278
-    - service: light.turn_on
-      entity_id: light.hue_ambiance_lamp_3
-      data:
-        brightness: 100
-        color_temp: 278
-    - service: light.turn_on
-      entity_id: light.hue_ambiance_lamp_5
-      data:
-        brightness: 100
-        color_temp: 278
+    - service: scene.turn_on
+      entity_id: scene.bedroom_lights_step_2
 
 - alias: 'Auto Reset Bedroom Lights 830pm-5am'
   trigger:
@@ -56,26 +44,20 @@
     after: '20:30:00'
     before: '5:00:00'
   action:
-    - service: light.turn_on
-      entity_id: light.hue_ambiance_lamp_6
-      data:
-        brightness: 55
-        color_temp: 278
-    - service: light.turn_on
-      entity_id: light.hue_ambiance_lamp_4
-      data:
-        brightness: 55
-        color_temp: 278
-    - service: light.turn_on
-      entity_id: light.hue_ambiance_lamp_3
-      data:
-        brightness: 55
-        color_temp: 278
-    - service: light.turn_on
-      entity_id: light.hue_ambiance_lamp_5
-      data:
-        brightness: 55
-        color_temp: 278
+    - service: scene.turn_on
+      entity_id: scene.bedroom_lights_step_3
+
+- alias: 'Auto Set Bedroom Lights 5pm'
+  trigger:
+    platform: sun
+    event: sunset
+  condition:
+    condition: state
+    entity_id: light.hue_ambiance_lamp_3
+    state: 'on'
+  action:
+    - service: scene.turn_on
+      entity_id: scene.bedroom_lights_step_2
 
 - alias: 'Auto Set Bedroom Lights 830pm'
   trigger:
@@ -86,56 +68,8 @@
     entity_id: light.hue_ambiance_lamp_3
     state: 'on'
   action:
-    - service: light.turn_on
-      entity_id: light.hue_ambiance_lamp_6
-      data:
-        brightness: 55
-        color_temp: 278
-    - service: light.turn_on
-      entity_id: light.hue_ambiance_lamp_4
-      data:
-        brightness: 55
-        color_temp: 278
-    - service: light.turn_on
-      entity_id: light.hue_ambiance_lamp_3
-      data:
-        brightness: 55
-        color_temp: 278
-    - service: light.turn_on
-      entity_id: light.hue_ambiance_lamp_5
-      data:
-        brightness: 55
-        color_temp: 278
-
-- alias: 'Auto Set Bedroom Lights 5pm'
-  trigger:
-    platform: time
-    at: '17:00:00'
-  condition:
-    condition: state
-    entity_id: light.hue_ambiance_lamp_3
-    state: 'on'
-  action:
-    - service: light.turn_on
-      entity_id: light.hue_ambiance_lamp_6
-      data:
-        brightness: 100
-        color_temp: 278
-    - service: light.turn_on
-      entity_id: light.hue_ambiance_lamp_4
-      data:
-        brightness: 100
-        color_temp: 278
-    - service: light.turn_on
-      entity_id: light.hue_ambiance_lamp_3
-      data:
-        brightness: 100
-        color_temp: 278
-    - service: light.turn_on
-      entity_id: light.hue_ambiance_lamp_5
-      data:
-        brightness: 100
-        color_temp: 278
+    - service: scene.turn_on
+      entity_id: scene.bedroom_lights_step_3
 
 ###BEDROOM MOTION###
 - alias: Bedroom Motion Main Lights
@@ -230,9 +164,9 @@
         state: 'off'
   action:
     - service: light.toggle
-      entity_id: light.hue_ambiance_lamp_4
-    - service: light.toggle
-      entity_id: light.hue_ambiance_lamp_6
+      entity_id:
+        - light.hue_ambiance_lamp_4
+        - light.hue_ambiance_lamp_6
 
 - alias: Bed Single Click 4 lights
   trigger:
@@ -294,16 +228,11 @@
     condition: and
     conditions:
       - condition: state
-        entity_id: light.hue_ambiance_lamp_4
-        state: 'off'
-      - condition: state
-        entity_id: light.hue_ambiance_lamp_6
-        state: 'off'
-      - condition: state
-        entity_id: light.hue_ambiance_lamp_3
-        state: 'off'
-      - condition: state
-        entity_id: light.hue_ambiance_lamp_5
+        entity_id:
+        - light.hue_ambiance_lamp_4
+        - light.hue_ambiance_lamp_6
+        - light.hue_ambiance_lamp_3
+        - light.hue_ambiance_lamp_5
         state: 'off'
       - condition: state
         entity_id: input_boolean.bedtime_triggered
@@ -340,16 +269,14 @@
     condition: and
     conditions:
       - condition: state
-        entity_id: light.hue_ambiance_lamp_4
+        entity_id:
+          - light.hue_ambiance_lamp_4
+          - light.hue_ambiance_lamp_6
         state: 'on'
       - condition: state
-        entity_id: light.hue_ambiance_lamp_6
-        state: 'on'
-      - condition: state
-        entity_id: light.hue_ambiance_lamp_3
-        state: 'off'
-      - condition: state
-        entity_id: light.hue_ambiance_lamp_5
+        entity_id:
+          - light.hue_ambiance_lamp_3
+          - light.hue_ambiance_lamp_5
         state: 'off'
       - condition: state
         entity_id: input_boolean.bedtime_triggered

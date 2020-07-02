@@ -8,7 +8,7 @@ views:
 #        entities:
 #        - type: custom:slider-entity-row
 #          entity: light.bedroom
-#          toggle: true 
+#          toggle: true
 #        - type: custom:slider-entity-row
 #          entity: light.kitchen
 #          toggle: true
@@ -17,16 +17,16 @@ views:
 #          toggle: true
 #        - type: custom:slider-entity-row
 #          entity: light.hallway
-#          toggle: true 
+#          toggle: true
 #        - type: custom:slider-entity-row
 #          entity: light.bathroom
-#          toggle: true           
+#          toggle: true
 #        - switch.cooking_light
 #        - switch.mozzie_zapper
-    
+
     - type: vertical-stack
       title: Lights
-      cards: 
+      cards:
       - type: horizontal-stack
         cards:
         - type: button
@@ -34,29 +34,37 @@ views:
           tap_action:
             action: call-service
             service: scene.turn_on
-            service_data: 
+            service_data:
               entity_id: scene.lights_on
         - type: button
           entity: scene.bedtime_scene
           tap_action:
             action: call-service
             service: scene.turn_on
-            service_data: 
-              entity_id: scene.bedtime_scene              
+            service_data:
+              entity_id: scene.bedtime_scene
         - type: button
           entity: scene.goodnight_scene
           tap_action:
             action: call-service
             service: scene.turn_on
-            service_data: 
+            service_data:
               entity_id: scene.goodnight_scene
         - type: button
-          entity: scene.gaming_time 
+          entity: scene.gaming_time
           tap_action:
             action: call-service
             service: scene.turn_on
-            service_data: 
+            service_data:
               entity_id: scene.gaming_time
+        - type: button
+          entity: scene.reset_bedroom_lights
+          name: "Reset Bedroom"
+          tap_action:
+            action: call-service
+            service: scene.turn_on
+            service_data:
+              entity_id: scene.reset_bedroom_lights
       - type: horizontal-stack
         cards:
         - type: light
@@ -64,26 +72,26 @@ views:
         - type: light
           entity: light.kitchen
         - type: light
-          entity: light.loungeroom            
+          entity: light.loungeroom
       - type: horizontal-stack
-        cards:   
+        cards:
         - type: light
-          entity: light.hallway          
+          entity: light.hallway
         - type: light
           entity: light.pantry
         - type: light
-          entity: light.gateway_light_7c49ebb0d82c    
+          entity: light.gateway_light_7c49ebb0d82c
       - type: horizontal-stack
-        cards:          
+        cards:
         - type: light
           entity: light.dining_room
         - type: light
-          entity: light.office 
+          entity: light.office
         - type: light
-          entity: light.niche          
+          entity: light.niche
         - type: light
-          entity: light.outside          
-        
+          entity: light.outside
+
     - type: vertical-stack
       title: "Switches"
       cards:
@@ -94,18 +102,18 @@ views:
           icon: mdi:coffee-maker
         - type: button
           entity: switch.cooking_light
-          icon: mdi:chef-hat            
+          icon: mdi:chef-hat
         - type: button
           entity: switch.bedroom_heater
           icon: mdi:radiator
       - type: horizontal-stack
-        cards:   
-        - type: button  
+        cards:
+        - type: button
           entity: switch.danny_s_pc
-          icon: mdi:desktop-classic   
+          icon: mdi:desktop-classic
         - type: button
           entity: switch.mozzie_zapper
-          icon: mdi:flash-outline             
+          icon: mdi:flash-outline
         - type: button
           entity: input_boolean.bedtime_triggered
           icon: mdi:bed-king
@@ -113,28 +121,28 @@ views:
         entity: cover.garage_door
         #name: General Waste
         show_name: true
-        state_image: 
+        state_image:
           "open": /local/pics/garage_open.jpg
           "closed": /local/pics/garage_closed.jpg
         double_tap_action:
           action: toggle
         #state_filter:
         #  "Not Today": grayscale(85%)
-        #  "Today": contrast(200%)"         
-      
+        #  "Today": contrast(200%)"
+
     - type: horizontal-stack
       title: Climate Control
       cards:
       - type: thermostat
         entity: climate.loungeroom_aircon
       - type: thermostat
-        entity: climate.office_aircon   
+        entity: climate.office_aircon
 
     - type: vertical-stack
       title: Bins
-      cards: 
+      cards:
       - type: horizontal-stack
-        cards:  
+        cards:
         - type: picture-entity
           entity: sensor.normal_bin_today
           #name: General Waste
@@ -143,11 +151,11 @@ views:
           show_state: false
           state_filter:
             "Not Today": grayscale(85%) blur(2px)
-            "Today": contrast(200%)"       
+            "Today": contrast(200%)"
         - type: picture-entity
           entity: sensor.recycling_bin_today
           #name: Recycling Waste
-          image: /local/pics/recycle_bin.jpg  
+          image: /local/pics/recycle_bin.jpg
           show_name: false
           show_state: false
           state_filter:
@@ -176,7 +184,7 @@ views:
           entities:
             - entity: sensor.temperature_158d00023d043d
           hours_to_show: 72
-          points_per_hour: 2     
+          points_per_hour: 2
           color_thresholds:
             - value: 0
               color: "#5DADE2"
@@ -185,32 +193,13 @@ views:
             - value: 24
               color: "#9CCC65"
             - value: 30
-              color: "#F44336"      
+              color: "#F44336"
           show:
             labels: true
         - type: custom:mini-graph-card
           name: BOM Sunshine Coast
           entities:
             - entity: sensor.bom_sunshine_coast_air_temp_c
-          hours_to_show: 72
-          points_per_hour: 2     
-          color_thresholds:
-            - value: 0
-              color: "#5DADE2"
-            - value: 15
-              color: "#5DADE2"
-            - value: 24
-              color: "#9CCC65"
-            - value: 30
-              color: "#F44336"      
-          show:
-            labels: true    
-      - type: horizontal-stack
-        cards:
-        - type: custom:mini-graph-card
-          name: Bedroom
-          entities:
-            - entity: sensor.bedroom_temperature    
           hours_to_show: 72
           points_per_hour: 2
           color_thresholds:
@@ -221,7 +210,26 @@ views:
             - value: 24
               color: "#9CCC65"
             - value: 30
-              color: "#F44336"      
+              color: "#F44336"
+          show:
+            labels: true
+      - type: horizontal-stack
+        cards:
+        - type: custom:mini-graph-card
+          name: Bedroom
+          entities:
+            - entity: sensor.bedroom_temperature
+          hours_to_show: 72
+          points_per_hour: 2
+          color_thresholds:
+            - value: 0
+              color: "#5DADE2"
+            - value: 15
+              color: "#5DADE2"
+            - value: 24
+              color: "#9CCC65"
+            - value: 30
+              color: "#F44336"
           show:
             labels: true
         - type: custom:mini-graph-card
@@ -238,11 +246,11 @@ views:
             - value: 24
               color: "#9CCC65"
             - value: 30
-              color: "#F44336"      
+              color: "#F44336"
           show:
-            labels: true      
+            labels: true
       - type: horizontal-stack
-        cards:        
+        cards:
         - type: custom:mini-graph-card
           name: Garage
           entities:
@@ -257,15 +265,15 @@ views:
             - value: 24
               color: "#9CCC65"
             - value: 30
-              color: "#F44336"      
+              color: "#F44336"
           show:
             labels: true
         - type: custom:mini-graph-card
           name: Office
           entities:
-            - entity: sensor.office_temperature   
+            - entity: sensor.office_temperature
           hours_to_show: 72
-          points_per_hour: 2          
+          points_per_hour: 2
           color_thresholds:
             - value: 0
               color: "#5DADE2"
@@ -274,13 +282,13 @@ views:
             - value: 24
               color: "#9CCC65"
             - value: 30
-              color: "#F44336"      
+              color: "#F44336"
           show:
-            labels: true      
- 
+            labels: true
+
     - type: horizontal-stack
       title: "Sensors"
-      cards: 
+      cards:
         - type: glance
           entities:
             - entity: binary_sensor.door_window_sensor_158d0002890d18
@@ -291,9 +299,9 @@ views:
               name: Bedroom Motion
               show_state: false
             - entity: binary_sensor.motion_sensor_pantry
-              name: Pantry Motion   
-              show_state: false              
-  
+              name: Pantry Motion
+              show_state: false
+
   - title: Secondary
     icon: mdi:home-analytics
     cards:
@@ -343,7 +351,7 @@ views:
         entity_pop_2: sensor.bom_sunshine_coast_chance_of_rain_2
         entity_pop_3: sensor.bom_sunshine_coast_chance_of_rain_3
         entity_pop_4: sensor.bom_sunshine_coast_chance_of_rain_4
-        entity_pop_5: sensor.bom_sunshine_coast_chance_of_rain_5     
+        entity_pop_5: sensor.bom_sunshine_coast_chance_of_rain_5
         entity_uv_alert: sensor.bom_uv_alert
         entity_fire_danger: sensor.bom_fire_danger
         entity_uv_alert_summary: sensor.bom_uv_alert_summary
@@ -410,9 +418,9 @@ views:
           - input_number.heater_off_above_temp
           - input_number.heater_on_below_temp
           - script.bedroom_reading
-          - script.reset_bedroom_lights
+          - scene.reset_bedroom_lights
           - scene.bedtime_scene
-          
+
       - type: entities
         title: Office
         show_header_toggle: true
@@ -427,7 +435,7 @@ views:
           - sensor.home_chicane_me
           - sensor.chicane_me
           - sensor.whitehavendesignhouse_com_au
-          
+
       - type: entities
         title: Loungeroom
         show_header_toggle: true
@@ -439,7 +447,7 @@ views:
           - sensor.loungeroom_humidity
           - sensor.loungeroom_pressure
           - switch.christmas_tree
-          
+
       - type: entities
         title: Outside
         show_header_toggle: true
@@ -449,7 +457,7 @@ views:
           - sensor.outside_temp_feels_like
           - sensor.humidity_158d00023d043d
           - sensor.outside_door
-          
+
       - type: entities
         title: Garage
         show_header_toggle: false
@@ -459,7 +467,7 @@ views:
           - sensor.garage_temp_feels_like
           - sensor.garage_humidity
           - sensor.garage_pressure
-          
+
       - type: entities
         title: Kitchen
         show_header_toggle: true
@@ -486,7 +494,7 @@ views:
           - sensor.hacs
           - sensor.current_docker_hass_build
           - sensor.current_docker_portainer_build
-          
+
       - type: entities
         title: Phones
         show_header_toggle: false
@@ -519,7 +527,7 @@ views:
 #      - type: thermostat
 #        entity: climate.loungeroom_aircon
 #      - type: thermostat
-#        entity: climate.office_aircon        
+#        entity: climate.office_aircon
 
   - title: Lights
     icon: mdi:lightbulb
@@ -531,15 +539,15 @@ views:
         #color_temp: true
         #white_value: true
       - type: "custom:light-entity-card"
-        entity: light.loungeroom   
-        persist_features: true      
+        entity: light.loungeroom
+        persist_features: true
       - type: "custom:light-entity-card"
         entity: light.hallway
         persist_features: true
       - type: "custom:light-entity-card"
-        entity: light.bedroom 
-        persist_features: true        
-        
+        entity: light.bedroom
+        persist_features: true
+
   - title: Graph
     icon: mdi:chart-areaspline
     cards:
@@ -558,7 +566,7 @@ views:
             name: Garage
           - entity: sensor.temperature_158d00023d043d
             name: Outside
-          - entity: sensor.bom_sunshine_coast_air_temp_c  
+          - entity: sensor.bom_sunshine_coast_air_temp_c
             name: BOM Sunshine Coast
       - type: history-graph
         title: Humidity Graph
@@ -603,8 +611,8 @@ views:
             name: Loungeroom
           - entity: sensor.office_mould
             name: Office
-          - entity: sensor.garage_mould     
-            name: Garage  
+          - entity: sensor.garage_mould
+            name: Garage
       - type: history-graph
         title: Certificate
         hours_to_show: 2000
@@ -627,11 +635,11 @@ views:
         refresh_interval: 60
         entities:
           - entity: sensor.coffee_machine_load_power
-            name: Coffee Machine  
+            name: Coffee Machine
           - entity: sensor.cooking_light_load_power
-            name: Cooking Light           
-        
-        
+            name: Cooking Light
+
+
   - title: 4 Week Graph
     icon: mdi:chart-areaspline-variant
     cards:
@@ -650,7 +658,7 @@ views:
             name: Garage
           - entity: sensor.temperature_158d00023d043d
             name: Outside
-          - entity: sensor.bom_sunshine_coast_air_temp_c  
+          - entity: sensor.bom_sunshine_coast_air_temp_c
             name: BOM Sunshine Coast
       - type: history-graph
         title: Humidity Graph
@@ -695,8 +703,8 @@ views:
             name: Loungeroom
           - entity: sensor.office_mould
             name: Office
-          - entity: sensor.garage_mould     
-            name: Garage  
+          - entity: sensor.garage_mould
+            name: Garage
 
   - title: Remote
     icon: mdi:remote
@@ -717,7 +725,7 @@ views:
       #  entity: media_player.fire_tv
       - type: media-control
         entity: media_player.loungeroom
- 
+
   - title: Stats
     icon: mdi:counter
     cards:
@@ -726,12 +734,12 @@ views:
         show_header_toggle: false
         entities:
           - sensor.server_uptime
-          - sensor.server_ram_free                
+          - sensor.server_ram_free
           - sensor.server_raid_capacity
           - sensor.server_raid_free
           - sensor.server_torrents_capacity
-          - sensor.server_torrents_free     
-    
+          - sensor.server_torrents_free
+
 #      - type: history-graph
 #        entities:
 #          - sensor.server_cpu_1
@@ -739,11 +747,11 @@ views:
 #          - sensor.server_cpu_3
 #          - sensor.server_cpu_4
 #          - sensor.server_cpu_avg
-          
+
       - type: history-graph
         entities:
           - sensor.server_ram_capacity
-          
+
   - title: Automations
     icon: mdi:home-automation
     cards:
@@ -792,7 +800,7 @@ views:
           - automation.turn_on_bedroom_heater_when_8pm
           - automation.turn_on_bedroom_heater_at_4_30am
           - automation.christmas_tree_at_home
-          
+
           - automation.depart_home
       - type: entities
         title: Light Automations
@@ -807,14 +815,14 @@ views:
           - automation.auto_set_bedroom_lights_830pm
           - automation.auto_set_bedroom_lights_5pm
          # - automation.dim_bedroom_appletv_playing
-          
+
       - type: entities
         title: Xiaomi Automations
         show_header_toggle: false
         entities:
           - automation.turn_off_bedtime_bool
           - input_boolean.bedtime_triggered
-          - automation.bed_single_click_4_lights 
+          - automation.bed_single_click_4_lights
           - automation.bed_single_click_2_lights
           - automation.bed_single_click_2_lights_on
           - automation.bed_double_click
@@ -829,7 +837,7 @@ views:
           - automation.loungeroom_long_click
           - automation.pantry_motion_on_light
           - automation.pantry_motion_off_light
-          
+
       - type: entities
         title: iOS Push
         show_header_toggle: false
@@ -837,7 +845,7 @@ views:
         - automation.ios_push_close_the_garage
         - automation.server_raid_low
         - automation.server_torrents_low
-          
+
   - title: Presence
     icon: mdi:account-multiple-check
     cards:
@@ -857,14 +865,14 @@ views:
         hours_to_show: 72
         entities:
           - device_tracker.ichicane
-          - input_boolean.dannyhome          
-          - device_tracker.lizsiphone 
+          - input_boolean.dannyhome
+          - device_tracker.lizsiphone
           - input_boolean.lizhome
 
-          
+
   - title: Batteries
     icon: mdi:battery-charging
-    cards:    
+    cards:
       - type: entities
         title: Xiaomi Batteries
         show_header_toggle: false
