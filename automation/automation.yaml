@@ -89,11 +89,6 @@
     entity_id: cover.garage_door
     state: 'open'
   action:
-#    service: notify.chicane_pushbullet
-#    data:
-#      title: 'Garage Door just opened and no-ones home!'
-#      message: "No-one's home, was that a mistake? You might want to close it :)"
-#      target: 'device/iChicane'
     service: notify.mobile_app_ichicane
     data:
       title: "Garage Doors still open and no-one's home!"
@@ -172,17 +167,7 @@
     condition: and
     conditions:
       - condition: template
-        #entity_id: sensor.bedroom_temperature
-        #below: {{ states.input_number.heater_on_below_temp.state }}
         value_template: "{% if states.sensor.bedroom_temperature.state | float < states.input_number.heater_on_below_temp.state | float %} true {% endif %}"
-#        weekday:
-#         - mon
-#         - tue
-#         - wed
-#         - thu
-#         - fri
-#         - sat
-#         - sun
       - condition: state
         entity_id: group.at_home
         state: 'home'
@@ -196,32 +181,13 @@
 
 - alias: 'Turn off Bedroom Heater when hot'
   trigger:
-    #platform: numeric_state
-    #entity_id: sensor.bedroom_temperature
-    #above: {{ states.input_number.heater_off_above_temp.state }}
     platform: template
     value_template: "{% if states.sensor.bedroom_temperature.state | float > states.input_number.heater_off_above_temp.state | float %} true {% endif %}"
   condition:
     condition: state
     entity_id: switch.bedroom_heater
     state: 'on'
-#  condition:
-#    condition: and
-#    conditions:
-#    - condition: time
-#      after: '21:00:00'
-#      before: '06:30:00'
-#      weekday:
-#       - mon
-#       - tue
-#       - wed
-#       - thu
-#       - fri
-#       - sat
-#       - sun
-#    - condition: state
-#      entity_id: group.at_home
-#      state: 'on'
+
   action:
     service: switch.turn_off
     entity_id: switch.bedroom_heater
@@ -252,9 +218,14 @@
     platform: time
     at: '04:30:00'
   condition:
-    condition: state
-    entity_id: switch.bedroom_heater
-    state: 'off'
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: switch.bedroom_heater
+        state: 'off'
+      - condition: state
+        entity_id: group.at_home
+        state: 'home'
   action:
     service: switch.turn_on
     entity_id: switch.bedroom_heater
@@ -376,21 +347,7 @@
 #        minutes: 1
   action:
     - service: scene.turn_on
-      entity_id: scene.lights_off  
-    #- service: light.turn_off
-    #  entity_id: light.kitchen
-    #- service: light.turn_off
-    #  entity_id: light.hallway
-    #- service: light.turn_off
-    #  entity_id: light.bedroom
-    #- service: light.turn_off
-    #  entity_id: light.loungeroom
-    #- service: switch.turn_off
-    #  entity_id: switch.coffee_machine
-    #- service: switch.turn_off
-    #  entity_id: switch.bedroom_heater
-    #- service: switch.turn_off
-    #  entity_id: switch.cooking_light
+      entity_id: scene.lights_off
 
 ###ARRIVE HOME###
 - alias: 'Arrive Home after dark'
@@ -407,26 +364,13 @@
   action:
     - service: scene.turn_on
       entity_id: scene.lights_on
-    #- service: light.turn_on
-    #  entity_id: light.kitchen
-    #  data:
-    #    brightness: 255
-    #    color_temp: 153
-    #- service: light.turn_on
-    #  entity_id: light.loungeroom
-    #  data:
-    #    brightness: 163
-    #    color_temp: 153
-    #- service: light.turn_on
-    #  entity_id: light.hallway
-    #  data:
-    #    brightness: 150
-    #    color_temp: 278
-#    - service: light.turn_on
-#      entity_id: light.bedroom
-#      data:
-#        brightness: 180
-#        color_temp: 278
+    - condition: time
+      weekday:
+        - fri
+        - sat
+    - service: light.turn_on
+      entity_id: light.Niche
+
 ###SUNSET###
 - alias: 'Sunset at home'
   #initial_state: True
@@ -446,21 +390,13 @@
   action:
     - service: scene.turn_on
       entity_id: scene.lights_on
-    #- service: light.turn_on
-    #  entity_id: light.kitchen
-    #  data:
-    #    brightness: 255
-    #    color_temp: 153
-    #- service: light.turn_on
-    #  entity_id: light.loungeroom
-    #  data:
-    #    brightness: 163
-    #    color_temp: 153
-    #- service: light.turn_on
-    #  entity_id: light.hallway
-    #  data:
-    #    brightness: 150
-    #    color_temp: 278
+    - condition: time
+      weekday:
+        - fri
+        - sat
+    - service: light.turn_on
+      entity_id: light.Niche
+
 
 - alias: 'Christmas Tree at home'
   #initial_state: True
@@ -738,9 +674,9 @@
     after_offset: "-00:45:00"
   action:
     - service: switch.turn_on
-      entity_id: switch.mozzie_zapper
-    - service: light.turn_on
-      entity_id: light.outside_real
+      entity_id:
+        - switch.mozzie_zapper
+        - light.outside_real
 #   - delay: '01:00:00'
 #   - condition: template
 #     value_template: '{{ (as_timestamp(now())-as_timestamp(states.binary_sensor.door_window_sensor_158d0002890d18.last_updated)) > 3300 }}'
@@ -848,11 +784,15 @@
     at: '00:00:01'
   action:
     - service: input_boolean.turn_off
-      entity_id: input_boolean.danny_bin_alerted
-    - service: input_boolean.turn_off
-      entity_id: input_boolean.liz_bin_alerted
-    - service: input_boolean.turn_off
-      entity_id: input_boolean.both_bin_alerted
+      entity_id:
+        - input_boolean.danny_bin_alerted
+        - input_boolean.liz_bin_alerted
+        - input_boolean.both_bin_alerted
+
+    # - service: input_boolean.turn_off
+    #   entity_id: input_boolean.liz_bin_alerted
+    # - service: input_boolean.turn_off
+    #   entity_id: input_boolean.both_bin_alerted
 
 - alias: 'Turn off bedtime bool'
   trigger:

@@ -6,3 +6,4 @@
 #Hallway: light.hallway, light.hue_ambiance_lamp_1, light.hue_ambiance_lamp_2
 At Home HomeKit: input_boolean.dannyhome, input_boolean.lizhome
 At Home: device_tracker.ichicane, device_tracker.lizsiphone
+Google Homes: media_player.kitchen_speaker, media_player.bedroom_speaker, media_player.outside_speaker

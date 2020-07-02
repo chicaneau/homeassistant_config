@@ -136,11 +136,11 @@ hue:
 # binary_sensor:
 #  - platform: huesensor
 
-xiaomi_aqara:
-  discovery_retry: 5
-  gateways:
-    - key: !secret xiaomi_key
-      host: !secret xiaomi_ip
+# xiaomi_aqara:
+  # discovery_retry: 5
+  # gateways:
+    # - key: !secret xiaomi_key
+      # host: !secret xiaomi_ip
 
 # Text to speech
 tts:
@@ -315,6 +315,22 @@ google_assistant:
       name: Kitchen Light
       expose: true
       room: Kitchen
+    light.dining_room:
+      name: Dining Light
+      expose: true
+      room: Dining Room
+    light.office:
+      name: Office Light
+      expose: true
+      room: Office
+    light.niche:
+      name: Niche Light
+      expose: true
+      room: Niche
+    light.outside:
+      name: Outside Light
+      expose: true
+      room: Outside
     scene.goodnight_scene:
       name: Goodnight
       expose: true
@@ -378,6 +394,7 @@ homekit:
       - sensor.bom_sunshine_coast_min_temp_c_5
       - sensor.bom_sunshine_coast_min_temp_c_6
       - sensor.bom_sunshine_coast_relative_humidity
+      - camera.bom_radar
 
     include_entities:
       - switch.cooking_light

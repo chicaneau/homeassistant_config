@@ -137,27 +137,6 @@
         brightness: 100
         color_temp: 278
 
-###BEDROOM LIGHT APPLETV###
-#- alias: 'Dim Bedroom AppleTV Playing'
-#  trigger:
-#    - platform: state
-#      entity_id: media_player.bedroom
-#      to: 'playing'
-#  condition:
-#    condition: and
-#    conditions:
-#      - condition: state
-#        entity_id: light.hue_ambiance_lamp_5
-#        state: 'on'
-#      - condition: template
-#        value_template: "{{ (state_attr('light.hue_ambiance_lamp_5', 'brightness')|int) > 50 }}"
-#  action:
-#    - service: light.turn_on
-#      data:
-#        entity_id: light.bedroom
-#        brightness: 1
-#        color_temp: 278
-
 ###BEDROOM MOTION###
 - alias: Bedroom Motion Main Lights
   trigger:
@@ -169,10 +148,9 @@
     condition: and
     conditions:
       - condition: state
-        entity_id: light.hue_ambiance_lamp_4
-        state: 'off'
-      - condition: state
-        entity_id: input_boolean.bedtime_triggered
+        entity_id:
+          - light.hue_ambiance_lamp_4
+          - input_boolean.bedtime_triggered
         state: 'off'
       #- condition: time
       #  before: '21:30:00'
@@ -241,72 +219,20 @@
     condition: and
     conditions:
       - condition: state
-        entity_id: light.hue_ambiance_lamp_4
+        entity_id:
+          - light.hue_ambiance_lamp_4
+          - light.hue_ambiance_lamp_6
         state: 'on'
       - condition: state
-        entity_id: light.hue_ambiance_lamp_6
-        state: 'on'
-      - condition: state
-        entity_id: light.hue_ambiance_lamp_3
-        state: 'off'
-      - condition: state
-        entity_id: light.hue_ambiance_lamp_5
+        entity_id:
+          - light.hue_ambiance_lamp_3
+          - light.hue_ambiance_lamp_5
         state: 'off'
   action:
     - service: light.toggle
       entity_id: light.hue_ambiance_lamp_4
     - service: light.toggle
       entity_id: light.hue_ambiance_lamp_6
-
-#- alias: Bed Single Click 4 lights
-#  trigger:
-#    - platform: event
-#      event_type: xiaomi_aqara.click
-#      event_data:
-#        #DANNY
-#        entity_id: binary_sensor.switch_158d00023e3e51
-#        click_type: single
-#    - platform: event
-#      event_type: xiaomi_aqara.click
-#      event_data:
-#        #LIZ
-#        entity_id: binary_sensor.switch_158d00023dc1df
-#        click_type: single
-#  condition:
-#    condition: or
-#    conditions:
-#      - condition: and
-#        conditions:
-#          - condition: state
-#            entity_id: light.hue_ambiance_lamp_4
-#            state: 'on'
-#          - condition: state
-#            entity_id: light.hue_ambiance_lamp_6
-#            state: 'on'
-#          - condition: state
-#            entity_id: light.hue_ambiance_lamp_3
-#            state: 'on'
-#          - condition: state
-#            entity_id: light.hue_ambiance_lamp_5
-#            state: 'on'
-#      - condition: and
-#        conditions:
-#          - condition: state
-#            entity_id: light.hue_ambiance_lamp_4
-#            state: 'off'
-#          - condition: state
-#            entity_id: light.hue_ambiance_lamp_6
-#            state: 'off'
-#          - condition: state
-#            entity_id: light.hue_ambiance_lamp_3
-#            state: 'off'
-#          - condition: state
-#            entity_id: light.hue_ambiance_lamp_5
-#            state: 'off'
-#  action:
-#    service: light.toggle
-#    entity_id: light.bedroom
-
 
 - alias: Bed Single Click 4 lights
   trigger:
@@ -328,30 +254,20 @@
       - condition: and
         conditions:
           - condition: state
-            entity_id: light.hue_ambiance_lamp_4
-            state: 'on'
-          - condition: state
-            entity_id: light.hue_ambiance_lamp_6
-            state: 'on'
-          - condition: state
-            entity_id: light.hue_ambiance_lamp_3
-            state: 'on'
-          - condition: state
-            entity_id: light.hue_ambiance_lamp_5
+            entity_id:
+              - light.hue_ambiance_lamp_4
+              - light.hue_ambiance_lamp_6
+              - light.hue_ambiance_lamp_3
+              - light.hue_ambiance_lamp_5
             state: 'on'
       - condition: and
         conditions:
           - condition: state
-            entity_id: light.hue_ambiance_lamp_4
-            state: 'off'
-          - condition: state
-            entity_id: light.hue_ambiance_lamp_6
-            state: 'off'
-          - condition: state
-            entity_id: light.hue_ambiance_lamp_3
-            state: 'off'
-          - condition: state
-            entity_id: light.hue_ambiance_lamp_5
+            entity_id:
+              - light.hue_ambiance_lamp_4
+              - light.hue_ambiance_lamp_6
+              - light.hue_ambiance_lamp_3
+              - light.hue_ambiance_lamp_5
             state: 'off'
           - condition: state
             entity_id: input_boolean.bedtime_triggered
@@ -465,3 +381,25 @@
   action:
     service: scene.turn_on
     entity_id: scene.bedtime_scene
+
+
+    ###BEDROOM LIGHT APPLETV###
+    #- alias: 'Dim Bedroom AppleTV Playing'
+    #  trigger:
+    #    - platform: state
+    #      entity_id: media_player.bedroom
+    #      to: 'playing'
+    #  condition:
+    #    condition: and
+    #    conditions:
+    #      - condition: state
+    #        entity_id: light.hue_ambiance_lamp_5
+    #        state: 'on'
+    #      - condition: template
+    #        value_template: "{{ (state_attr('light.hue_ambiance_lamp_5', 'brightness')|int) > 50 }}"
+    #  action:
+    #    - service: light.turn_on
+    #      data:
+    #        entity_id: light.bedroom
+    #        brightness: 1
+    #        color_temp: 278

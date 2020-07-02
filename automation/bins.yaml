@@ -76,7 +76,7 @@
   action:
     - service: tts.google_translate_say
       data:
-        entity_id: "all"
+        entity_id: group.google_homes
         message: "Good Afternoon, today is Recycling Bin day"
     - service: input_boolean.turn_on
       entity_id: input_boolean.both_bin_alerted
@@ -164,7 +164,7 @@
   action:
     - service: tts.google_translate_say
       data:
-        entity_id: "all"
+        entity_id: group.google_homes
         message: "Good Afternoon, today is Normal Bin day"
     - service: input_boolean.turn_on
       entity_id: input_boolean.both_bin_alerted
@@ -238,7 +238,7 @@
   action:
     - service: tts.google_translate_say
       data:
-        entity_id: "all"
+        entity_id: group.google_homes
         message: "Good Afternoon, today is Recycling Bin day"
     - service: input_boolean.turn_on
       entity_id: input_boolean.both_bin_alerted
@@ -317,7 +317,7 @@
   action:
     - service: tts.google_translate_say
       data:
-        entity_id: "all"
+        entity_id: group.google_homes
         message: "Good Afternoon, today is Normal Bin day"
     - service: input_boolean.turn_on
       entity_id: input_boolean.both_bin_alerted
