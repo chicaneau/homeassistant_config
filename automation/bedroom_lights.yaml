@@ -75,7 +75,7 @@
 - alias: Bedroom Motion Main Lights
   trigger:
     platform: state
-    entity_id: binary_sensor.motion_sensor_158d000291042d
+    entity_id: binary_sensor.motion_sensor_bedroom
     from: 'off'
     to: 'on'
   condition:
@@ -99,7 +99,7 @@
 - alias: Bedroom Motion Off Main Lights
   trigger:
     platform: state
-    entity_id: binary_sensor.motion_sensor_158d000291042d
+    entity_id: binary_sensor.motion_sensor_bedroom
     from: 'on'
     to: 'off'
     for: '00:10:00'
@@ -119,7 +119,7 @@
 - alias: Bedroom Motion Bathroom Light
   trigger:
     platform: state
-    entity_id: binary_sensor.motion_sensor_158d000291042d
+    entity_id: binary_sensor.motion_sensor_bedroom
     from: 'off'
     to: 'on'
   condition:
@@ -128,10 +128,10 @@
     before: '06:30:00'
   action:
     - service: light.turn_on
-      entity_id: light.gateway_light_7c49ebb0d82c
+      entity_id: light.bathroom
     - delay: '00:03:00'
     - service: light.turn_off
-      entity_id: light.gateway_light_7c49ebb0d82c
+      entity_id: light.bathroom
 
 ###BEDROOM SWITCHES###
 
@@ -141,13 +141,13 @@
       event_type: xiaomi_aqara.click
       event_data:
         #DANNY
-        entity_id: binary_sensor.switch_158d00023e3e51
+        entity_id: binary_sensor.switch_danny_bed
         click_type: single
     - platform: event
       event_type: xiaomi_aqara.click
       event_data:
         #LIZ
-        entity_id: binary_sensor.switch_158d00023dc1df
+        entity_id: binary_sensor.switch_liz_bed
         click_type: single
   condition:
     condition: and
@@ -174,13 +174,13 @@
       event_type: xiaomi_aqara.click
       event_data:
         #DANNY
-        entity_id: binary_sensor.switch_158d00023e3e51
+        entity_id: binary_sensor.switch_danny_bed
         click_type: single
     - platform: event
       event_type: xiaomi_aqara.click
       event_data:
         #LIZ
-        entity_id: binary_sensor.switch_158d00023dc1df
+        entity_id: binary_sensor.switch_liz_bed
         click_type: single
   condition:
     condition: or
@@ -216,13 +216,13 @@
       event_type: xiaomi_aqara.click
       event_data:
         #DANNY
-        entity_id: binary_sensor.switch_158d00023e3e51
+        entity_id: binary_sensor.switch_danny_bed
         click_type: single
     - platform: event
       event_type: xiaomi_aqara.click
       event_data:
         #LIZ
-        entity_id: binary_sensor.switch_158d00023dc1df
+        entity_id: binary_sensor.switch_liz_bed
         click_type: single
   condition:
     condition: and
@@ -257,13 +257,13 @@
       event_type: xiaomi_aqara.click
       event_data:
         # DANNY
-        entity_id: binary_sensor.switch_158d00023e3e51
+        entity_id: binary_sensor.switch_danny_bed
         click_type: double
     - platform: event
       event_type: xiaomi_aqara.click
       event_data:
         # LIZ
-        entity_id: binary_sensor.switch_158d00023dc1df
+        entity_id: binary_sensor.switch_liz_bed
         click_type: double
   condition:
     condition: and
@@ -291,13 +291,13 @@
       event_type: xiaomi_aqara.click
       event_data:
         # DANNY
-        entity_id: binary_sensor.switch_158d00023e3e51
+        entity_id: binary_sensor.switch_danny_bed
         click_type: double
     - platform: event
       event_type: xiaomi_aqara.click
       event_data:
         # LIZ
-        entity_id: binary_sensor.switch_158d00023dc1df
+        entity_id: binary_sensor.switch_liz_bed
         click_type: double
   condition:
     condition: and

@@ -52,19 +52,19 @@ script.harm_living_turn_off:
   homebridge_hidden: true
 sensor.bom_sunshine_coast_pressure_msl:
   unit_of_measurement: hPa
-binary_sensor.switch_158d00023e3e51:
+binary_sensor.switch_danny_bed:
   friendly_name: Danny Bed
-binary_sensor.switch_158d00023dc1df:
+binary_sensor.switch_liz_bed:
   friendly_name: Liz Bed
-binary_sensor.switch_158d000285fb3b:
+binary_sensor.switch_loungeroom:
   friendly_name: Loungeroom
-binary_sensor.motion_sensor_158d000291042d:
+binary_sensor.motion_sensor_bedroom:
   friendly_name: Bedroom Motion
-binary_sensor.door_window_sensor_158d0002890d18:
+binary_sensor.door_outside_rear:
   friendly_name: Door Sensor 1
-light.gateway_light_7c49ebb0d82c:
+light.bathroom:
   friendly_name: Bathroom Light
-sensor.humidity_158d00023d043d:
+sensor.outside_humidity:
   friendly_name: Outside Humidity
 sensor.hacs:
   friendly_name: HACS Package Updates

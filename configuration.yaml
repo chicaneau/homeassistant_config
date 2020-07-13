@@ -348,11 +348,11 @@ google_assistant:
 homekit:
   auto_start: false
   entity_config:
-    sensor.temperature_158d00023d043d:
+    sensor.outside_temperature:
       name: Outside Temperature
-    sensor.humidity_158d00023d043d:
+    sensor.outside_humidity:
       name: Outside Humidity
-    binary_sensor.door_window_sensor_158d0002890d18:
+    binary_sensor.door_outside_rear:
       name: Outside Door
     switch.mozzie_zapper:
       type: outlet
@@ -398,8 +398,8 @@ homekit:
 
     include_entities:
       - switch.cooking_light
-      - light.gateway_light_7c49ebb0d82c
-      - binary_sensor.door_window_sensor_158d0002890d18
+      - light.bathroom
+      - binary_sensor.door_outside_rear
       - light.loungeroom_1
       - light.loungeroom_2
       - light.loungeroom_3

@@ -80,7 +80,7 @@ views:
         - type: light
           entity: light.pantry
         - type: light
-          entity: light.gateway_light_7c49ebb0d82c
+          entity: light.bathroom
       - type: horizontal-stack
         cards:
         - type: light
@@ -182,7 +182,7 @@ views:
         - type: custom:mini-graph-card
           name: Outside
           entities:
-            - entity: sensor.temperature_158d00023d043d
+            - entity: sensor.outside_temperature
           hours_to_show: 72
           points_per_hour: 2
           color_thresholds:
@@ -291,11 +291,11 @@ views:
       cards:
         - type: glance
           entities:
-            - entity: binary_sensor.door_window_sensor_158d0002890d18
+            - entity: binary_sensor.door_outside_rear
               name: Back Door
               show_state: false
               icon: mdi:door
-            - entity: binary_sensor.motion_sensor_158d000291042d
+            - entity: binary_sensor.motion_sensor_bedroom
               name: Bedroom Motion
               show_state: false
             - entity: binary_sensor.motion_sensor_pantry
@@ -409,7 +409,7 @@ views:
         entities:
           - light.bedroom
           - light.bedroom_night_lamps
-          - light.gateway_light_7c49ebb0d82c
+          - light.bathroom
           - switch.bedroom_heater
           - sensor.bedroom_temperature
           - sensor.bedroom_temp_feels_like
@@ -453,9 +453,9 @@ views:
         show_header_toggle: true
         entities:
           - switch.mozzie_zapper
-          - sensor.temperature_158d00023d043d
+          - sensor.outside_temperature
           - sensor.outside_temp_feels_like
-          - sensor.humidity_158d00023d043d
+          - sensor.outside_humidity
           - sensor.outside_door
 
       - type: entities
@@ -564,7 +564,7 @@ views:
             name: Office
           - entity: sensor.garage_temperature
             name: Garage
-          - entity: sensor.temperature_158d00023d043d
+          - entity: sensor.outside_temperature
             name: Outside
           - entity: sensor.bom_sunshine_coast_air_temp_c
             name: BOM Sunshine Coast
@@ -581,7 +581,7 @@ views:
             name: Office
           - entity: sensor.garage_humidity
             name: Garage
-          - entity: sensor.humidity_158d00023d043d
+          - entity: sensor.outside_humidity
             name: Outside
           - entity: sensor.bom_sunshine_coast_relative_humidity
             name: BOM Sunshine Coast
@@ -656,7 +656,7 @@ views:
             name: Office
           - entity: sensor.garage_temperature
             name: Garage
-          - entity: sensor.temperature_158d00023d043d
+          - entity: sensor.outside_temperature
             name: Outside
           - entity: sensor.bom_sunshine_coast_air_temp_c
             name: BOM Sunshine Coast
@@ -673,7 +673,7 @@ views:
             name: Office
           - entity: sensor.garage_humidity
             name: Garage
-          - entity: sensor.humidity_158d00023d043d
+          - entity: sensor.outside_humidity
             name: Outside
           - entity: sensor.bom_sunshine_coast_relative_humidity
             name: BOM Sunshine Coast

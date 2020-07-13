@@ -469,7 +469,7 @@
       event_type: xiaomi_aqara.click
       event_data:
         #DANNY
-        entity_id: binary_sensor.switch_158d000285fb3b
+        entity_id: binary_sensor.switch_loungeroom
         click_type: single
   action:
     - service: light.toggle
@@ -483,7 +483,7 @@
       event_type: xiaomi_aqara.click
       event_data:
         #DANNY
-        entity_id: binary_sensor.switch_158d000285fb3b
+        entity_id: binary_sensor.switch_loungeroom
         click_type: long_click_press
   action:
     - service: light.turn_on
@@ -650,7 +650,7 @@
       event_type: xiaomi_aqara.click
       event_data:
         #DANNY
-        entity_id: binary_sensor.switch_158d000285fb3b
+        entity_id: binary_sensor.switch_loungeroom
         click_type: double
   action:
     - service: light.turn_on
@@ -665,7 +665,7 @@
 - alias: Open Loungeroom Door
   trigger:
     platform: state
-    entity_id: binary_sensor.door_window_sensor_158d0002890d18
+    entity_id: binary_sensor.door_outside_rear
     from: 'off'
     to: 'on'
   condition:
@@ -674,19 +674,19 @@
     after_offset: "-00:45:00"
   action:
     - service: switch.turn_on
-      entity_id:
-        - switch.mozzie_zapper
-        - light.outside_real
+      entity_id: switch.mozzie_zapper
+    - service: light.turn_on
+      entity_id: light.outside_real
 #   - delay: '01:00:00'
 #   - condition: template
-#     value_template: '{{ (as_timestamp(now())-as_timestamp(states.binary_sensor.door_window_sensor_158d0002890d18.last_updated)) > 3300 }}'
+#     value_template: '{{ (as_timestamp(now())-as_timestamp(states.binary_sensor.door_outside_rear.last_updated)) > 3300 }}'
 #   - service: switch.turn_off
 #     entity_id: switch.mozzie_zapper
     ##3600 = 1 hour
 - alias: Close Loungeroom Door
   trigger:
     platform: state
-    entity_id: binary_sensor.door_window_sensor_158d0002890d18
+    entity_id: binary_sensor.door_outside_rear
     from: 'on'
     to: 'off'
     for:
@@ -702,7 +702,7 @@
 - alias: Close Loungeroom Door for Light
   trigger:
     platform: state
-    entity_id: binary_sensor.door_window_sensor_158d0002890d18
+    entity_id: binary_sensor.door_outside_rear
     from: 'on'
     to: 'off'
     for:
@@ -755,7 +755,7 @@
           false
         {% elif not states.light.kitchen_2 %}
           false
-        {% elif not states.light.gateway_light_7c49ebb0d82c %}
+        {% elif not states.light.bathroom %}
           false
         # Repeat for every entity
         {% else %}
@@ -764,7 +764,7 @@
       timeout: 00:02  # Waits 2 minutes
       continue_on_timeout: false
 #    - condition: template
-#      value_template: "{{ states('light.gateway_light_7c49ebb0d82c') != 'unknown' }}"
+#      value_template: "{{ states('light.bathroom') != 'unknown' }}"
     - service: homekit.start
 
 - alias: 'Restart HASS if xiaomi fails at startup'
@@ -775,7 +775,7 @@
   action:
     - delay: "00:02:05"
     - condition: template
-      value_template: "{{ states('light.gateway_light_7c49ebb0d82c') == 'unknown' }}"
+      value_template: "{{ states('light.bathroom') == 'unknown' }}"
     - service: homeassistant.restart
 
 - alias: 'Turn off bin alert bools'

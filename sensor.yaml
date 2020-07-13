@@ -167,28 +167,28 @@
   name: Loungeroom Mould
   indoor_temp_sensor: sensor.loungeroom_temperature
   indoor_humidity_sensor: sensor.loungeroom_humidity
-  outdoor_temp_sensor: sensor.temperature_158d00023d043d
+  outdoor_temp_sensor: sensor.outside_temperature
   calibration_factor: 2
 
 - platform: mold_indicator
   name: Bedroom Mould
   indoor_temp_sensor: sensor.bedroom_temperature
   indoor_humidity_sensor: sensor.bedroom_humidity
-  outdoor_temp_sensor: sensor.temperature_158d00023d043d
+  outdoor_temp_sensor: sensor.outside_temperature
   calibration_factor: 2
 
 - platform: mold_indicator
   name: Office Mould
   indoor_temp_sensor: sensor.office_temperature
   indoor_humidity_sensor: sensor.office_humidity
-  outdoor_temp_sensor: sensor.temperature_158d00023d043d
+  outdoor_temp_sensor: sensor.outside_temperature
   calibration_factor: 2
 
 - platform: mold_indicator
   name: Garage Mould
   indoor_temp_sensor: sensor.garage_temperature
   indoor_humidity_sensor: sensor.garage_humidity
-  outdoor_temp_sensor: sensor.temperature_158d00023d043d
+  outdoor_temp_sensor: sensor.outside_temperature
   calibration_factor: 2
 
 - platform: version
@@ -396,17 +396,17 @@
       outside_door:
         friendly_name: Outside Door
         value_template: >-
-          {% if is_state('binary_sensor.door_window_sensor_158d0002890d18', 'off') %}
+          {% if is_state('binary_sensor.door_outside_rear', 'off') %}
             Closed
-          {% elif is_state('binary_sensor.door_window_sensor_158d0002890d18', 'on') %}
+          {% elif is_state('binary_sensor.door_outside_rear', 'on') %}
             Open
           {% else %}
             failed
           {% endif %}
         icon_template: >-
-          {% if is_state('binary_sensor.door_window_sensor_158d0002890d18', 'off') %}
+          {% if is_state('binary_sensor.door_outside_rear', 'off') %}
             mdi:door-closed
-          {% elif is_state('binary_sensor.door_window_sensor_158d0002890d18', 'on') %}
+          {% elif is_state('binary_sensor.door_outside_rear', 'on') %}
             mdi:door-open
           {% endif %}
 
@@ -443,10 +443,10 @@
       outside_temp_feels_like:
           friendly_name: 'Outside Temp Feels Like'
           value_template: >-
-           {% if (states.sensor.temperature_158d00023d043d.state|float > 27 and states.sensor.humidity_158d00023d043d.state|float > 40) %}
-            {{ (((-42.379 + (2.04901523 * (states.sensor.temperature_158d00023d043d.state|float * 1.8 + 32)|float) + (10.14333127 * (states.sensor.humidity_158d00023d043d.state)|float) + (-0.22475541 * (states.sensor.temperature_158d00023d043d.state|float * 1.8 + 32)|float * (states.sensor.humidity_158d00023d043d.state)|float) + ((-6.83783*(10**-3)) * ((states.sensor.temperature_158d00023d043d.state|float * 1.8 + 32)|float**2)) + ((-5.481717*(10**-2)) * ((states.sensor.humidity_158d00023d043d.state)|float**2)) + ((1.22874*(10**-3)) * ((states.sensor.temperature_158d00023d043d.state|float * 1.8 + 32)|float**2) * (states.sensor.humidity_158d00023d043d.state)|float) + ((8.5282*(10**-4)) * (states.sensor.temperature_158d00023d043d.state|float * 1.8 + 32)|float * ((states.sensor.humidity_158d00023d043d.state)|float**2)) + ((-1.99*(10**-6)) * ((states.sensor.temperature_158d00023d043d.state|float * 1.8 + 32)|float**2) * ((states.sensor.humidity_158d00023d043d.state)|float**2)))|float - 32) * 5 / 9)|round(2) }}
+           {% if (states.sensor.outside_temperature.state|float > 27 and states.sensor.outside_humidity.state|float > 40) %}
+            {{ (((-42.379 + (2.04901523 * (states.sensor.outside_temperature.state|float * 1.8 + 32)|float) + (10.14333127 * (states.sensor.outside_humidity.state)|float) + (-0.22475541 * (states.sensor.outside_temperature.state|float * 1.8 + 32)|float * (states.sensor.outside_humidity.state)|float) + ((-6.83783*(10**-3)) * ((states.sensor.outside_temperature.state|float * 1.8 + 32)|float**2)) + ((-5.481717*(10**-2)) * ((states.sensor.outside_humidity.state)|float**2)) + ((1.22874*(10**-3)) * ((states.sensor.outside_temperature.state|float * 1.8 + 32)|float**2) * (states.sensor.outside_humidity.state)|float) + ((8.5282*(10**-4)) * (states.sensor.outside_temperature.state|float * 1.8 + 32)|float * ((states.sensor.outside_humidity.state)|float**2)) + ((-1.99*(10**-6)) * ((states.sensor.outside_temperature.state|float * 1.8 + 32)|float**2) * ((states.sensor.outside_humidity.state)|float**2)))|float - 32) * 5 / 9)|round(2) }}
            {% else %}
-            {{ states.sensor.temperature_158d00023d043d.state|round(2) }}
+            {{ states.sensor.outside_temperature.state|round(2) }}
            {% endif %}
           unit_of_measurement: "°C"
 
@@ -477,7 +477,7 @@
 
       battery_bedroom_motion:
         friendly_name: "Bedroom Motion Sensor"
-        value_template: "{{ states.binary_sensor.motion_sensor_158d000291042d.attributes.battery_level }}"
+        value_template: "{{ states.binary_sensor.motion_sensor_bedroom.attributes.battery_level }}"
         device_class: battery
         unit_of_measurement: "%"
       battery_pantry_motion:
@@ -487,27 +487,27 @@
         unit_of_measurement: "%"
       battery_danny_bed_switch:
         friendly_name: "Bedroom Danny Bed Switch"
-        value_template: "{{ states.binary_sensor.switch_158d00023e3e51.attributes.battery_level }}"
+        value_template: "{{ states.binary_sensor.switch_danny_bed.attributes.battery_level }}"
         device_class: battery
         unit_of_measurement: "%"
       battery_liz_bed_switch:
         friendly_name: "Bedroom Liz Bed Switch"
-        value_template: "{{ states.binary_sensor.switch_158d00023dc1df.attributes.battery_level }}"
+        value_template: "{{ states.binary_sensor.switch_liz_bed.attributes.battery_level }}"
         device_class: battery
         unit_of_measurement: "%"
       battery_loungeroom_switch:
         friendly_name: "Loungeroom Switch"
-        value_template: "{{ states.binary_sensor.switch_158d000285fb3b.attributes.battery_level }}"
+        value_template: "{{ states.binary_sensor.switch_loungeroom.attributes.battery_level }}"
         device_class: battery
         unit_of_measurement: "%"
       battery_outside_door_sensor:
         friendly_name: "Outside Door Sensor"
-        value_template: "{{ states.binary_sensor.door_window_sensor_158d0002890d18.attributes.battery_level }}"
+        value_template: "{{ states.binary_sensor.door_outside_rear.attributes.battery_level }}"
         device_class: battery
         unit_of_measurement: "%"
       battery_outside_temp_sensor:
         friendly_name: "Outside Temp Sensor"
-        value_template: "{{ states.sensor.temperature_158d00023d043d.attributes.battery_level }}"
+        value_template: "{{ states.sensor.outside_temperature.attributes.battery_level }}"
         device_class: battery
         unit_of_measurement: "%"
 
