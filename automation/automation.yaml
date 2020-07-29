@@ -720,6 +720,41 @@
     - service: light.turn_off
       entity_id: light.outside_real
 
+- alias: Turn On Dannys PC
+  trigger:
+    platform: state
+    entity_id: switch.danny_s_pc
+    from: 'off'
+    to: 'on'
+  condition:
+    condition: and
+    conditions:
+      - condition: sun
+        after: sunset
+        after_offset: "-00:45:00"
+      - condition: state
+        entity_id: group.at_home
+        state: 'home'
+  action:
+    - service: light.turn_on
+      entity_id: light.office
+
+- alias: Turn Off Dannys PC
+  trigger:
+    platform: state
+    entity_id: switch.danny_s_pc
+    from: 'on'
+    to: 'off'
+  condition:
+    condition: and
+    conditions:
+      - condition: sun
+        after: sunset
+        after_offset: "-00:45:00"
+  action:
+    - service: light.turn_off
+      entity_id: light.office
+
 ###TASMOTA/SONOFF###
 #- alias: Auto On Office Tasmota
 #  trigger:

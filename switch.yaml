@@ -51,3 +51,15 @@
           service: switch.turn_off
           data:
             entity_id: switch.bedroom_heater
+
+# Circadian Lighting
+  - platform: circadian_lighting
+    name: Loungeroom
+    lights_ct:
+      - light.loungeroom
+  - platform: circadian_lighting
+    name: Bedroom
+    lights_ct:
+      - light.bedroom
+    disable_entity: input_boolean.bedtime_triggered
+    disable_state: on

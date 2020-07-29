@@ -196,6 +196,8 @@ climate: !include climate.yaml
 
 group: !include groups.yaml
 
+circadian_lighting:
+
 cover:
   - platform: mqtt
     name: 'Garage Door'

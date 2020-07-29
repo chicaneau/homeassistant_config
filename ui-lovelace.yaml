@@ -92,6 +92,18 @@ views:
         - type: light
           entity: light.outside
 
+      - type: vertical-stack
+        title: Circadian Lighting
+        cards:
+        - type: horizontal-stack
+          cards:
+          - type: button
+            entity: switch.circadian_lighting_loungeroom
+            icon: mdi:theme-light-dark
+          - type: button
+            entity: switch.circadian_lighting_bedroom
+            icon: mdi:theme-light-dark
+
     - type: vertical-stack
       title: "Switches"
       cards:
@@ -814,6 +826,8 @@ views:
           - automation.auto_reset_bedroom_lights_830pm_5am
           - automation.auto_set_bedroom_lights_830pm
           - automation.auto_set_bedroom_lights_5pm
+          - automation.turn_off_dannys_pc
+          - automation.turn_on_dannys_pc
          # - automation.dim_bedroom_appletv_playing
 
       - type: entities
