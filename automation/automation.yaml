@@ -720,6 +720,39 @@
     - service: light.turn_off
       entity_id: light.outside_real
 
+- alias: Turn off Cooking Light
+  trigger:
+    platform: state
+    entity_id: switch.cooking_light
+    from: 'on'
+    to: 'off'
+  condition:
+    condition: state
+    entity_id: light.kitchen
+    state: "on"
+  action:
+    - service: switch.turn_on
+      entity_id: switch.circadian_lighting_kitchen
+
+- alias: Turn on Cooking Light
+  trigger:
+    platform: state
+    entity_id: switch.cooking_light
+    from: 'off'
+    to: 'on'
+  condition:
+    condition: state
+    entity_id: light.kitchen
+    state: "on"
+  action:
+    - service: switch.turn_off
+      entity_id: switch.circadian_lighting_kitchen
+    - service: light.turn_on
+      data:
+        entity_id: light.kitchen
+        brightness: 255
+        color_temp: 153
+
 - alias: Turn On Dannys PC
   trigger:
     platform: state
@@ -836,6 +869,12 @@
   action:
     - service: input_boolean.turn_off
       entity_id: input_boolean.bedtime_triggered
+    - service: switch.turn_on
+      entity_id:
+        - switch.circadian_lighting_kitchen
+        - switch.circadian_lighting_bedroom
+        - switch.circadian_lighting_hallway
+        - switch.circadian_lighting_loungeroom
 
 
 #Roku Emulations

@@ -26,7 +26,6 @@
       supported_features: 43
     light.hue_ambiance_lamp_4:
       brightness: 2
-      color_temp: 278
       friendly_name: Bedroom 1
       max_mireds: 454
       min_mireds: 153
@@ -40,7 +39,6 @@
       supported_features: 43
     light.hue_ambiance_lamp_6:
       brightness: 2
-      color_temp: 278
       friendly_name: Bedroom 2
       max_mireds: 454
       min_mireds: 153
@@ -124,6 +122,8 @@
       supported_features: 0
     switch.mozzie_zapper:
       friendly_name: Mozzie Zapper
+      state: 'off'
+    switch.circadian_lighting_bedroom:
       state: 'off'
 - id: '1576734523139'
   name: Goodnight

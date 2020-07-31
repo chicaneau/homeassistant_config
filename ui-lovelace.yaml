@@ -103,7 +103,12 @@ views:
           - type: button
             entity: switch.circadian_lighting_bedroom
             icon: mdi:theme-light-dark
-
+          - type: button
+            entity: switch.circadian_lighting_kitchen
+            icon: mdi:theme-light-dark
+          - type: button
+            entity: switch.circadian_lighting_hallway
+            icon: mdi:theme-light-dark
     - type: vertical-stack
       title: "Switches"
       cards:

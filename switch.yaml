@@ -63,3 +63,11 @@
       - light.bedroom
     disable_entity: input_boolean.bedtime_triggered
     disable_state: on
+  - platform: circadian_lighting
+    name: Kitchen
+    lights_ct:
+      - light.kitchen
+  - platform: circadian_lighting
+    name: Hallway
+    lights_ct:
+      - light.hallway
