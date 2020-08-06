@@ -1,11 +1,11 @@
 # chicane's home assistant build
 
-### Purpose
+## Purpose
 This is a dump of my deidentified home assistant build.
 
 The public is welcome to use any part of the config :)
 
-# Cool Concepts
+### Cool Concepts
 Garage Build
 Circadian Lighting
 Bedroom lights converted to "lamps"
