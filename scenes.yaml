@@ -248,6 +248,8 @@
     switch.mozzie_zapper:
       friendly_name: Mozzie Zapper
       state: 'off'
+    switch.circadian_lighting_bedroom:
+      state: 'off'
 - id: '1589517046897'
   name: Gaming Time
   entities:
@@ -375,6 +377,8 @@
     switch.mozzie_zapper:
       friendly_name: Mozzie Zapper
       state: 'off'
+    switch.circadian_lighting_bedroom:
+      state: 'off'      
 - id: '1591523295189'
   name: Lights On
   entities:

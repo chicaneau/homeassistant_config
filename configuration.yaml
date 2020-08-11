@@ -360,6 +360,16 @@ homekit:
       type: outlet
     switch.cooking_light:
       type: outlet
+    switch.circadian_lighting_bedroom:
+      name: Bedroom Circadian
+    switch.circadian_lighting_kitchen:
+      name: Kitchen Circadian
+    switch.circadian_lighting_loungeroom:
+      name: Loungeroom Circadian
+    switch.circadian_lighting_hallway:
+      name: Hallway Circadian
+
+
   filter:
     exclude_domains:
       - automation
@@ -368,6 +378,10 @@ homekit:
       - remote
       - binary_sensor
     exclude_entities:
+      #- switch.circadian_lighting_hallway
+      #- switch.circadian_lighting_loungeroom
+      #- switch.circadian_lighting_kitchen
+      #- switch.circadian_lighting_bedroom
       - input_boolean.danny_bin_alerted
       - input_boolean.liz_bin_alerted
       - input_boolean.both_bin_alerted

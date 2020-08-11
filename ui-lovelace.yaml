@@ -516,8 +516,8 @@ views:
         title: Phones
         show_header_toggle: false
         entities:
-          - sensor.battery_level_ichicane
-          - sensor.battery_state_ichicane
+          - sensor.ichicane_battery_level
+          - sensor.ichicane_battery_state
           - sensor.battery_level_chicanepad
           - sensor.battery_state_chicanepad
           - sensor.battery_level_lizsiphone
