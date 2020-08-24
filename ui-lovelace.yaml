@@ -518,10 +518,10 @@ views:
         entities:
           - sensor.ichicane_battery_level
           - sensor.ichicane_battery_state
-          - sensor.battery_level_chicanepad
-          - sensor.battery_state_chicanepad
-          - sensor.battery_level_lizsiphone
-          - sensor.battery_state_lizsiphone
+          - sensor.chicanepad_battery_level
+          - sensor.chicanepad_battery_state
+          - sensor.duffel_battery_level
+          - sensor.duffel_battery_state
       - type: entities
         title: Bins
         show_header_toggle: false
@@ -872,8 +872,8 @@ views:
         title: At Home iOS App
         show_header_toggle: true
         entities:
-          - device_tracker.ichicane
-          - device_tracker.lizsiphone
+          - person.danny
+          - person.liz
       - type: entities
         title: At Home HomeKit
         show_header_toggle: true
@@ -883,9 +883,9 @@ views:
       - type: history-graph
         hours_to_show: 72
         entities:
-          - device_tracker.ichicane
+          - person.danny
           - input_boolean.dannyhome
-          - device_tracker.lizsiphone
+          - person.liz
           - input_boolean.lizhome
 
 

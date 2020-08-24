@@ -5,5 +5,5 @@
 #Kitchen: switch.coffee_machine, light.kitchen, switch.mozzie_zapper
 #Hallway: light.hallway, light.hue_ambiance_lamp_1, light.hue_ambiance_lamp_2
 At Home HomeKit: input_boolean.dannyhome, input_boolean.lizhome
-At Home: device_tracker.ichicane, device_tracker.lizsiphone
+At Home: person.danny, person.liz
 Google Homes: media_player.kitchen_speaker, media_player.bedroom_speaker, media_player.outside_speaker
