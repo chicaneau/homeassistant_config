@@ -665,7 +665,7 @@
 - alias: Open Loungeroom Door
   trigger:
     platform: state
-    entity_id: binary_sensor.door_outside_rear
+    entity_id: group.back_door
     from: 'off'
     to: 'on'
   condition:
@@ -686,7 +686,7 @@
 - alias: Close Loungeroom Door
   trigger:
     platform: state
-    entity_id: binary_sensor.door_outside_rear
+    entity_id: group.back_door
     from: 'on'
     to: 'off'
     for:
@@ -702,7 +702,7 @@
 - alias: Close Loungeroom Door for Light
   trigger:
     platform: state
-    entity_id: binary_sensor.door_outside_rear
+    entity_id: group.back_door
     from: 'on'
     to: 'off'
     for:

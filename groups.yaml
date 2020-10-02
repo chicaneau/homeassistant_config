@@ -7,3 +7,9 @@
 At Home HomeKit: input_boolean.dannyhome, input_boolean.lizhome
 At Home: person.danny, person.liz
 Google Homes: media_player.kitchen_speaker, media_player.bedroom_speaker, media_player.outside_speaker
+Back Door:
+  entities:
+    - binary_sensor.door_outside_screen
+    - binary_sensor.door_outside_rear
+  all: true
+  icon: mdi:door

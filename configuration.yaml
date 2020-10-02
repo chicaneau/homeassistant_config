@@ -133,6 +133,22 @@ hue:
       allow_unreachable: true
       allow_hue_groups: true
 
+binary_sensor:
+  - platform: bayesian
+    name: "Danny Home Bayesian"
+    prior: 0.5
+    observations:
+      - entity_id: 'device_tracker.ichicane'
+        prob_given_true: 1
+        prob_given_false: 0.2
+        platform: 'state'
+        to_state: 'home'
+      - entity_id: 'input_boolean.dannyhome'
+        prob_given_true: 1
+        prob_given_false: 0.2
+        platform: 'state'
+        to_state: 'on'
+
 # binary_sensor:
 #  - platform: huesensor
 
