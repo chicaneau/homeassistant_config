@@ -821,7 +821,7 @@
         state: "on"
 
       - condition: template
-        value_template: "{{ (((trigger.event.data.old_state.attributes.brightness - trigger.event.data.new_state.attributes.brightness) | abs) > 10) and (as_timestamp(now()) - as_timestamp(states.switch.circadian_lighting_bedroom.last_changed) > 2) and (as_timestamp(now()) - as_timestamp(states.automation.arrive_home_after_dark.attributes.last_triggered) > 4) and (as_timestamp(now()) - as_timestamp(states.automation.sunset_at_home.attributes.last_triggered) > 4) }}"
+        value_template: "{{ (((trigger.event.data.old_state.attributes.brightness - trigger.event.data.new_state.attributes.brightness) | abs) > 10) and (as_timestamp(now()) - as_timestamp(states.switch.circadian_lighting_bedroom.last_changed) > 2) and (as_timestamp(now()) - as_timestamp(states.automation.bedroom_motion_main_lights.attributes.last_triggered) > 4) }}"
 
         ##  {% if states.automation.change_bedroom_light_brightness.attributes.last_triggered != None %}
                     ##  {% elif states.automation.change_bedroom_light_brightness.attributes.last_triggered == None %}
