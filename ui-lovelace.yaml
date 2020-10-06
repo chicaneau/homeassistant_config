@@ -109,6 +109,16 @@ views:
           - type: button
             entity: switch.circadian_lighting_hallway
             icon: mdi:theme-light-dark
+      - type: history-graph
+        #title: Temperature Graph
+        hours_to_show: 36
+        refresh_interval: 1
+        entities:
+          - switch.circadian_lighting_bedroom
+          - switch.circadian_lighting_loungeroom
+          - switch.circadian_lighting_kitchen
+          - switch.circadian_lighting_hallway
+
     - type: vertical-stack
       title: "Switches"
       cards:
@@ -833,6 +843,10 @@ views:
           - automation.auto_set_bedroom_lights_5pm
           - automation.turn_off_dannys_pc
           - automation.turn_on_dannys_pc
+          - automation.change_bedroom_light_brightness
+          - automation.change_hallway_light_brightness
+          - automation.change_kitchen_light_brightness
+          - automation.change_loungeroom_light_brightness
          # - automation.dim_bedroom_appletv_playing
 
       - type: entities

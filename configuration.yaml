@@ -292,6 +292,11 @@ input_number:
     unit_of_measurement: "°C"
     icon: mdi:hot-tub
 
+  test_num:
+    name: "test num"
+    min: 0
+    max: 255
+
 google_assistant:
   project_id: hass-cc443
   service_account: !include HASS-66445e08203e.json

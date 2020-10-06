@@ -378,13 +378,13 @@
       friendly_name: Mozzie Zapper
       state: 'off'
     switch.circadian_lighting_bedroom:
-      state: 'off'      
+      state: 'off'
 - id: '1591523295189'
   name: Lights On
   entities:
     light.hallway:
-      brightness: 150
-      color_temp: 278
+#      brightness: 150
+#      color_temp: 278
       friendly_name: Hallway
       is_hue_group: true
       max_mireds: 500
@@ -392,8 +392,8 @@
       state: 'on'
       supported_features: 43
     light.kitchen:
-      brightness: 255
-      color_temp: 153
+#      brightness: 255
+#      color_temp: 153
       effect_list:
       - effect_pulse
       - effect_colorloop
@@ -404,8 +404,8 @@
       state: 'on'
       supported_features: 55
     light.loungeroom:
-      brightness: 163
-      color_temp: 153
+#      brightness: 163
+#      color_temp: 153
       effect_list:
       - effect_pulse
       - effect_colorloop
