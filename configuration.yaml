@@ -222,10 +222,10 @@ cover:
     payload_close: "CLOSE"
     state_topic: "garage/stats/position"
 
-camera:
-  - platform: bom
-    name: 'BOM Radar'
-    location: Brisbane
+#camera:
+  #- platform: bom
+  #  name: 'BOM Radar'
+  # location: Brisbane
 
 tplink:
   switch:

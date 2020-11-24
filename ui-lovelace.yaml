@@ -224,9 +224,9 @@ views:
           show:
             labels: true
         - type: custom:mini-graph-card
-          name: BOM Sunshine Coast
+          name: BOM Caloundra
           entities:
-            - entity: sensor.bom_sunshine_coast_air_temp_c
+            - entity: sensor.beerburrum_temp
           hours_to_show: 72
           points_per_hour: 2
           color_thresholds:
@@ -335,7 +335,7 @@ views:
       - type: custom:bom-weather-card
         title: BOM Weather
         entity_current_conditions: sensor.bom_sunshine_coast_icon_0
-        entity_temperature: sensor.bom_sunshine_coast_air_temp_c
+        entity_temperature: sensor.beerburrum_temp
         entity_forecast_high_temp_1: sensor.bom_sunshine_coast_max_temp_c_1
         entity_forecast_high_temp_2: sensor.bom_sunshine_coast_max_temp_c_2
         entity_forecast_high_temp_3: sensor.bom_sunshine_coast_max_temp_c_3
@@ -360,14 +360,14 @@ views:
 #       entity_visibility: sensor.dark_sky_visibility
         entity_daytime_high: sensor.bom_today_max
         entity_daytime_low: sensor.bom_today_min
-        entity_wind_bearing: sensor.bom_sunshine_coast_wind_direction
-        entity_wind_speed: sensor.bom_sunshine_coast_wind_speed_kmh
-        entity_humidity: sensor.bom_sunshine_coast_relative_humidity
-        entity_pressure: sensor.bom_sunshine_coast_pressure_msl
-        entity_apparent_temp: sensor.bom_sunshine_coast_feels_like_c
+        entity_wind_bearing: sensor.beerburrum_wind_direction
+        entity_wind_speed: sensor.beerburrum_wind_speed_kilometre
+        entity_humidity: sensor.beerburrum_humidity
+        entity_pressure: sensor.loungeroom_pressure
+        entity_apparent_temp: sensor.beerburrum_temp_feels_like
         entity_daily_summary: sensor.bom_sunshine_coast_detailed_summary_0
         entity_pop: sensor.bom_sunshine_coast_chance_of_rain_0
-        entity_pop_intensity: sensor.bom_sunshine_coast_rain_today
+        entity_pop_intensity: sensor.beerburrum_rain_since_9am
         entity_possible_today: sensor.bom_sunshine_coast_possible_rainfall_0
         entity_pos_1: sensor.bom_sunshine_coast_possible_rainfall_1
         entity_pos_2: sensor.bom_sunshine_coast_possible_rainfall_2
