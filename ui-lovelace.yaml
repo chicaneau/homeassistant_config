@@ -97,18 +97,30 @@ views:
         cards:
         - type: horizontal-stack
           cards:
-          - type: button
+          - type: custom:button-card
             entity: switch.circadian_lighting_loungeroom
             icon: mdi:theme-light-dark
-          - type: button
+            size: 80%
+            hold_action:
+              action: more-info
+          - type: custom:button-card
             entity: switch.circadian_lighting_bedroom
             icon: mdi:theme-light-dark
-          - type: button
+            size: 80%
+            hold_action:
+              action: more-info
+          - type: custom:button-card
             entity: switch.circadian_lighting_kitchen
             icon: mdi:theme-light-dark
-          - type: button
+            size: 80%
+            hold_action:
+              action: more-info
+          - type: custom:button-card
             entity: switch.circadian_lighting_hallway
             icon: mdi:theme-light-dark
+            size: 80%
+            hold_action:
+              action: more-info
       - type: history-graph
         #title: Temperature Graph
         hours_to_show: 36
@@ -164,7 +176,8 @@ views:
         entity: climate.loungeroom_aircon
       - type: thermostat
         entity: climate.office_aircon
-
+      - type: thermostat
+        entity: climate.bedroom_aircon
     - type: vertical-stack
       title: Bins
       cards:
@@ -204,27 +217,28 @@ views:
     - type: vertical-stack
       title: "Temps"
       cards:
+      - type: custom:mini-graph-card
+        name: Outside
+        entities:
+          - entity: sensor.outside_temperature
+        hours_to_show: 72
+        points_per_hour: 2
+        color_thresholds:
+          - value: 0
+            color: "#5DADE2"
+          - value: 15
+            color: "#5DADE2"
+          - value: 24
+            color: "#9CCC65"
+          - value: 30
+            color: "#F44336"
+        show:
+          labels: true
       - type: horizontal-stack
         cards:
+        
         - type: custom:mini-graph-card
-          name: Outside
-          entities:
-            - entity: sensor.outside_temperature
-          hours_to_show: 72
-          points_per_hour: 2
-          color_thresholds:
-            - value: 0
-              color: "#5DADE2"
-            - value: 15
-              color: "#5DADE2"
-            - value: 24
-              color: "#9CCC65"
-            - value: 30
-              color: "#F44336"
-          show:
-            labels: true
-        - type: custom:mini-graph-card
-          name: BOM Caloundra
+          name: BOM Caloundra West
           entities:
             - entity: sensor.beerburrum_temp
           hours_to_show: 72
@@ -240,6 +254,23 @@ views:
               color: "#F44336"
           show:
             labels: true
+        - type: custom:mini-graph-card
+          name: Office
+          entities:
+            - entity: sensor.office_temperature
+          hours_to_show: 72
+          points_per_hour: 2
+          color_thresholds:
+            - value: 0
+              color: "#5DADE2"
+            - value: 15
+              color: "#5DADE2"
+            - value: 24
+              color: "#9CCC65"
+            - value: 30
+              color: "#F44336"
+          show:
+            labels: true            
       - type: horizontal-stack
         cards:
         - type: custom:mini-graph-card
@@ -295,10 +326,11 @@ views:
               color: "#F44336"
           show:
             labels: true
+            
         - type: custom:mini-graph-card
-          name: Office
+          name: Pantry
           entities:
-            - entity: sensor.office_temperature
+            - entity: sensor.pantry_temperature
           hours_to_show: 72
           points_per_hour: 2
           color_thresholds:
@@ -312,7 +344,24 @@ views:
               color: "#F44336"
           show:
             labels: true
-
+      - type: custom:mini-graph-card
+        name: Humidity
+        entities:
+          - entity: sensor.pantry_humidity
+          - entity: sensor.loungeroom_humidity
+        hours_to_show: 72
+        points_per_hour: 2
+        #color_thresholds:
+        #  - value: 100
+        #    color: "#5DADE2"
+        #  - value: 90
+        #    color: "#5DADE2"
+        #  - value: 70
+        #    color: "#9CCC65"
+        #  - value: 50
+        #    color: "#F44336"
+        show:
+          labels: true
     - type: horizontal-stack
       title: "Sensors"
       cards:
@@ -328,108 +377,24 @@ views:
             - entity: binary_sensor.motion_sensor_pantry
               name: Pantry Motion
               show_state: false
+    - type: grid
+      title: "Certificates"          
+      cards:
+        - type: gauge
+          entity: sensor.chicane_me
+          max: 90
+        - type: gauge
+          entity: sensor.home_chicane_me  
+          max: 90
+        - type: gauge
+          entity: sensor.whitehavendesignhouse_com_au
+          max: 90 
 
   - title: Secondary
     icon: mdi:home-analytics
     cards:
-      - type: custom:bom-weather-card
-        title: BOM Weather
-        entity_current_conditions: sensor.bom_sunshine_coast_icon_0
-        entity_temperature: sensor.beerburrum_temp
-        entity_forecast_high_temp_1: sensor.bom_sunshine_coast_max_temp_c_1
-        entity_forecast_high_temp_2: sensor.bom_sunshine_coast_max_temp_c_2
-        entity_forecast_high_temp_3: sensor.bom_sunshine_coast_max_temp_c_3
-        entity_forecast_high_temp_4: sensor.bom_sunshine_coast_max_temp_c_4
-        entity_forecast_high_temp_5: sensor.bom_sunshine_coast_max_temp_c_5
-        entity_forecast_icon_1: sensor.bom_sunshine_coast_icon_1
-        entity_forecast_icon_2: sensor.bom_sunshine_coast_icon_2
-        entity_forecast_icon_3: sensor.bom_sunshine_coast_icon_3
-        entity_forecast_icon_4: sensor.bom_sunshine_coast_icon_4
-        entity_forecast_icon_5: sensor.bom_sunshine_coast_icon_5
-        entity_forecast_low_temp_1: sensor.bom_sunshine_coast_min_temp_c_1
-        entity_forecast_low_temp_2: sensor.bom_sunshine_coast_min_temp_c_2
-        entity_forecast_low_temp_3: sensor.bom_sunshine_coast_min_temp_c_3
-        entity_forecast_low_temp_4: sensor.bom_sunshine_coast_min_temp_c_4
-        entity_forecast_low_temp_5: sensor.bom_sunshine_coast_min_temp_c_5
-        entity_summary_1: sensor.bom_sunshine_coast_summary_1
-        entity_summary_2: sensor.bom_sunshine_coast_summary_2
-        entity_summary_3: sensor.bom_sunshine_coast_summary_3
-        entity_summary_4: sensor.bom_sunshine_coast_summary_4
-        entity_summary_5: sensor.bom_sunshine_coast_summary_5
-        entity_sun: sun.sun
-#       entity_visibility: sensor.dark_sky_visibility
-        entity_daytime_high: sensor.bom_today_max
-        entity_daytime_low: sensor.bom_today_min
-        entity_wind_bearing: sensor.beerburrum_wind_direction
-        entity_wind_speed: sensor.beerburrum_wind_speed_kilometre
-        entity_humidity: sensor.beerburrum_humidity
-        entity_pressure: sensor.loungeroom_pressure
-        entity_apparent_temp: sensor.beerburrum_temp_feels_like
-        entity_daily_summary: sensor.bom_sunshine_coast_detailed_summary_0
-        entity_pop: sensor.bom_sunshine_coast_chance_of_rain_0
-        entity_pop_intensity: sensor.beerburrum_rain_since_9am
-        entity_possible_today: sensor.bom_sunshine_coast_possible_rainfall_0
-        entity_pos_1: sensor.bom_sunshine_coast_possible_rainfall_1
-        entity_pos_2: sensor.bom_sunshine_coast_possible_rainfall_2
-        entity_pos_3: sensor.bom_sunshine_coast_possible_rainfall_3
-        entity_pos_4: sensor.bom_sunshine_coast_possible_rainfall_4
-        entity_pos_5: sensor.bom_sunshine_coast_possible_rainfall_5
-        entity_pop_1: sensor.bom_sunshine_coast_chance_of_rain_1
-        entity_pop_2: sensor.bom_sunshine_coast_chance_of_rain_2
-        entity_pop_3: sensor.bom_sunshine_coast_chance_of_rain_3
-        entity_pop_4: sensor.bom_sunshine_coast_chance_of_rain_4
-        entity_pop_5: sensor.bom_sunshine_coast_chance_of_rain_5
-        entity_uv_alert: sensor.bom_uv_alert
-        entity_fire_danger: sensor.bom_fire_danger
-        entity_uv_alert_summary: sensor.bom_uv_alert_summary
-        entity_fire_danger_summary: sensor.bom_fire_danger_summary
-        #entity_current_text: sensor.bom_current_text
-        locale: en
-        sunset: true
-        static_icons: false
-        tooltip_bg_color: 'rgb( 75,155,239)'
-        tooltip_border_color: 'rgb(255,161,0)'
-        tooltip_border_width: 1
-        tooltip_caret_size: 5
-        tooltip_fg_color: '#fff'
-        tooltip_left_offset: -12
-        tooltip_width: 110
-        tooltips: true
-        old_daily_format: false
-        time_format: 12
-        show_beaufort: false
-        refresh_interval: 60
-        show_separator: false
-        temp_top_margin: -0.3em         #default -0.3em px or em
-        temp_font_weight: 300           #default 300 numeric
-        temp_font_size: 4em             #default 4em em
-        temp_right_pos: 0.85em          #default .85em px or em
-        temp_uom_top_margin: -9px       #default -9px px or em
-        temp_uom_right_margin: 7px      #default 7px px or em
-        apparent_top_margin: 45px       #default 45px px or em
-        apparent_right_pos: 1em         #default 1em px or em
-        apparent_right_margin: 1em      #default 1em px or em
-        current_text_top_margin: 4.5em  #default 39px px or em
-        current_text_left_pos: 0em      #default 5em px or em
-        current_text_font_size: 1.5em   #default 1.5em em
-        current_text_alignment: center  #default center
-        current_text_width: 100%        #default 100%
-        current_data_top_margin: 6em   #default 7em px or em
-        large_icon_top_margin: -3.5em   #default -3.5em px or em
-        large_icon_left_position: 0em   #default 0em px or em
-        separator_top_margin: 6em       #default 6em px or em
-        summary_top_padding: 2em        #default 1em px or em
-        summary_font_size: 0.8em        #default 0.8em px or em
-        slot_l1: daytime_high           #daytime_high
-        slot_l2: daytime_low            #daytime_low
-        slot_l3: wind                   #wind
-        slot_l4: pressure               #pressure
-        slot_l5: sun_next               #sun_next
-        slot_r1: pop                    #pop
-        slot_r2: humidity               #humidity
-        slot_r3: uv_alert               #uv_alert
-        slot_r4: fire_danger            #fire_danger
-        slot_r5: sun_following          #sun_following
+      - type: weather-forecast
+        entity: weather.caloundra_west
       - type: entities
         title: Bedroom
         show_header_toggle: false
@@ -538,23 +503,6 @@ views:
         entities:
           - sensor.normal_bin
           - sensor.recycling_bin
-#      - type: entities
-#        title: Weather
-#        show_header_toggle: false
-#        entities:
-#          - sun.sun
-#          - sensor.bom_sunshine_coast_air_temp_c
-#          - sensor.bom_sunshine_coast_feels_like_c
-#          - sensor.bom_sunshine_coast_pressure_msl
-#          - sensor.bom_sunshine_coast_relative_humidity
-#          - sensor.bom_sunshine_coast_rain_today
-#          - sensor.bom_sunshine_coast_wind_direction
-#          - sensor.bom_sunshine_coast_wind_speed_kmh
-#          - sensor.bom_sunshine_coast_wind_gust_kmh
-#      - type: thermostat
-#        entity: climate.loungeroom_aircon
-#      - type: thermostat
-#        entity: climate.office_aircon
 
   - title: Lights
     icon: mdi:lightbulb
@@ -593,6 +541,8 @@ views:
             name: Garage
           - entity: sensor.outside_temperature
             name: Outside
+          - entity: sensor.pantry_temperature
+            name: Pantry            
           - entity: sensor.bom_sunshine_coast_air_temp_c
             name: BOM Sunshine Coast
       - type: history-graph
@@ -610,6 +560,8 @@ views:
             name: Garage
           - entity: sensor.outside_humidity
             name: Outside
+          - entity: sensor.pantry_humidity
+            name: Pantry
           - entity: sensor.bom_sunshine_coast_relative_humidity
             name: BOM Sunshine Coast
       - type: history-graph
@@ -651,11 +603,6 @@ views:
             name: home.chicane.me
           - entity: sensor.whitehavendesignhouse_com_au
             name: whitehavendesignhouse.com.au
-      - type: picture-glance
-        entities:
-          - sensor.bom_sunshine_coast_air_temp_c
-        title: BOM Brisbane Radar
-        camera_image: camera.bom_radar
       - type: history-graph
         title: Power Graph
         hours_to_show: 48
@@ -827,6 +774,7 @@ views:
           - automation.turn_on_bedroom_heater_when_8pm
           - automation.turn_on_bedroom_heater_at_4_30am
           - automation.christmas_tree_at_home
+          - automation.turn_off_cooking_light_on_play_apple_tv
 
           - automation.depart_home
       - type: entities

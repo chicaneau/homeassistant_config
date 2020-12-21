@@ -17,3 +17,15 @@
       data:
         topic: dining/lights/cmnd/STATE
         payload: ''
+    - service: mqtt.publish
+      data:
+        topic: cmnd/office/STATUS
+        payload: '8'     
+    - service: mqtt.publish
+      data:
+        topic: cmnd/loungeroom/STATUS
+        payload: '8'             
+    - service: mqtt.publish
+      data:
+        topic: cmnd/bedroom/STATUS
+        payload: '8'    

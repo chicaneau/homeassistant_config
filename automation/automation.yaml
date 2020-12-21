@@ -236,7 +236,7 @@
   #initial_state: True
   trigger:
     platform: time
-    at: '06:00:00'
+    at: '06:15:00'
   condition:
     condition: and
     conditions:
@@ -1058,3 +1058,15 @@
       data:
         message: "RAID in server has {{states.sensor.server_raid_free.state}} GB Free"
         title: 'Server RAID is low!'
+
+###Turn off cooking light Apple TV####
+- alias: 'Turn off cooking light on play Apple TV'
+  #initial_state: 'on'
+  trigger:
+    - platform: state
+      entity_id: media_player.loungeroom
+      to: 'playing'
+  action:
+    - service: switch.turn_off
+      entity_id: switch.cooking_light
+      

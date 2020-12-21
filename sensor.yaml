@@ -103,55 +103,114 @@
    {% endfor %}
 
 - platform: mqtt
+  name: "Pantry Temperature"
+  state_topic: "tele/pantry/SENSOR"
+  value_template: "{{ value_json['AM2301'].Temperature }}"
+  availability_topic: "tele/pantry/LWT"
+  payload_available: "Online"
+  payload_not_available: "Offline"
+  device_class: temperature
+  unit_of_measurement: "°C"
+ 
+- platform: mqtt
+  name: "Pantry Humidity"
+  state_topic: "tele/pantry/SENSOR"
+  value_template: "{{ value_json['AM2301'].Humidity }}"
+  availability_topic: "tele/pantry/LWT"
+  payload_available: "Online"
+  payload_not_available: "Offline"
+  device_class: humidity
+  unit_of_measurement: "%"
+
+- platform: mqtt
   name: "Loungeroom Temperature"
-  state_topic: "lounge/stats/temperature"
+  state_topic: "tele/loungeroom/SENSOR"
+  value_template: "{{ value_json['BME280'].Temperature }}"
+  availability_topic: "tele/loungeroom/LWT"
+  payload_available: "Online"
+  payload_not_available: "Offline"
   device_class: temperature
   unit_of_measurement: "°C"
 
 - platform: mqtt
   name: "Loungeroom Humidity"
-  state_topic: "lounge/stats/humidity"
+  state_topic: "tele/loungeroom/SENSOR"
+  value_template: "{{ value_json['BME280'].Humidity }}"
+  availability_topic: "tele/loungeroom/LWT"
+  payload_available: "Online"
+  payload_not_available: "Offline"
   device_class: humidity
   unit_of_measurement: "%"
 
 - platform: mqtt
   name: "Loungeroom Pressure"
-  state_topic: "lounge/stats/pressure"
+  state_topic: "tele/loungeroom/SENSOR"
+  value_template: "{{ value_json['BME280'].Pressure }}"
+  availability_topic: "tele/loungeroom/LWT"
+  payload_available: "Online"
+  payload_not_available: "Offline"
+  device_class: pressure
   unit_of_measurement: "hPa"
 
 - platform: mqtt
   name: "Office Temperature"
-  state_topic: "office/stats/temperature"
+  state_topic: "tele/office/SENSOR"
+  value_template: "{{ value_json['BME280'].Temperature }}"
+  availability_topic: "tele/office/LWT"
+  payload_available: "Online"
+  payload_not_available: "Offline"
   device_class: temperature
   unit_of_measurement: "°C"
 
 - platform: mqtt
   name: "Office Humidity"
-  state_topic: "office/stats/humidity"
+  state_topic: "tele/office/SENSOR"
+  value_template: "{{ value_json['BME280'].Humidity }}"
+  availability_topic: "tele/office/LWT"
+  payload_available: "Online"
+  payload_not_available: "Offline"
   device_class: humidity
   unit_of_measurement: "%"
 
 - platform: mqtt
   name: "Office Pressure"
-  state_topic: "office/stats/pressure"
+  state_topic: "tele/office/SENSOR"
+  value_template: "{{ value_json['BME280'].Pressure }}"
+  availability_topic: "tele/office/LWT"
+  payload_available: "Online"
+  payload_not_available: "Offline"
   unit_of_measurement: "hPa"
+  device_class: pressure
 
 - platform: mqtt
   name: "Bedroom Temperature"
-  state_topic: "bed/stats/temperature"
+  state_topic: "tele/bedroom/SENSOR"
+  value_template: "{{ value_json['BME280'].Temperature }}"
+  availability_topic: "tele/bedroom/LWT"
+  payload_available: "Online"
+  payload_not_available: "Offline"
   device_class: temperature
   unit_of_measurement: "°C"
 
 - platform: mqtt
   name: "Bedroom Humidity"
-  state_topic: "bed/stats/humidity"
+  state_topic: "tele/bedroom/SENSOR"
+  value_template: "{{ value_json['BME280'].Humidity }}"
+  availability_topic: "tele/bedroom/LWT"
+  payload_available: "Online"
+  payload_not_available: "Offline"
   device_class: humidity
   unit_of_measurement: "%"
 
 - platform: mqtt
   name: "Bedroom Pressure"
-  state_topic: "bed/stats/pressure"
+  state_topic: "tele/bedroom/SENSOR"
+  value_template: "{{ value_json['BME280'].Pressure }}"
+  availability_topic: "tele/bedroom/LWT"
+  payload_available: "Online"
+  payload_not_available: "Offline"
   unit_of_measurement: "hPa"
+  device_class: pressure
 
 - platform: mqtt
   name: "Garage Temperature"
@@ -208,7 +267,7 @@
   host: !secret cert2
 
 - platform: cert_expiry
-  host: !secret cert2
+  host: !secret cert3
 
 #- platform: snmp
 #  host: !secret server_ip
@@ -695,7 +754,34 @@
             {{ states('sensor.bom_sunshine_coast_fire_danger_1') }}
             {%- endif -%}
 
-####GARAGE END#######
+####BOM WEATHER TO SENSOR#######
+      bom_caloundra_west_temperature:
+        friendly_name: "BOM Caloundra West Temp"
+        value_template: "{{ state_attr('weather.caloundra_west', 'temperature') }}"
+        unit_of_measurement: "°C"
+
+      bom_caloundra_west_humidity:
+        friendly_name: "BOM Caloundra West Humidity"
+        value_template: "{{ state_attr('weather.caloundra_west', 'humidity') }}"
+        unit_of_measurement: "%"
+
+
+####CERTIFICATES#####
+
+      home_chicane_me:
+        friendly_name: "home.chicane.me"
+        value_template: "{{ ((as_timestamp(states('sensor.cert_expiry_timestamp_home_chicane_me')) - as_timestamp(now())) /60 /60/24) | round(0) }}"
+        unit_of_measurement: "days"
+
+      chicane_me:
+        friendly_name: "chicane.me"
+        value_template: "{{ ((as_timestamp(states('sensor.cert_expiry_timestamp_chicane_me')) - as_timestamp(now())) /60 /60/24) | round(0) }}"
+        unit_of_measurement: "days"
+
+      whitehavendesignhouse_com_au:
+        friendly_name: "whitehavendesignhouse.com.au"
+        value_template: "{{ ((as_timestamp(states('sensor.cert_expiry_timestamp_whitehavendesignhouse_com_au')) - as_timestamp(now())) /60 /60/24) | round(0) }}"
+        unit_of_measurement: "days"
 
 - platform: statistics
   name: today_temp_bom

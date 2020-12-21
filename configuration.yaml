@@ -65,6 +65,9 @@ lovelace:
       type: module
     - url: /hacsfiles/mini-graph-card/mini-graph-card-bundle.js
       type: module
+    - url: /hacsfiles/button-card/button-card.js
+      type: module    
+  
 # Checks for available updates
 updater:
   include_used_components: true
@@ -167,6 +170,7 @@ logger:
   default: error
   logs:
     homeassistant.components.http.ban: warning
+    homeassistant.components.miio_gateway: debug
     # homeassistant.components.media_player: warning
     # homeassistant.components.sensor.sensor.bom_sunshine_coast_air_temp_c: debug
     # homeassistant.components.bom: debug
@@ -445,3 +449,14 @@ homekit:
       - light.office
       - light.niche
       - light.dining_room
+
+miio_gateway:
+  host: 10.0.0.164    # IP of your gateway
+  port: 54321          # port running miio_client, defaults to 54321
+  sensors:
+    - sid: lumi.158d0005224e27
+      class: door                           # motion sensor
+      friendly_name: Office Door Sensor  # display name (optional)
+    - sid: lumi.158d00052245a5
+      class: door 
+      friendly_name: Front Door Sensor  # display name (optional)
