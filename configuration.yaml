@@ -86,11 +86,11 @@ history:
       - graph
     entities:
       - sensor.server_uptime
-      - sensor.date
-      - sensor.date_time
-      - sensor.time
-      - sensor.time_date
-      - sensor.time_utc
+     #- sensor.date
+     #- sensor.date_time
+     #- sensor.time
+     #- sensor.time_date
+     #- sensor.time_utc
 # View all events in a logbook
 logbook:
 
@@ -385,6 +385,18 @@ google_assistant:
     scene.gaming_time:
       name: Gaming Time
       expose: true
+    script.bedroom_circadian:
+      name: Bedroom Circadian
+      expose: true 
+    script.hallway_circadian:
+      name: Hallway Circadian
+      expose: true  
+    script.kitchen_circadian:
+      name: Kitchen Circadian
+      expose: true  
+    script.loungeroom_circadian:
+      name: Loungeroom Circadian
+      expose: true  
       # light.pantry:
       #   name: Pantry Light
       #   expose: true
@@ -403,14 +415,10 @@ homekit:
       type: outlet
     switch.cooking_light:
       type: outlet
-    switch.circadian_lighting_bedroom:
-      name: Bedroom Circadian
-    switch.circadian_lighting_kitchen:
-      name: Kitchen Circadian
-    switch.circadian_lighting_loungeroom:
-      name: Loungeroom Circadian
-    switch.circadian_lighting_hallway:
-      name: Hallway Circadian
+    light.dining_room:
+      name: Dining Rooms Lights
+    light.pantry:
+      name: Pantry Lights
 
 
   filter:
@@ -420,6 +428,8 @@ homekit:
       - light
       - remote
       - binary_sensor
+      - media_player
+      - sensor
     exclude_entities:
       - input_boolean.danny_bin_alerted
       - input_boolean.liz_bin_alerted
@@ -429,26 +439,6 @@ homekit:
       - script.harm_living_watch_tv
       - script.harm_living_watch_smart_tv
       - script.restart_hass
-      - sensor.today_temp_bom
-      - sensor.bom_sunshine_coast_air_temp_c
-      - sensor.bom_sunshine_coast_delta_temp_c
-      - sensor.bom_sunshine_coast_dew_point_c
-      - sensor.bom_sunshine_coast_feels_like_c
-      - sensor.bom_sunshine_coast_max_temp_c_0
-      - sensor.bom_sunshine_coast_max_temp_c_1
-      - sensor.bom_sunshine_coast_max_temp_c_2
-      - sensor.bom_sunshine_coast_max_temp_c_3
-      - sensor.bom_sunshine_coast_max_temp_c_4
-      - sensor.bom_sunshine_coast_max_temp_c_5
-      - sensor.bom_sunshine_coast_max_temp_c_6
-      - sensor.bom_sunshine_coast_min_temp_c_0
-      - sensor.bom_sunshine_coast_min_temp_c_1
-      - sensor.bom_sunshine_coast_min_temp_c_2
-      - sensor.bom_sunshine_coast_min_temp_c_3
-      - sensor.bom_sunshine_coast_min_temp_c_4
-      - sensor.bom_sunshine_coast_min_temp_c_5
-      - sensor.bom_sunshine_coast_min_temp_c_6
-      - sensor.bom_sunshine_coast_relative_humidity
       - camera.bom_radar
       - switch.adaptive_lighting_adapt_brightness_bedroom
       - switch.adaptive_lighting_adapt_brightness_hallway
@@ -466,11 +456,11 @@ homekit:
       - switch.adaptive_lighting_sleep_mode_hallway
       - switch.adaptive_lighting_sleep_mode_kitchen
       - switch.adaptive_lighting_sleep_mode_loungeroom
+      - input_boolean.outside_triggered
 
     include_entities:
       - switch.cooking_light
       - light.bathroom
-      - binary_sensor.door_outside_rear
       - light.loungeroom_1
       - light.loungeroom_2
       - light.loungeroom_3
@@ -479,6 +469,18 @@ homekit:
       - light.office
       - light.niche
       - light.dining_room
+      - sensor.garage_temperature
+      - sensor.office_temperature
+      - sensor.bedroom_temperature
+      - sensor.loungeroom_temperature
+      - sensor.outside_temperature
+      - sensor.pantry_temperature
+      - sensor.garage_humidity
+      - sensor.office_humidity
+      - sensor.bedroom_humidity
+      - sensor.loungeroom_humidity
+      - sensor.outside_humidity
+      - sensor.pantry_humidity    
 
 #miio_gateway:
 #  host: 10.0.0.164    # IP of your gateway
