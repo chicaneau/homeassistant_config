@@ -216,7 +216,25 @@ climate: !include climate.yaml
 
 group: !include groups.yaml
 
-circadian_lighting:
+#circadian_lighting:
+
+adaptive_lighting:
+  - name: "Loungeroom"
+    lights: 
+      - light.loungeroom
+    min_brightness: 20
+  - name: "Kitchen"
+    lights: 
+      - light.kitchen    
+    min_brightness: 20
+  - name: "Bedroom"
+    lights: 
+      - light.bedroom    
+    min_brightness: 20
+  - name: "Hallway"
+    lights: 
+      - light.hallway 
+    min_brightness: 20   
 
 cover:
   - platform: mqtt
@@ -403,10 +421,6 @@ homekit:
       - remote
       - binary_sensor
     exclude_entities:
-      #- switch.circadian_lighting_hallway
-      #- switch.circadian_lighting_loungeroom
-      #- switch.circadian_lighting_kitchen
-      #- switch.circadian_lighting_bedroom
       - input_boolean.danny_bin_alerted
       - input_boolean.liz_bin_alerted
       - input_boolean.both_bin_alerted
@@ -436,6 +450,22 @@ homekit:
       - sensor.bom_sunshine_coast_min_temp_c_6
       - sensor.bom_sunshine_coast_relative_humidity
       - camera.bom_radar
+      - switch.adaptive_lighting_adapt_brightness_bedroom
+      - switch.adaptive_lighting_adapt_brightness_hallway
+      - switch.adaptive_lighting_adapt_brightness_kitchen
+      - switch.adaptive_lighting_adapt_brightness_loungeroom
+      - switch.adaptive_lighting_adapt_color_bedroom
+      - switch.adaptive_lighting_adapt_color_hallway
+      - switch.adaptive_lighting_adapt_color_kitchen
+      - switch.adaptive_lighting_adapt_color_loungeroom
+      - switch.adaptive_lighting_bedroom
+      - switch.adaptive_lighting_hallway
+      - switch.adaptive_lighting_kitchen
+      - switch.adaptive_lighting_loungeroom
+      - switch.adaptive_lighting_sleep_mode_bedroom
+      - switch.adaptive_lighting_sleep_mode_hallway
+      - switch.adaptive_lighting_sleep_mode_kitchen
+      - switch.adaptive_lighting_sleep_mode_loungeroom
 
     include_entities:
       - switch.cooking_light
@@ -450,13 +480,13 @@ homekit:
       - light.niche
       - light.dining_room
 
-miio_gateway:
-  host: 10.0.0.164    # IP of your gateway
-  port: 54321          # port running miio_client, defaults to 54321
-  sensors:
-    - sid: lumi.158d0005224e27
-      class: door                           # motion sensor
-      friendly_name: Office Door Sensor  # display name (optional)
-    - sid: lumi.158d00052245a5
-      class: door 
-      friendly_name: Front Door Sensor  # display name (optional)
+#miio_gateway:
+#  host: 10.0.0.164    # IP of your gateway
+#  port: 54321          # port running miio_client, defaults to 54321
+#  sensors:
+#    - sid: lumi.158d0005224e27
+#      class: door                           # motion sensor
+#      friendly_name: Office Door Sensor  # display name (optional)
+#    - sid: lumi.158d00052245a5
+#      class: door 
+#      friendly_name: Front Door Sensor  # display name (optional)

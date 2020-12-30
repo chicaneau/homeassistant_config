@@ -125,26 +125,45 @@ bedroom_reading:
     - service: light.turn_off
       entity_id: light.hue_ambiance_lamp_5
 
-# reset_bedroom_lights:
-  # alias: 'Reset Bedroom Lights'
-  # sequence:
-    # - service: light.turn_on
-      # entity_id: light.hue_ambiance_lamp_6
-      # data:
-        # brightness: 180
-        # color_temp: 278
-    # - service: light.turn_on
-      # entity_id: light.hue_ambiance_lamp_4
-      # data:
-        # brightness: 180
-        # color_temp: 278
-    # - service: light.turn_on
-      # entity_id: light.hue_ambiance_lamp_3
-      # data:
-        # brightness: 180
-        # color_temp: 278
-    # - service: light.turn_on
-      # entity_id: light.hue_ambiance_lamp_5
-      # data:
-        # brightness: 180
-        # color_temp: 278
+bedroom_circadian:
+  alias: 'Bedroom Circadian'
+  sequence:
+    - service: adaptive_lighting.set_manual_control
+      data:
+        entity_id: switch.adaptive_lighting_bedroom
+        lights: light.bedroom
+        manual_control: false
+    - service: switch.turn_on
+      entity_id: switch.adaptive_lighting_bedroom
+
+kitchen_circadian:
+  alias: 'Kitchen Circadian'
+  sequence:
+    - service: adaptive_lighting.set_manual_control
+      data:
+        entity_id: switch.adaptive_lighting_kitchen
+        lights: light.kitchen
+        manual_control: false  
+    - service: switch.turn_on
+      entity_id: switch.adaptive_lighting_kitchen
+hallway_circadian:
+  alias: 'Hallway Circadian'
+  sequence:
+    - service: adaptive_lighting.set_manual_control
+      data:
+        entity_id: switch.adaptive_lighting_hallway
+        lights: light.hallway
+        manual_control: false
+    - service: switch.turn_on
+      entity_id: switch.adaptive_lighting_hallway
+
+loungeroom_circadian:
+  alias: 'Loungeroom Circadian'
+  sequence:
+    - service: adaptive_lighting.set_manual_control
+      data:
+        entity_id: switch.adaptive_lighting_loungeroom
+        lights: light.loungeroom
+        manual_control: false
+    - service: switch.turn_on
+      entity_id: switch.adaptive_lighting_loungeroom

@@ -53,25 +53,25 @@
             entity_id: switch.bedroom_heater
 
 # Circadian Lighting
-  - platform: circadian_lighting
-    name: Loungeroom
-    lights_ct:
-      - light.loungeroom
-    min_brightness: 20
-  - platform: circadian_lighting
-    name: Bedroom
-    lights_ct:
-      - light.bedroom
-    disable_entity: input_boolean.bedtime_triggered
-    disable_state: on
-    min_brightness: 20
-  - platform: circadian_lighting
-    name: Kitchen
-    lights_ct:
-      - light.kitchen
-    min_brightness: 20
-  - platform: circadian_lighting
-    name: Hallway
-    lights_ct:
-      - light.hallway
-    min_brightness: 20
+#  - platform: circadian_lighting
+#    name: Loungeroom
+#    lights_ct:
+#      - light.loungeroom
+#    min_brightness: 20
+#  - platform: circadian_lighting
+#    name: Bedroom
+#    lights_ct:
+#      - light.bedroom
+#    disable_entity: input_boolean.bedtime_triggered
+#    disable_state: on
+#    min_brightness: 20
+#  - platform: circadian_lighting
+#    name: Kitchen
+#    lights_ct:
+#      - light.kitchen
+#    min_brightness: 20
+#  - platform: circadian_lighting
+#    name: Hallway
+#    lights_ct:
+#      - light.hallway
+#    min_brightness: 20

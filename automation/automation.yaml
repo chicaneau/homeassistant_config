@@ -720,6 +720,8 @@
     - service: light.turn_off
       entity_id: light.outside_real
 
+#####Circadian disable on using cooking light#####
+
 - alias: Turn off Cooking Light
   trigger:
     platform: state
@@ -732,7 +734,7 @@
     state: "on"
   action:
     - service: switch.turn_on
-      entity_id: switch.circadian_lighting_kitchen
+      entity_id: switch.adaptive_lighting_kitchen
 
 - alias: Turn on Cooking Light
   trigger:
@@ -746,7 +748,7 @@
     state: "on"
   action:
     - service: switch.turn_off
-      entity_id: switch.circadian_lighting_kitchen
+      entity_id: switch.adaptive_lighting_kitchen
     - service: light.turn_on
       data:
         entity_id: light.kitchen
@@ -756,105 +758,105 @@
 #####Circadian disable on adjust#####
 
 
-- alias: Change Hallway Light Brightness
-  trigger:
-    platform: event
-    event_type: state_changed
-    event_data:
-      entity_id: light.hallway
+#- alias: Change Hallway Light Brightness
+#  trigger:
+#    platform: event
+#    event_type: state_changed
+#    event_data:
+#      entity_id: light.hallway
+#
+#  condition:
+#    condition: and
+#    conditions:
+#      - condition: state
+#        entity_id: light.hallway
+#        state: "on"
+#
+#      - condition: template
+#        value_template: "{{ (((trigger.event.data.old_state.attributes.brightness - trigger.event.data.new_state.attributes.brightness) | abs) > 10) and (as_timestamp(now()) - as_timestamp(states.switch.circadian_lighting_hallway.last_changed) > 7) and (as_timestamp(now()) - as_timestamp(states.automation.arrive_home_after_dark.attributes.last_triggered) > 7) and (as_timestamp(now()) - as_timestamp(states.automation.sunset_at_home.attributes.last_triggered) > 7) }}"
+#
+#        ##  {% if states.automation.arrive_home_after_dark.attributes.last_triggered != None %}
+#                    ##  {% elif states.automation.change_hallway_light_brightness.attributes.last_triggered == None %}
+#        ##    {{ (((trigger.event.data.old_state.attributes.brightness - trigger.event.data.new_state.attributes.brightness) | abs) > 10) and (as_timestamp(now()) - as_timestamp(states.switch.circadian_lighting_hallway.last_changed) > 2) }}
+#        ##  {% endif %}
+#  action:
+#    - service: switch.turn_off
+#      entity_id: switch.circadian_lighting_hallway
 
-  condition:
-    condition: and
-    conditions:
-      - condition: state
-        entity_id: light.hallway
-        state: "on"
+#- alias: Change Kitchen Light Brightness
+#  trigger:
+#    platform: event
+#    event_type: state_changed
+#    event_data:
+#      entity_id: light.kitchen
+#
+#  condition:
+#    condition: and
+#    conditions:
+#      - condition: state
+#        entity_id: light.kitchen
+#        state: "on"
+#
+#      - condition: template
+#        value_template: "{{ (((trigger.event.data.old_state.attributes.brightness - trigger.event.data.new_state.attributes.brightness) | abs) > 10) and (as_timestamp(now()) - as_timestamp(states.switch.circadian_lighting_kitchen.last_changed) > 7) and (as_timestamp(now()) - as_timestamp(states.automation.arrive_home_after_dark.attributes.last_triggered) > 7) and (as_timestamp(now()) - as_timestamp(states.automation.sunset_at_home.attributes.last_triggered) > 7) }}"
+#
+#        ##  {% if states.automation.change_kitchen_light_brightness.attributes.last_triggered != None %}
+#                    ##  {% elif states.automation.change_kitchen_light_brightness.attributes.last_triggered == None %}
+#        ##    {{ (((trigger.event.data.old_state.attributes.brightness - trigger.event.data.new_state.attributes.brightness) | abs) > 10) and (as_timestamp(now()) - as_timestamp(states.switch.circadian_lighting_kitchen.last_changed) > 2) }}
+#        ##  {% endif %}
+#  action:
+#    - service: switch.turn_off
+#      entity_id: switch.circadian_lighting_kitchen
 
-      - condition: template
-        value_template: "{{ (((trigger.event.data.old_state.attributes.brightness - trigger.event.data.new_state.attributes.brightness) | abs) > 10) and (as_timestamp(now()) - as_timestamp(states.switch.circadian_lighting_hallway.last_changed) > 2) and (as_timestamp(now()) - as_timestamp(states.automation.arrive_home_after_dark.attributes.last_triggered) > 2) and (as_timestamp(now()) - as_timestamp(states.automation.sunset_at_home.attributes.last_triggered) > 2) }}"
+#- alias: Change Bedroom Light Brightness
+#  trigger:
+#    platform: event
+#    event_type: state_changed
+#    event_data:
+#      entity_id: light.bedroom
+#
+#  condition:
+#    condition: and
+#    conditions:
+#      - condition: state
+#        entity_id: light.bedroom
+#        state: "on"
+#
+#      - condition: template
+#        value_template: "{{ (((trigger.event.data.old_state.attributes.brightness - trigger.event.data.new_state.attributes.brightness) | abs) > 10) and (as_timestamp(now()) - as_timestamp(states.switch.circadian_lighting_bedroom.last_changed) > 7) and (as_timestamp(now()) - as_timestamp(states.automation.bedroom_motion_main_lights.attributes.last_triggered) > 7) }}"
+#
+#        ##  {% if states.automation.change_bedroom_light_brightness.attributes.last_triggered != None %}
+#                    ##  {% elif states.automation.change_bedroom_light_brightness.attributes.last_triggered == None %}
+#        ##    {{ (((trigger.event.data.old_state.attributes.brightness - trigger.event.data.new_state.attributes.brightness) | abs) > 10) and (as_timestamp(now()) - as_timestamp(states.switch.circadian_lighting_bedroom.last_changed) > 2) }}
+#        ##  {% endif %}
+#  action:
+#    - service: switch.turn_off
+#      entity_id: switch.circadian_lighting_bedroom
 
-        ##  {% if states.automation.arrive_home_after_dark.attributes.last_triggered != None %}
-                    ##  {% elif states.automation.change_hallway_light_brightness.attributes.last_triggered == None %}
-        ##    {{ (((trigger.event.data.old_state.attributes.brightness - trigger.event.data.new_state.attributes.brightness) | abs) > 10) and (as_timestamp(now()) - as_timestamp(states.switch.circadian_lighting_hallway.last_changed) > 2) }}
-        ##  {% endif %}
-  action:
-    - service: switch.turn_off
-      entity_id: switch.circadian_lighting_hallway
-
-- alias: Change Kitchen Light Brightness
-  trigger:
-    platform: event
-    event_type: state_changed
-    event_data:
-      entity_id: light.kitchen
-
-  condition:
-    condition: and
-    conditions:
-      - condition: state
-        entity_id: light.kitchen
-        state: "on"
-
-      - condition: template
-        value_template: "{{ (((trigger.event.data.old_state.attributes.brightness - trigger.event.data.new_state.attributes.brightness) | abs) > 10) and (as_timestamp(now()) - as_timestamp(states.switch.circadian_lighting_kitchen.last_changed) > 2) and (as_timestamp(now()) - as_timestamp(states.automation.arrive_home_after_dark.attributes.last_triggered) > 2) and (as_timestamp(now()) - as_timestamp(states.automation.sunset_at_home.attributes.last_triggered) > 2) }}"
-
-        ##  {% if states.automation.change_kitchen_light_brightness.attributes.last_triggered != None %}
-                    ##  {% elif states.automation.change_kitchen_light_brightness.attributes.last_triggered == None %}
-        ##    {{ (((trigger.event.data.old_state.attributes.brightness - trigger.event.data.new_state.attributes.brightness) | abs) > 10) and (as_timestamp(now()) - as_timestamp(states.switch.circadian_lighting_kitchen.last_changed) > 2) }}
-        ##  {% endif %}
-  action:
-    - service: switch.turn_off
-      entity_id: switch.circadian_lighting_kitchen
-
-- alias: Change Bedroom Light Brightness
-  trigger:
-    platform: event
-    event_type: state_changed
-    event_data:
-      entity_id: light.bedroom
-
-  condition:
-    condition: and
-    conditions:
-      - condition: state
-        entity_id: light.bedroom
-        state: "on"
-
-      - condition: template
-        value_template: "{{ (((trigger.event.data.old_state.attributes.brightness - trigger.event.data.new_state.attributes.brightness) | abs) > 10) and (as_timestamp(now()) - as_timestamp(states.switch.circadian_lighting_bedroom.last_changed) > 2) and (as_timestamp(now()) - as_timestamp(states.automation.bedroom_motion_main_lights.attributes.last_triggered) > 2) }}"
-
-        ##  {% if states.automation.change_bedroom_light_brightness.attributes.last_triggered != None %}
-                    ##  {% elif states.automation.change_bedroom_light_brightness.attributes.last_triggered == None %}
-        ##    {{ (((trigger.event.data.old_state.attributes.brightness - trigger.event.data.new_state.attributes.brightness) | abs) > 10) and (as_timestamp(now()) - as_timestamp(states.switch.circadian_lighting_bedroom.last_changed) > 2) }}
-        ##  {% endif %}
-  action:
-    - service: switch.turn_off
-      entity_id: switch.circadian_lighting_bedroom
-
-- alias: Change Loungeroom Light Brightness
-  trigger:
-    platform: event
-    event_type: state_changed
-    event_data:
-      entity_id: light.loungeroom
-
-  condition:
-    condition: and
-    conditions:
-      - condition: state
-        entity_id: light.loungeroom
-        state: "on"
-
-      - condition: template
-        value_template: "{{ (((trigger.event.data.old_state.attributes.brightness - trigger.event.data.new_state.attributes.brightness) | abs) > 10) and (as_timestamp(now()) - as_timestamp(states.switch.circadian_lighting_loungeroom.last_changed) > 2) and (as_timestamp(now()) - as_timestamp(states.automation.arrive_home_after_dark.attributes.last_triggered) > 2) and (as_timestamp(now()) - as_timestamp(states.automation.sunset_at_home.attributes.last_triggered) > 2) }}"
-
-        ##  {% if states.automation.change_loungeroom_light_brightness.attributes.last_triggered != None %}
-                    ##  {% elif states.automation.change_loungeroom_light_brightness.attributes.last_triggered == None %}
-        ##    {{ (((trigger.event.data.old_state.attributes.brightness - trigger.event.data.new_state.attributes.brightness) | abs) > 10) and (as_timestamp(now()) - as_timestamp(states.switch.circadian_lighting_loungeroom.last_changed) > 2) }}
-        ##  {% endif %}
-  action:
-    - service: switch.turn_off
-      entity_id: switch.circadian_lighting_loungeroom
+#- alias: Change Loungeroom Light Brightness
+#  trigger:
+#    platform: event
+#    event_type: state_changed
+#    event_data:
+#      entity_id: light.loungeroom
+#
+#  condition:
+#    condition: and
+#    conditions:
+#      - condition: state
+#        entity_id: light.loungeroom
+#        state: "on"
+#
+#      - condition: template
+#        value_template: "{{ (((trigger.event.data.old_state.attributes.brightness - trigger.event.data.new_state.attributes.brightness) | abs) > 10) and (as_timestamp(now()) - as_timestamp(states.switch.circadian_lighting_loungeroom.last_changed) > 7) and (as_timestamp(now()) - as_timestamp(states.automation.arrive_home_after_dark.attributes.last_triggered) > 7) and (as_timestamp(now()) - as_timestamp(states.automation.sunset_at_home.attributes.last_triggered) > 7) }}"
+#
+#        ##  {% if states.automation.change_loungeroom_light_brightness.attributes.last_triggered != None %}
+#                    ##  {% elif states.automation.change_loungeroom_light_brightness.attributes.last_triggered == None %}
+#        ##    {{ (((trigger.event.data.old_state.attributes.brightness - trigger.event.data.new_state.attributes.brightness) | abs) > 10) and (as_timestamp(now()) - as_timestamp(states.switch.circadian_lighting_loungeroom.last_changed) > 2) }}
+#        ##  {% endif %}
+#  action:
+#    - service: switch.turn_off
+#      entity_id: switch.circadian_lighting_loungeroom
 
 
 #-----Danny PC-------

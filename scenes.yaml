@@ -123,7 +123,7 @@
     switch.mozzie_zapper:
       friendly_name: Mozzie Zapper
       state: 'off'
-    switch.circadian_lighting_bedroom:
+    switch.adaptive_lighting_bedroom:
       state: 'off'
 - id: '1576734523139'
   name: Goodnight
@@ -248,11 +248,7 @@
     switch.mozzie_zapper:
       friendly_name: Mozzie Zapper
       state: 'off'
-    switch.circadian_lighting_bedroom:
-      hs_color:
-      brightness:
-      friendly_name: Bedroom
-      icon: mdi:theme-light-dark
+    switch.adaptive_lighting_bedroom:
       state: 'off'
     switch.cooking_light:
       in_use: 0
@@ -390,7 +386,7 @@
     switch.mozzie_zapper:
       friendly_name: Mozzie Zapper
       state: 'off'
-    switch.circadian_lighting_bedroom:
+    switch.adaptive_lighting_bedroom:
       state: 'off'
 - id: '1591523295189'
   name: Lights On
