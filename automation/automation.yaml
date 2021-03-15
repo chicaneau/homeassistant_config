@@ -71,13 +71,20 @@
 #      title: 'Garage Door just opened and no-ones home!'
 #      message: "No-one's home, was that a mistake? You might want to close it :)"
 #      target: 'device/iChicane'
-    service: notify.mobile_app_ichicane
-    data:
-      title: "Garage Door just opened and no-one's home!"
-      message: "No-one's home, was that a mistake? You might want to close it :)"
+    - service: notify.mobile_app_ichicane
       data:
-        push:
-          category: 'garage'
+        title: "Garage Door just opened and no-one's home!"
+        message: "No-one's home, was that a mistake? You might want to close it :)"
+        data:
+          push:
+            category: 'garage'
+    - service: notify.mobile_app_duffel
+      data:
+        title: "Garage Door just opened and no-one's home!"
+        message: "No-one's home, was that a mistake? You might want to close it :)"
+        data:
+          push:
+            category: 'garage'
 
 - alias: 'Garage leaving home alarm'
   trigger:
@@ -89,14 +96,21 @@
     entity_id: cover.garage_door
     state: 'open'
   action:
-    service: notify.mobile_app_ichicane
-    data:
-      title: "Garage Doors still open and no-one's home!"
-      message: "No-one's home, was that a mistake? You might want to close it :)"
+    - service: notify.mobile_app_ichicane
       data:
-        push:
-          category: 'garage'
-
+        title: "Garage Doors still open and no-one's home!"
+        message: "No-one's home, was that a mistake? You might want to close it :)"
+        data:
+          push:
+            category: 'garage'
+    - service: notify.mobile_app_duffel
+      data:
+        title: "Garage Doors still open and no-one's home!"
+        message: "No-one's home, was that a mistake? You might want to close it :)"
+        data:
+          push:
+            category: 'garage'            
+  
 ###IOS GARAGE PUSH BUTTON###
 
 - alias: iOS Push - Close the Garage
@@ -193,8 +207,6 @@
     entity_id: switch.bedroom_heater
 
 - alias: 'Turn off Bedroom Heater after 8am'
-  #id: turnoncoffeemachinewkday
-  #initial_state: True
   trigger:
     platform: time
     at: '08:00:00'
@@ -212,8 +224,6 @@
     entity_id: switch.bedroom_heater
 
 - alias: 'Turn on Bedroom Heater at 4:30am'
-  #id: turnoncoffeemachinewkday
-  #initial_state: True
   trigger:
     platform: time
     at: '04:30:00'
@@ -236,17 +246,20 @@
   #initial_state: True
   trigger:
     platform: time
-    at: '06:15:00'
+    at: '06:40:00'
   condition:
     condition: and
     conditions:
-      - condition: time
-        weekday:
-          - mon
-          - tue
-          - wed
-          - thu
-          - fri
+      #- condition: time
+      #  weekday:
+      #    - mon
+      #    - tue
+      #    - wed
+      #    - thu
+      #    - fri
+      - condition: state
+        entity_id: binary_sensor.workday_sensor
+        state: 'on'
       - condition: state
         entity_id: device_tracker.ichicane
         #group.at_home
@@ -287,10 +300,13 @@
   condition:
     condition: and
     conditions:
-      - condition: time
-        weekday:
-          - sat
-          - sun
+      #- condition: time
+      #  weekday:
+      #    - sat
+      #    - sun
+      - condition: state
+        entity_id: binary_sensor.workday_sensor
+        state: 'off'     
       - condition: state
         entity_id: device_tracker.ichicane
         state: 'home'
@@ -310,14 +326,14 @@
     service: switch.turn_off
     entity_id: switch.coffee_machine
 
-- alias: 'Turn off Mozzie Zapper 5 hours'
+- alias: 'Turn off Mozzie Zapper 4 hours'
   trigger:
     platform: state
     entity_id: switch.mozzie_zapper
     from: 'off'
     to: 'on'
     for:
-      hours: 5
+      hours: 4
   action:
     service: switch.turn_off
     entity_id: switch.mozzie_zapper
@@ -462,6 +478,77 @@
   action:
     - service: light.turn_off
       entity_id: light.pantry
+
+
+- alias: Wardrobe Motion On Light
+  trigger:
+    platform: state
+    entity_id: binary_sensor.motion_sensor_wardrobe
+    from: 'off'
+    to: 'on'
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: light.wardrobe
+        state: 'off'
+      - condition: state
+        entity_id: input_boolean.bedtime_triggered
+        state: 'off'
+  action:
+    - service: light.turn_on
+      entity_id: light.wardrobe
+
+- alias: Wardrobe Motion Off Light
+  trigger:
+    platform: state
+    entity_id: binary_sensor.motion_sensor_wardrobe
+    from: 'on'
+    to: 'off'
+    for: '00:10:00'
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: light.wardrobe
+        state: 'on'
+  action:
+    - service: light.turn_off
+      entity_id: light.wardrobe     
+
+
+- alias: Garage Door On Light
+  trigger:
+    platform: state
+    entity_id:  group.garage_door
+    from: 'off'
+    to: 'on'
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: light.garage
+        state: 'off'
+  action:
+    - service: light.turn_on
+      entity_id: light.garage
+
+- alias: Garage Door Off Light
+  trigger:
+    platform: state
+    entity_id: group.garage_door
+    from: 'on'
+    to: 'off'
+    for: '00:10:00'
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: light.garage
+        state: 'on'
+  action:
+    - service: light.turn_off
+      entity_id: light.garage           
 
 - alias: Loungeroom Single Click
   trigger:
@@ -978,10 +1065,10 @@
       entity_id: input_boolean.bedtime_triggered
     - service: switch.turn_on
       entity_id:
-        - switch.circadian_lighting_kitchen
-        - switch.circadian_lighting_bedroom
-        - switch.circadian_lighting_hallway
-        - switch.circadian_lighting_loungeroom
+        - switch.adaptive_lighting_kitchen
+        - switch.adaptive_lighting_bedroom
+        - switch.adaptive_lighting_hallway
+        - switch.adaptive_lighting_loungeroom
 
 
 #Roku Emulations
@@ -1072,3 +1159,26 @@
     - service: switch.turn_off
       entity_id: switch.cooking_light
       
+  ###Rainfaill accumulation###
+- alias: "Cumulative rainfall total"
+  trigger:
+    platform: time
+    at: '23:59:55'
+  action:
+    - service: input_number.set_value
+      data_template: 
+        entity_id: input_number.weather_pws_precip_month
+        value: "{{ states.input_number.weather_pws_precip_month.state | float + states.sensor.weather_pws_precip_12am.state | float }}"
+
+- alias: "Cumulative rainfall reset"
+  trigger:
+    platform: time
+    at: '00:00:01'
+  condition:
+    condition: template
+    value_template: "{{ now().day == 1 }}"
+  action:
+    - service: input_number.set_value
+      data_template: 
+        entity_id: input_number.weather_pws_precip_month
+        value: "{{ 0 | float }}"   

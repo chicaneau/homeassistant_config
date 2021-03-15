@@ -107,6 +107,50 @@ lounge_air_fan_high:
         entity_id: climate.loungeroom_aircon
         fan_mode: 'high'
 
+office_air_fan_low:
+  alias: 'Office Aircon Fan Low'
+  sequence:
+    - service: climate.set_fan_mode
+      data:
+        entity_id: climate.office_aircon
+        fan_mode: 'low'
+office_air_fan_medium:  
+  alias: 'Office Aircon Fan Medium'
+  sequence:
+    - service: climate.set_fan_mode
+      data:
+        entity_id: climate.office_aircon
+        fan_mode: 'medium'
+office_air_fan_high:
+  alias: 'Office Aircon Fan High'
+  sequence:
+    - service: climate.set_fan_mode
+      data:
+        entity_id: climate.office_aircon
+        fan_mode: 'high'
+
+bedroom_air_fan_low:
+  alias: 'Bedroom Aircon Fan Low'
+  sequence:
+    - service: climate.set_fan_mode
+      data:
+        entity_id: climate.bedroom_aircon
+        fan_mode: 'low'
+bedroom_air_fan_medium:  
+  alias: 'Bedroom Aircon Fan Medium'
+  sequence:
+    - service: climate.set_fan_mode
+      data:
+        entity_id: climate.bedroom_aircon
+        fan_mode: 'medium'
+bedroom_air_fan_high:
+  alias: 'Bedroom Aircon Fan High'
+  sequence:
+    - service: climate.set_fan_mode
+      data:
+        entity_id: climate.bedroom_aircon
+        fan_mode: 'high'
+
 bedroom_reading:
   alias: 'Bedroom Reading Lights'
   sequence:
@@ -167,3 +211,97 @@ loungeroom_circadian:
         manual_control: false
     - service: switch.turn_on
       entity_id: switch.adaptive_lighting_loungeroom
+
+##Roborock Vac Zone Cleans
+
+roborock_clean_master:
+  alias: 'Vacuum Master Bedroom'
+  sequence:
+    - service: xiaomi_miio.vacuum_clean_zone
+      data:
+        entity_id: vacuum.xiaomi_vacuum_cleaner
+        zone: [[21200,26400,27250,31100]]
+        repeats: 1
+      
+roborock_clean_ensuite:
+  alias: 'Vacuum Ensuite'
+  sequence:
+    - service: xiaomi_miio.vacuum_clean_zone
+      data:
+        entity_id: vacuum.xiaomi_vacuum_cleaner
+        zone: [[21150,23150,25150,26600]]
+        repeats: 1
+
+        
+roborock_clean_office:
+  alias: 'Vacuum Office'
+  sequence:
+    - service: xiaomi_miio.vacuum_clean_zone
+      data:
+        entity_id: vacuum.xiaomi_vacuum_cleaner
+        zone: [[22600,19800,27800,23200],[25100,22800,27750,24150]]
+        repeats: 1        
+
+roborock_clean_server_room:
+  alias: 'Vacuum Server Room'
+  sequence:
+    - service: xiaomi_miio.vacuum_clean_zone
+      data:
+        entity_id: vacuum.xiaomi_vacuum_cleaner
+        zone: [[25050,24100,27800,26550]]
+        repeats: 1    
+        
+roborock_clean_laundry:
+  alias: 'Vacuum Laundry'
+  sequence:
+    - service: xiaomi_miio.vacuum_clean_zone
+      data:
+        entity_id: vacuum.xiaomi_vacuum_cleaner
+        zone: [[30650,18250,33500,20350]]
+        repeats: 1    
+
+roborock_clean_west_wing:
+  alias: 'Vacuum West Wing'
+  sequence:
+    - service: xiaomi_miio.vacuum_clean_zone
+      data:
+        entity_id: vacuum.xiaomi_vacuum_cleaner
+        zone: [[29450,10750,33850,20400]]
+        repeats: 1  
+
+roborock_clean_east_wing:
+  alias: 'Vacuum East Wing'
+  sequence:
+    - service: xiaomi_miio.vacuum_clean_zone
+      data:
+        entity_id: vacuum.xiaomi_vacuum_cleaner
+        zone: [[23300,14800,29600,20100],[18200,10800,25900,16000]]
+        repeats: 1  
+
+roborock_clean_kitchen:
+  alias: 'Vacuum Kitchen'
+  sequence:
+    - service: xiaomi_miio.vacuum_clean_zone
+      data:
+        entity_id: vacuum.xiaomi_vacuum_cleaner
+        zone: [[23200,11400,25950,14800]]
+        repeats: 1          
+
+roborock_clean_hallway:
+  alias: 'Vacuum Hallway'
+  sequence:
+    - service: xiaomi_miio.vacuum_clean_zone
+      data:
+        entity_id: vacuum.xiaomi_vacuum_cleaner
+        zone: [[27150,26450,29050,29000],[27650,19750,29200,26650]]
+        repeats: 1    
+        
+roborock_clean_house:
+  alias: 'Vacuum House'
+  sequence:
+    - service: vacuum.start
+      entity_id: vacuum.xiaomi_vacuum_cleaner
+
+        
+        
+        

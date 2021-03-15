@@ -13,3 +13,9 @@ Back Door:
     - binary_sensor.door_outside_rear
   all: true
   icon: mdi:door
+Garage Door:
+  entities:
+    - binary_sensor.door_garage_internal
+    - cover.garage_door
+  #all: true
+  icon: mdi:door

@@ -21,7 +21,7 @@ zone:
     latitude: !secret home_lat
     longitude: !secret home_long
     icon: mdi:home
-    radius: 150
+    radius: 200
 
   - name: SCUH
     latitude: -26.74760336442635
@@ -66,7 +66,11 @@ lovelace:
     - url: /hacsfiles/mini-graph-card/mini-graph-card-bundle.js
       type: module
     - url: /hacsfiles/button-card/button-card.js
-      type: module    
+      type: module   
+    - url: /hacsfiles/lovelace-xiaomi-vacuum-map-card/xiaomi-vacuum-map-card.js
+      type: module       
+    - url: /hacsfiles/vacuum-card/vacuum-card.js
+      type: module   
   
 # Checks for available updates
 updater:
@@ -137,20 +141,10 @@ hue:
       allow_hue_groups: true
 
 binary_sensor:
-  - platform: bayesian
-    name: "Danny Home Bayesian"
-    prior: 0.5
-    observations:
-      - entity_id: 'device_tracker.ichicane'
-        prob_given_true: 1
-        prob_given_false: 0.2
-        platform: 'state'
-        to_state: 'home'
-      - entity_id: 'input_boolean.dannyhome'
-        prob_given_true: 1
-        prob_given_false: 0.2
-        platform: 'state'
-        to_state: 'on'
+  - platform: workday
+    country: AU
+    province: QLD
+      
 
 # binary_sensor:
 #  - platform: huesensor
@@ -161,6 +155,21 @@ binary_sensor:
     # - key: !secret xiaomi_key
       # host: !secret xiaomi_ip
 
+vacuum:
+  - platform: xiaomi_miio
+    host: !secret xiaomi_vacuum_host
+    token: !secret xiaomi_vacuum_token
+
+camera:
+  - platform: xiaomi_cloud_map_extractor
+    host: !secret xiaomi_vacuum_host
+    token: !secret xiaomi_vacuum_token
+    username: !secret xiaomi_cloud_username
+    password: !secret xiaomi_cloud_password
+    draw: ['all']
+    attributes:
+      - calibration_points       
+
 # Text to speech
 tts:
   platform: google_translate
@@ -170,7 +179,7 @@ logger:
   default: error
   logs:
     homeassistant.components.http.ban: warning
-    homeassistant.components.miio_gateway: debug
+    # homeassistant.components.miio_gateway: debug
     # homeassistant.components.media_player: warning
     # homeassistant.components.sensor.sensor.bom_sunshine_coast_air_temp_c: debug
     # homeassistant.components.bom: debug
@@ -179,11 +188,11 @@ logger:
 
 sensor: !include sensor.yaml
 
-remote:
-  - platform: harmony
-    name: Living Room
-    host: !secret harmony_ip
-    activity: Watch TV
+#remote:
+#  - platform: harmony
+#    name: Living Room
+#    host: !secret harmony_ip
+#    activity: Watch TV
 
 emulated_roku:
   servers:
@@ -260,9 +269,16 @@ garbage_collection:
       frequency: "weekly"
       collection_days: wed
       verbose_state: true
-    - name: Recycling Bin
-      frequency: "odd-weeks"
-      collection_days: wed
+  #  - name: Recycling Bin broken
+  #    frequency: "odd-weeks"
+  #    collection_days: wed
+  #    verbose_state: true
+
+    - name: Recycling Bin 
+      frequency: "every-n-days"
+      first_date: '2020-12-30'
+      period: 14
+      #collection_days: wed
       verbose_state: true
 
 input_boolean:
@@ -318,6 +334,14 @@ input_number:
     name: "test num"
     min: 0
     max: 255
+
+  weather_pws_precip_month:
+    name: Monthly Rainfall
+    min: 0
+    max: 600
+    unit_of_measurement: "mm"
+    step: 0.01
+    
 
 google_assistant:
   project_id: hass-cc443
@@ -430,6 +454,8 @@ homekit:
       - binary_sensor
       - media_player
       - sensor
+      - switch
+      - vacuum
     exclude_entities:
       - input_boolean.danny_bin_alerted
       - input_boolean.liz_bin_alerted
@@ -457,9 +483,25 @@ homekit:
       - switch.adaptive_lighting_sleep_mode_kitchen
       - switch.adaptive_lighting_sleep_mode_loungeroom
       - input_boolean.outside_triggered
+      - camera.xiaomi_cloud_map_extractor
+      #- script.roborock_clean_east_wing
+      #- script.roborock_clean_ensuite
+      #- script.roborock_clean_hallway
+      #- script.roborock_clean_kitchen
+      #- script.roborock_clean_laundry
+      #- script.roborock_clean_master
+      #- script.roborock_clean_office
+      #- script.roborock_clean_server_room
+      #- script.roborock_clean_west_wing
+      #- script.office_air_fan_low
+      #- script.bedroom_air_fan_low
 
     include_entities:
+      - switch.bedroom_heater
+      - switch.coffee_machine
       - switch.cooking_light
+      - switch.danny_s_pc
+      - switch.mozzie_zapper
       - light.bathroom
       - light.loungeroom_1
       - light.loungeroom_2
@@ -469,6 +511,8 @@ homekit:
       - light.office
       - light.niche
       - light.dining_room
+      - light.garage
+      - light.wardrobe
       - sensor.garage_temperature
       - sensor.office_temperature
       - sensor.bedroom_temperature

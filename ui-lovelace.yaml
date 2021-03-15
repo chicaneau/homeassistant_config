@@ -2,30 +2,13 @@ title: Home
 views:
   - title: default_view
     icon: mdi:home
+    badges: 
+      - entity: sensor.weather_pws_precip_12am
+      - entity: sensor.weather_pws_precip_month
+      - entity: sensor.weather_pws_wind
     cards:
-#      - type: entities
-#        title: "Lights"
-#        entities:
-#        - type: custom:slider-entity-row
-#          entity: light.bedroom
-#          toggle: true
-#        - type: custom:slider-entity-row
-#          entity: light.kitchen
-#          toggle: true
-#        - type: custom:slider-entity-row
-#          entity: light.loungeroom
-#          toggle: true
-#        - type: custom:slider-entity-row
-#          entity: light.hallway
-#          toggle: true
-#        - type: custom:slider-entity-row
-#          entity: light.bathroom
-#          toggle: true
-#        - switch.cooking_light
-#        - switch.mozzie_zapper
-
     - type: vertical-stack
-      title: Lights
+      title: Lights      
       cards:
       - type: horizontal-stack
         cards:
@@ -81,16 +64,25 @@ views:
           entity: light.pantry
         - type: light
           entity: light.bathroom
-      - type: horizontal-stack
+      - type: vertical-stack
         cards:
-        - type: light
-          entity: light.dining_room
-        - type: light
-          entity: light.office
-        - type: light
-          entity: light.niche
-        - type: light
-          entity: light.outside
+        - type: horizontal-stack
+          cards:
+          - type: light
+            entity: light.wardrobe        
+          - type: light
+            entity: light.dining_room
+          - type: light
+            entity: light.niche
+        - type: horizontal-stack
+          cards:          
+          - type: light
+            entity: light.office
+          - type: light
+            entity: light.outside
+          - type: light
+            entity: light.garage
+
 
       - type: vertical-stack
         title: Circadian Lighting
@@ -371,17 +363,26 @@ views:
       title: "Sensors"
       cards:
         - type: glance
+          columns: 3
           entities:
             - entity: group.back_door
               name: Back Door
               show_state: false
               icon: mdi:door
+            - entity: binary_sensor.door_garage_internal
+              name: Garage Internal Door
+              show_state: false
+              icon: mdi:door              
+            - entity: binary_sensor.motion_sensor_pantry
+              name: Pantry Motion
+              show_state: false              
             - entity: binary_sensor.motion_sensor_bedroom
               name: Bedroom Motion
               show_state: false
-            - entity: binary_sensor.motion_sensor_pantry
-              name: Pantry Motion
-              show_state: false
+            - entity: binary_sensor.motion_sensor_wardrobe
+              name: Wardrobe Motion
+              show_state: false    
+
     - type: grid
       title: "Certificates"          
       cards:
@@ -618,6 +619,50 @@ views:
           - entity: sensor.cooking_light_load_power
             name: Cooking Light
 
+  - title: Vacuum
+    icon:  mdi:robot
+    cards:
+      #- type: picture-glance
+      #  entities: 
+      #   - camera.xiaomi_cloud_map_extractor
+      #  title: Roborock Map
+      #  camera_image: camera.xiaomi_cloud_map_extractor
+      - type: 'custom:vacuum-card'
+        entity: vacuum.xiaomi_vacuum_cleaner
+        stats:
+          default:
+            - attribute: filter_left
+              unit: hours
+              subtitle: Filter
+            - attribute: side_brush_left
+              unit: hours
+              subtitle: Side brush
+            - attribute: main_brush_left
+              unit: hours
+              subtitle: Main brush
+            - attribute: sensor_dirty_left
+              unit: hours
+              subtitle: Sensors
+          cleaning:
+            - attribute: cleaned_area
+              unit: m2
+              subtitle: Cleaning area
+            - attribute: cleaning_time
+              unit: minutes
+              subtitle: Cleaning time
+      - type: custom:xiaomi-vacuum-map-card
+        entity: vacuum.xiaomi_vacuum_cleaner
+        map_camera: camera.xiaomi_cloud_map_extractor
+        camera_calibration: true
+        zones:
+          - [[27150,26450,29050,29000],[27650,19750,29200,26650]]
+          - [[23300,14800,29600,20100],[18200,10800,25900,16000]]
+          - [[29450,10750,33850,20400]]
+          - [[30650,18250,33500,20350]]
+          - [[25050,24100,27800,26550]]
+          - [[22600,19800,27800,23200],[25100,22800,27750,24150]]
+          - [[21150,23150,25150,26600]]
+          - [[21200,26400,27250,31100]]
 
   - title: 4 Week Graph
     icon: mdi:chart-areaspline-variant
