@@ -2,7 +2,7 @@
 - alias: 'Auto Reset Bedroom Lights Daytime'
   trigger:
     - platform: state
-      entity_id: light.hue_ambiance_lamp_3
+      entity_id: light.bedroom_3
       from: 'off'
       to: 'on'
   condition:
@@ -19,7 +19,7 @@
 - alias: 'Auto Reset Bedroom Lights 5pm-830pm'
   trigger:
     - platform: state
-      entity_id: light.hue_ambiance_lamp_3
+      entity_id: light.bedroom_3
       from: 'off'
       to: 'on'
   condition:
@@ -36,7 +36,7 @@
 - alias: 'Auto Reset Bedroom Lights 830pm-5am'
   trigger:
     - platform: state
-      entity_id: light.hue_ambiance_lamp_3
+      entity_id: light.bedroom_3
       from: 'off'
       to: 'on'
   condition:
@@ -53,7 +53,7 @@
     event: sunset
   condition:
     condition: state
-    entity_id: light.hue_ambiance_lamp_3
+    entity_id: light.bedroom_3
     state: 'on'
   action:
     - service: scene.turn_on
@@ -65,7 +65,7 @@
     at: '20:30:00'
   condition:
     condition: state
-    entity_id: light.hue_ambiance_lamp_3
+    entity_id: light.bedroom_3
     state: 'on'
   action:
     - service: scene.turn_on
@@ -83,7 +83,7 @@
     conditions:
       - condition: state
         entity_id:
-          - light.hue_ambiance_lamp_4
+          - light.bedroom_1
           - input_boolean.bedtime_triggered
         state: 'off'
       #- condition: time
@@ -107,7 +107,7 @@
     condition: and
     conditions:
       - condition: state
-        entity_id: light.hue_ambiance_lamp_4
+        entity_id: light.bedroom_1
         state: 'on'
       - condition: state
         entity_id: input_boolean.bedtime_triggered
@@ -154,19 +154,19 @@
     conditions:
       - condition: state
         entity_id:
-          - light.hue_ambiance_lamp_4
-          - light.hue_ambiance_lamp_6
+          - light.bedroom_1
+          - light.bedroom_2
         state: 'on'
       - condition: state
         entity_id:
-          - light.hue_ambiance_lamp_3
-          - light.hue_ambiance_lamp_5
+          - light.bedroom_3
+          - light.bedroom_4
         state: 'off'
   action:
     - service: light.toggle
       entity_id:
-        - light.hue_ambiance_lamp_4
-        - light.hue_ambiance_lamp_6
+        - light.bedroom_1
+        - light.bedroom_2
 
 - alias: Bed Single Click 4 lights
   trigger:
@@ -189,19 +189,19 @@
         conditions:
           - condition: state
             entity_id:
-              - light.hue_ambiance_lamp_4
-              - light.hue_ambiance_lamp_6
-              - light.hue_ambiance_lamp_3
-              - light.hue_ambiance_lamp_5
+              - light.bedroom_1
+              - light.bedroom_2
+              - light.bedroom_3
+              - light.bedroom_4
             state: 'on'
       - condition: and
         conditions:
           - condition: state
             entity_id:
-              - light.hue_ambiance_lamp_4
-              - light.hue_ambiance_lamp_6
-              - light.hue_ambiance_lamp_3
-              - light.hue_ambiance_lamp_5
+              - light.bedroom_1
+              - light.bedroom_2
+              - light.bedroom_3
+              - light.bedroom_4
             state: 'off'
           - condition: state
             entity_id: input_boolean.bedtime_triggered
@@ -229,10 +229,10 @@
     conditions:
       - condition: state
         entity_id:
-        - light.hue_ambiance_lamp_4
-        - light.hue_ambiance_lamp_6
-        - light.hue_ambiance_lamp_3
-        - light.hue_ambiance_lamp_5
+        - light.bedroom_1
+        - light.bedroom_2
+        - light.bedroom_3
+        - light.bedroom_4
         state: 'off'
       - condition: state
         entity_id: input_boolean.bedtime_triggered
@@ -240,12 +240,12 @@
 
   action:
     - service: light.turn_on
-      entity_id: light.hue_ambiance_lamp_4
+      entity_id: light.bedroom_1
       data:
         brightness: 2
         color_temp: 278
     - service: light.turn_on
-      entity_id: light.hue_ambiance_lamp_6
+      entity_id: light.bedroom_2
       data:
         brightness: 2
         color_temp: 278
@@ -270,13 +270,13 @@
     conditions:
       - condition: state
         entity_id:
-          - light.hue_ambiance_lamp_4
-          - light.hue_ambiance_lamp_6
+          - light.bedroom_1
+          - light.bedroom_2
         state: 'on'
       - condition: state
         entity_id:
-          - light.hue_ambiance_lamp_3
-          - light.hue_ambiance_lamp_5
+          - light.bedroom_3
+          - light.bedroom_4
         state: 'off'
       - condition: state
         entity_id: input_boolean.bedtime_triggered
@@ -320,10 +320,10 @@
     #    condition: and
     #    conditions:
     #      - condition: state
-    #        entity_id: light.hue_ambiance_lamp_5
+    #        entity_id: light.bedroom_4
     #        state: 'on'
     #      - condition: template
-    #        value_template: "{{ (state_attr('light.hue_ambiance_lamp_5', 'brightness')|int) > 50 }}"
+    #        value_template: "{{ (state_attr('light.bedroom_4', 'brightness')|int) > 50 }}"
     #  action:
     #    - service: light.turn_on
     #      data:

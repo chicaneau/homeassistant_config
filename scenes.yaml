@@ -6,25 +6,25 @@
       friendly_name: Bedtime Triggered
       icon: mdi:hotel
       state: 'on'
-    light.hue_ambiance_lamp_1:
+    light.hallway_1:
       min_mireds: 153
       max_mireds: 454
       friendly_name: Hallway 1
       supported_features: 43
       state: 'off'
-    light.hue_ambiance_lamp_2:
+    light.hallway_2:
       min_mireds: 153
       max_mireds: 454
       friendly_name: Hallway 2
       supported_features: 43
       state: 'off'
-    light.hue_ambiance_lamp_3:
+    light.bedroom_3:
       min_mireds: 153
       max_mireds: 454
       friendly_name: Bedroom 3
       supported_features: 43
       state: 'off'
-    light.hue_ambiance_lamp_4:
+    light.bedroom_1:
       min_mireds: 153
       max_mireds: 454
       brightness: 2
@@ -32,13 +32,13 @@
       friendly_name: Bedroom 1
       supported_features: 43
       state: 'on'
-    light.hue_ambiance_lamp_5:
+    light.bedroom_4:
       min_mireds: 153
       max_mireds: 454
       friendly_name: Bedroom 4
       supported_features: 43
       state: 'off'
-    light.hue_ambiance_lamp_6:
+    light.bedroom_2:
       min_mireds: 153
       max_mireds: 454
       brightness: 2
@@ -161,37 +161,37 @@
       friendly_name: Bedtime Triggered
       icon: mdi:hotel
       state: 'on'
-    light.hue_ambiance_lamp_1:
+    light.hallway_1:
       min_mireds: 153
       max_mireds: 454
       friendly_name: Hallway 1
       supported_features: 43
       state: 'off'
-    light.hue_ambiance_lamp_2:
+    light.hallway_2:
       min_mireds: 153
       max_mireds: 454
       friendly_name: Hallway 2
       supported_features: 43
       state: 'off'
-    light.hue_ambiance_lamp_3:
+    light.bedroom_3:
       min_mireds: 153
       max_mireds: 454
       friendly_name: Bedroom 3
       supported_features: 43
       state: 'off'
-    light.hue_ambiance_lamp_4:
+    light.bedroom_1:
       min_mireds: 153
       max_mireds: 454
       friendly_name: Bedroom 1
       supported_features: 43
       state: 'off'
-    light.hue_ambiance_lamp_5:
+    light.bedroom_4:
       min_mireds: 153
       max_mireds: 454
       friendly_name: Bedroom 4
       supported_features: 43
       state: 'off'
-    light.hue_ambiance_lamp_6:
+    light.bedroom_2:
       min_mireds: 153
       max_mireds: 454
       friendly_name: Bedroom 2
@@ -303,7 +303,7 @@
       friendly_name: Bedtime Triggered
       icon: mdi:hotel
       state: 'on'
-    light.hue_ambiance_lamp_1:
+    light.hallway_1:
       min_mireds: 153
       max_mireds: 454
       brightness: 3
@@ -311,7 +311,7 @@
       friendly_name: Hallway 1
       supported_features: 43
       state: 'on'
-    light.hue_ambiance_lamp_2:
+    light.hallway_2:
       min_mireds: 153
       max_mireds: 454
       brightness: 3
@@ -319,25 +319,25 @@
       friendly_name: Hallway 2
       supported_features: 43
       state: 'on'
-    light.hue_ambiance_lamp_3:
+    light.bedroom_3:
       min_mireds: 153
       max_mireds: 454
       friendly_name: Bedroom 3
       supported_features: 43
       state: 'off'
-    light.hue_ambiance_lamp_4:
+    light.bedroom_1:
       min_mireds: 153
       max_mireds: 454
       friendly_name: Bedroom 1
       supported_features: 43
       state: 'off'
-    light.hue_ambiance_lamp_5:
+    light.bedroom_4:
       min_mireds: 153
       max_mireds: 454
       friendly_name: Bedroom 4
       supported_features: 43
       state: 'off'
-    light.hue_ambiance_lamp_6:
+    light.bedroom_2:
       min_mireds: 153
       max_mireds: 454
       friendly_name: Bedroom 2
@@ -508,57 +508,57 @@
 - id: '1593653725707'
   name: Bedroom Lights Step 2
   entities:
-    light.hue_ambiance_lamp_6:
+    light.bedroom_2:
       state: 'on'
       brightness: 100
       color_temp: 278
-    light.hue_ambiance_lamp_4:
+    light.bedroom_1:
       state: 'on'
       brightness: 100
       color_temp: 278
-    light.hue_ambiance_lamp_3:
+    light.bedroom_3:
       state: 'on'
       brightness: 100
       color_temp: 278
-    light.hue_ambiance_lamp_5:
+    light.bedroom_4:
       state: 'on'
       brightness: 100
       color_temp: 278
 - id: '1593653750112'
   name: Bedroom Lights Step 3
   entities:
-    light.hue_ambiance_lamp_6:
+    light.bedroom_2:
       state: 'on'
       brightness: 55
       color_temp: 278
-    light.hue_ambiance_lamp_4:
+    light.bedroom_1:
       state: 'on'
       brightness: 55
       color_temp: 278
-    light.hue_ambiance_lamp_3:
+    light.bedroom_3:
       state: 'on'
       brightness: 55
       color_temp: 278
-    light.hue_ambiance_lamp_5:
+    light.bedroom_4:
       state: 'on'
       brightness: 55
       color_temp: 278
 - id: '1593655093419'
   name: Reset Bedroom Lights
   entities:
-    light.hue_ambiance_lamp_6:
+    light.bedroom_2:
       state: 'on'
       brightness: 180
       color_temp: 278
-    light.hue_ambiance_lamp_4:
+    light.bedroom_1:
       state: 'on'
       brightness: 180
       color_temp: 278
-    light.hue_ambiance_lamp_3:
+    light.bedroom_3:
       state: 'on'
       brightness: 180
       color_temp: 278
-    light.hue_ambiance_lamp_5:
+    light.bedroom_4:
       state: 'on'
       brightness: 180
       color_temp: 278

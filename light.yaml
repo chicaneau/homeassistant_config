@@ -15,8 +15,8 @@
   - platform: group
     name: Bedroom Night Lamps
     entities:
-      - light.hue_ambiance_lamp_6
-      - light.hue_ambiance_lamp_4
+      - light.bedroom_2
+      - light.bedroom_1
 
   - platform: template
     lights:

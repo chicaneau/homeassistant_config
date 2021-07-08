@@ -479,8 +479,8 @@ views:
         show_header_toggle: true
         entities:
           - light.hallway
-          - light.hue_ambiance_lamp_1
-          - light.hue_ambiance_lamp_2
+          - light.hallway_1
+          - light.hallway_2
       - type: entities
         title: Home Assistant
         show_header_toggle: false
@@ -510,28 +510,36 @@ views:
           - sensor.normal_bin
           - sensor.recycling_bin
 
-  - title: Lights
-    icon: mdi:lightbulb
-    cards:
-      - type: "custom:light-entity-card"
-        entity: light.kitchen
-        persist_features: true
-        #brightness: true
-        #color_temp: true
-        #white_value: true
-      - type: "custom:light-entity-card"
-        entity: light.loungeroom
-        persist_features: true
-      - type: "custom:light-entity-card"
-        entity: light.hallway
-        persist_features: true
-      - type: "custom:light-entity-card"
-        entity: light.bedroom
-        persist_features: true
+#  - title: Lights
+#    icon: mdi:lightbulb
+#    cards:
+#      - type: "custom:light-entity-card"
+#        entity: light.kitchen
+#        persist_features: true
+#        #brightness: true
+#        #color_temp: true
+#        #white_value: true
+#      - type: "custom:light-entity-card"
+#        entity: light.loungeroom
+#        persist_features: true
+#      - type: "custom:light-entity-card"
+#        entity: light.hallway
+#        persist_features: true
+#      - type: "custom:light-entity-card"
+#        entity: light.bedroom
+#        persist_features: true
 
   - title: Graph
     icon: mdi:chart-areaspline
     cards:
+      
+      - type: history-graph
+        title: Rain
+        hours_to_show: 72
+        refresh_interval: 60
+        entities:
+          - entity: sensor.weather_pws_precip_month
+            name: Monthly
       - type: history-graph
         title: Temperature Graph
         hours_to_show: 48
@@ -664,6 +672,7 @@ views:
           - [[21150,23150,25150,26600]]
           - [[21200,26400,27250,31100]]
 
+
   - title: 4 Week Graph
     icon: mdi:chart-areaspline-variant
     cards:
@@ -684,6 +693,25 @@ views:
             name: Outside
           - entity: sensor.bom_sunshine_coast_air_temp_c
             name: BOM Sunshine Coast
+      - type: history-graph
+        title: Daily Rain Graph
+        hours_to_show: 672
+        refresh_interval: 60
+        entities:
+          - entity: sensor.weather_pws_precip_12am
+            name: Rain
+      - type: history-graph
+        title: Monthly Rain Graph
+        hours_to_show: 672
+        refresh_interval: 60
+        entities:
+          - entity: sensor.weather_pws_precip_month
+            name: Rain Sensor
+          - entity: input_number.weather_pws_precip_month
+            name: Rain Input Number       
+
+                
+                       
       - type: history-graph
         title: Humidity Graph
         hours_to_show: 672
@@ -817,7 +845,7 @@ views:
           - automation.turn_on_coffee_machine_holidays_weekday_morning
           - automation.turn_on_coffee_machine_weekend_morning
           - automation.turn_off_coffee_machine_2_hours
-          - automation.turn_off_mozzie_zapper_5_hours
+          - automation.turn_off_mozzie_zapper_4_hours
           - automation.turn_on_bedroom_heater_when_cold
           - automation.turn_off_bedroom_heater_when_hot
           - automation.turn_off_bedroom_heater_after_8am

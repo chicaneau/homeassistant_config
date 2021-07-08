@@ -328,39 +328,39 @@
   name: 'Server RAID Used'
   version: '2c'
 
-- platform: snmp
-  host: !secret server_ip
-  baseoid: .1.3.6.1.2.1.25.2.3.1.4.3
-  name: 'Server Torrents Allocation Units'
-  version: '2c'
+#- platform: snmp
+#  host: !secret server_ip
+#  baseoid: .1.3.6.1.2.1.25.2.3.1.4.3
+#  name: 'Server Torrents Allocation Units'
+#  version: '2c'
+#
+#- platform: snmp
+#  host: !secret server_ip
+#  baseoid: .1.3.6.1.2.1.25.2.3.1.5.3
+#  name: 'Server Torrents Size'
+#  version: '2c'
+#
+#- platform: snmp
+#  host: !secret server_ip
+#  baseoid: .1.3.6.1.2.1.25.2.3.1.6.3
+#  name: 'Server Torrents Used'
+#  version: '2c'
 
 - platform: snmp
   host: !secret server_ip
-  baseoid: .1.3.6.1.2.1.25.2.3.1.5.3
-  name: 'Server Torrents Size'
-  version: '2c'
-
-- platform: snmp
-  host: !secret server_ip
-  baseoid: .1.3.6.1.2.1.25.2.3.1.6.3
-  name: 'Server Torrents Used'
-  version: '2c'
-
-- platform: snmp
-  host: !secret server_ip
-  baseoid: .1.3.6.1.2.1.25.2.3.1.4.6
+  baseoid: .1.3.6.1.2.1.25.2.3.1.4.10
   name: 'Server RAM Allocation Units'
   version: '2c'
 
 - platform: snmp
   host: !secret server_ip
-  baseoid: .1.3.6.1.2.1.25.2.3.1.5.6
+  baseoid: .1.3.6.1.2.1.25.2.3.1.5.10
   name: 'Server RAM Size'
   version: '2c'
 
 - platform: snmp
   host: !secret server_ip
-  baseoid: .1.3.6.1.2.1.25.2.3.1.6.6
+  baseoid: .1.3.6.1.2.1.25.2.3.1.6.10
   name: 'Server RAM Used'
   version: '2c'
 
@@ -408,17 +408,25 @@
 
 - platform: rest
   name: Caloundra West PWS
-  resource: https://api.weather.com/v2/pws/observations/current?stationId=ICALOU5&format=json&units=m&apiKey=81f1719d60af46fbb1719d60afe6fba8
+  resource: https://api.weather.com/v2/pws/observations/current?stationId=ICALOU7&format=json&units=m&apiKey=81f1719d60af46fbb1719d60afe6fba8&numericPrecision=decimal
   json_attributes: 
     - observations
   value_template: '{{ value_json["observations"][0].stationID }}'
+  scan_interval: 180 #3 mins
+  force_update: true
 
 - platform: template
   sensors:
     
     weather_pws_precip_month:
       friendly_name: Rain This Month
-      value_template: '{{ states.input_number.weather_pws_precip_month.state | float + states.sensor.weather_pws_precip_12am.state | float }}'
+      value_template: >-
+         {{ states.input_number.weather_pws_precip_month.state | float + states.sensor.weather_pws_precip_12am.state | float }}
+#        {%- if now().strftime('%T') < strptime('23:59:58', '%T') and now().strftime('%T') >= strptime('00:00:00', '%T') -%}
+#        {{ states.input_number.weather_pws_precip_month.state | float + states.sensor.weather_pws_precip_12am.state | float }}
+#        {%- else -%}
+#        {{ states.input_number.weather_pws_precip_month.state | float }}
+#        {%- endif -%}
       unit_of_measurement: "mm"
 
     weather_pws_precip_12am:
@@ -482,18 +490,36 @@
          {{ (((states.sensor.server_raid_size.state|int * states.sensor.server_raid_allocation_units.state|int) - (states.sensor.server_raid_used.state|int * states.sensor.server_raid_allocation_units.state|int)) / 1024 / 1024 / 1024)|round(2) }}
        unit_of_measurement: "GB"
        icon_template: mdi:harddisk-plu 
+#    server_torrents_capacity:
+#       friendly_name: Server Torrents Capacity
+#       value_template: >
+#         {{ ((states.sensor.server_torrents_used.state|int * states.sensor.server_torrents_allocation_units.state|int * 100) / (states.sensor.server_torrents_size.state|int * states.sensor.server_torrents_allocation_units.state|int))|round(2) }}
+#       unit_of_measurement: "%"
+#       icon_template: mdi:harddisk
     server_torrents_capacity:
        friendly_name: Server Torrents Capacity
        value_template: >
-         {{ ((states.sensor.server_torrents_used.state|int * states.sensor.server_torrents_allocation_units.state|int * 100) / (states.sensor.server_torrents_size.state|int * states.sensor.server_torrents_allocation_units.state|int))|round(2) }}
+         {{ (((states.sensor.server_torrents_size.state|int - states.sensor.server_torrents_free_2.state|int) / (states.sensor.server_torrents_size.state|int)|round(2)) * 100)|round(2) }}
        unit_of_measurement: "%"
-       icon_template: mdi:harddisk
+       icon_template: mdi:harddisk       
+#    server_torrents_free:
+#       friendly_name: Server Torrents Free
+#       value_template: >
+#         {{ (((states.sensor.server_torrents_size.state|int * states.sensor.server_torrents_allocation_units.state|int) - (states.sensor.server_torrents_used.state|int * states.sensor.server_torrents_allocation_units.state|int)) / 1024 / 1024 / 1024)|round(2) }}
+#       unit_of_measurement: "GB"
+#       icon_template: mdi:harddisk-plu 
     server_torrents_free:
        friendly_name: Server Torrents Free
        value_template: >
-         {{ (((states.sensor.server_torrents_size.state|int * states.sensor.server_torrents_allocation_units.state|int) - (states.sensor.server_torrents_used.state|int * states.sensor.server_torrents_allocation_units.state|int)) / 1024 / 1024 / 1024)|round(2) }}
+         {{ (states.sensor.server_torrents_free_2.state|int / 1024 / 1024 / 1024)|round(2) }}
        unit_of_measurement: "GB"
-       icon_template: mdi:harddisk-plu 
+       icon_template: mdi:harddisk-plu        
+#    server_ram_capacity:
+#       friendly_name: Server RAM Capacity
+#       value_template: >
+#         {{ ((states.sensor.server_ram_used.state|int * states.sensor.server_ram_allocation_units.state|int * 100) / (states.sensor.server_ram_size.state|int * states.sensor.server_ram_allocation_units.state|int))|round(2) }}
+#       unit_of_measurement: "%"
+#       icon_template: mdi:memory    
     server_ram_capacity:
        friendly_name: Server RAM Capacity
        value_template: >

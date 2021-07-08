@@ -155,19 +155,19 @@ bedroom_reading:
   alias: 'Bedroom Reading Lights'
   sequence:
     - service: light.turn_on
-      entity_id: light.hue_ambiance_lamp_6
+      entity_id: light.bedroom_2
       data:
         brightness: 100
         color_temp: 278
     - service: light.turn_on
-      entity_id: light.hue_ambiance_lamp_4
+      entity_id: light.bedroom_1
       data:
         brightness: 100
         color_temp: 278
     - service: light.turn_off
-      entity_id: light.hue_ambiance_lamp_3
+      entity_id: light.bedroom_3
     - service: light.turn_off
-      entity_id: light.hue_ambiance_lamp_5
+      entity_id: light.bedroom_4
 
 bedroom_circadian:
   alias: 'Bedroom Circadian'

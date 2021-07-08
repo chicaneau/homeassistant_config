@@ -21,8 +21,8 @@
   action:
     - service: notify.mobile_app_ichicane
       data:
-        title: "Take out both bins"
-        message: "Recycling Week"
+        title: "Recycling Bin Week"
+        message: "Recycling Bin Week"
         #target: 'device/iChicane'
     - service: input_boolean.turn_on
       entity_id: input_boolean.danny_bin_alerted
@@ -49,8 +49,8 @@
   action:
     - service: notify.mobile_app_duffel
       data:
-        title: "Take out both bins"
-        message: "Take out both bins"
+        title: "Recycling Bin Week"
+        message: "Recycling Bin Week"
     - service: input_boolean.turn_on
       entity_id: input_boolean.liz_bin_alerted
 
@@ -105,8 +105,8 @@
   action:
     - service: notify.mobile_app_ichicane
       data:
-        title: "Take out normal bin only"
-        message: "Green Bin week"
+        title: "Green Bin Week"
+        message: "Green Bin Week"
         #target: 'device/iChicane'
     - service: input_boolean.turn_on
       entity_id: input_boolean.danny_bin_alerted
@@ -135,8 +135,8 @@
   action:
     - service: notify.mobile_app_duffel
       data:
-        title: "Take out normal bin only"
-        message: "Take out normal bin only"
+        title: "Green Bin Week"
+        message: "Green Bin Week"
     - service: input_boolean.turn_on
       entity_id: input_boolean.liz_bin_alerted
 
@@ -165,7 +165,7 @@
     - service: tts.google_translate_say
       data:
         entity_id: group.google_homes
-        message: "Good Afternoon, today is Normal Bin day"
+        message: "Good Afternoon, today is Green Bin day"
     - service: input_boolean.turn_on
       entity_id: input_boolean.both_bin_alerted
 
@@ -189,8 +189,8 @@
   action:
     - service: notify.mobile_app_ichicane
       data:
-        title: "Take out both bins"
-        message: "Recycling Week"
+        title: "Recycling Bin Week"
+        message: "Recycling Bin Week"
         #target: 'device/iChicane'
     - service: input_boolean.turn_on
       entity_id: input_boolean.danny_bin_alerted
@@ -214,8 +214,8 @@
   action:
     - service: notify.mobile_app_duffel
       data:
-        title: "Take out both bins"
-        message: "Take out both bins"
+        title: "Recycling Bin Week"
+        message: "Recycling Bin Week"
     - service: input_boolean.turn_on
       entity_id: input_boolean.liz_bin_alerted
 
@@ -264,7 +264,7 @@
   action:
     - service: notify.mobile_app_ichicane
       data:
-        title: "Take out normal bin only"
+        title: "Green Bin Week"
         message: "Green Bin Week"
         #target: 'device/iChicane'
     - service: input_boolean.turn_on
@@ -291,8 +291,8 @@
   action:
     - service: notify.mobile_app_duffel
       data:
-        title: "Take out normal bin only"
-        message: "Take out normal bin only"
+        title: "Green Bin Week"
+        message: "Green Bin Week"
     - service: input_boolean.turn_on
       entity_id: input_boolean.liz_bin_alerted
 
@@ -318,6 +318,6 @@
     - service: tts.google_translate_say
       data:
         entity_id: group.google_homes
-        message: "Good Afternoon, today is Normal Bin day"
+        message: "Good Afternoon, today is Green Bin day"
     - service: input_boolean.turn_on
       entity_id: input_boolean.both_bin_alerted

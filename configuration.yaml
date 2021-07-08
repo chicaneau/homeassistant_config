@@ -168,7 +168,9 @@ camera:
     password: !secret xiaomi_cloud_password
     draw: ['all']
     attributes:
-      - calibration_points       
+      - calibration_points   
+    colors: 
+      color_path: [255, 255, 255]    
 
 # Text to speech
 tts:
@@ -230,19 +232,27 @@ group: !include groups.yaml
 adaptive_lighting:
   - name: "Loungeroom"
     lights: 
-      - light.loungeroom
+      - light.loungeroom_1
+      - light.loungeroom_2
+      - light.loungeroom_3
+      - light.loungeroom_4
     min_brightness: 20
   - name: "Kitchen"
     lights: 
-      - light.kitchen    
+      - light.kitchen_1
+      - light.kitchen_2  
     min_brightness: 20
   - name: "Bedroom"
     lights: 
-      - light.bedroom    
+      - light.bedroom_3
+      - light.bedroom_1 
+      - light.bedroom_4 
+      - light.bedroom_2 
     min_brightness: 20
   - name: "Hallway"
     lights: 
-      - light.hallway 
+      - light.hallway_1
+      - light.hallway_2
     min_brightness: 20   
 
 cover:
@@ -341,7 +351,7 @@ input_number:
     max: 600
     unit_of_measurement: "mm"
     step: 0.01
-    
+
 
 google_assistant:
   project_id: hass-cc443
@@ -507,12 +517,21 @@ homekit:
       - light.loungeroom_2
       - light.loungeroom_3
       - light.loungeroom_4
+      - light.kitchen_1
+      - light.kitchen_2
       - light.outside
       - light.office
       - light.niche
       - light.dining_room
       - light.garage
       - light.wardrobe
+      - light.pantry_1
+      - light.bedroom_1
+      - light.bedroom_2
+      - light.bedroom_3
+      - light.bedroom_4
+      - light.hallway_1
+      - light.hallway_2
       - sensor.garage_temperature
       - sensor.office_temperature
       - sensor.bedroom_temperature
