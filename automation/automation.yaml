@@ -1184,9 +1184,9 @@
   ###Rainfaill accumulation###
 - alias: "Cumulative rainfall total"
   trigger:
-    platform: state
+    platform: numeric_state
     entity_id: sensor.weather_pws_precip_12am
-    to: '0'
+    below: 0.001
   action:
     - service: input_number.set_value
       data_template: 
@@ -1205,7 +1205,7 @@
 - alias: "Cumulative rainfall reset"
   trigger:
     platform: time
-    at: '00:00:01'
+    at: '00:00:03'
   condition:
     condition: template
     value_template: "{{ now().day == 1 }}"

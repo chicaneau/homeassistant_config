@@ -155,10 +155,10 @@ binary_sensor:
     # - key: !secret xiaomi_key
       # host: !secret xiaomi_ip
 
-vacuum:
-  - platform: xiaomi_miio
-    host: !secret xiaomi_vacuum_host
-    token: !secret xiaomi_vacuum_token
+#vacuum:
+#  - platform: xiaomi_miio
+#    host: !secret xiaomi_vacuum_host
+#    token: !secret xiaomi_vacuum_token
 
 camera:
   - platform: xiaomi_cloud_map_extractor

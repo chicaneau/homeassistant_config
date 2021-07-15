@@ -636,7 +636,7 @@ views:
       #  title: Roborock Map
       #  camera_image: camera.xiaomi_cloud_map_extractor
       - type: 'custom:vacuum-card'
-        entity: vacuum.xiaomi_vacuum_cleaner
+        entity: vacuum.roborock_s6_pure
         stats:
           default:
             - attribute: filter_left
@@ -659,7 +659,7 @@ views:
               unit: minutes
               subtitle: Cleaning time
       - type: custom:xiaomi-vacuum-map-card
-        entity: vacuum.xiaomi_vacuum_cleaner
+        entity: vacuum.roborock_s6_pure
         map_camera: camera.xiaomi_cloud_map_extractor
         camera_calibration: true
         zones:
@@ -785,7 +785,7 @@ views:
         title: Server
         show_header_toggle: false
         entities:
-          - sensor.server_uptime
+          - sensor.server_lastboot
           - sensor.server_ram_free
           - sensor.server_raid_capacity
           - sensor.server_raid_free
@@ -802,7 +802,8 @@ views:
 
       - type: history-graph
         entities:
-          - sensor.server_ram_capacity
+          - sensor.server_ram
+        name: Server RAM Used
 
   - title: Automations
     icon: mdi:home-automation
