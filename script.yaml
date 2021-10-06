@@ -1,83 +1,77 @@
-restart_hass:
-  alias: 'Restart HASS'
-  sequence:
-    - alias: 'Restart HASS'
-      service: homeassistant.restart
-
-harm_living_watch_tv:
-  alias: 'Living Room Watch TV'
-  sequence:
-    - service: remote.turn_on
-      data:
-        entity_id: remote.living_room
-        activity: 'Watch TV'
-
-harm_living_turn_off:
-  alias: 'Living Turn Off'
-  sequence:
-    - service: remote.turn_off
-      entity_id: remote.living_room
-
-harm_living_watch_apple_tv:
-  alias: 'Living Room Watch Apple TV'
-  sequence:
-    - service: remote.turn_on
-      data:
-        entity_id: remote.living_room
-        activity: 'Watch Apple TV'
-
-harm_living_watch_smart_tv:
-  alias: 'Living Room Watch Smart TV'
-  sequence:
-    - service: remote.turn_on
-      data:
-        entity_id: remote.living_room
-        activity: 'Watch Smart TV'
-
-harm_living_channel_90:
-  alias: 'Channel 90'
-  sequence:
-    - service: remote.send_command
-      data:
-        entity_id: remote.living_room
-        device: 36174724
-        delay_secs: 0.4
-        command:
-          - 9
-          - 0
-harm_living_channel_13:
-  alias: 'Channel 13'
-  sequence:
-    - service: remote.send_command
-      data:
-        entity_id: remote.living_room
-        device: 36174724
-        delay_secs: 0.4
-        command:
-          - 1
-          - 3
-harm_living_channel_70:
-  alias: 'Channel 70'
-  sequence:
-    - service: remote.send_command
-      data:
-        entity_id: remote.living_room
-        device: 36174724
-        delay_secs: 0.4
-        command:
-          - 7
-          - 0
-harm_living_channel_24:
-  alias: 'Channel 24'
-  sequence:
-    - service: remote.send_command
-      data:
-        entity_id: remote.living_room
-        device: 36174724
-        delay_secs: 0.4
-        command:
-          - 2
-          - 4
+#harm_living_watch_tv:
+#  alias: 'Living Room Watch TV'
+#  sequence:
+#    - service: remote.turn_on
+#      data:
+#        entity_id: remote.living_room
+#        activity: 'Watch TV'
+#
+#harm_living_turn_off:
+#  alias: 'Living Turn Off'
+#  sequence:
+#    - service: remote.turn_off
+#      entity_id: remote.living_room
+#
+#harm_living_watch_apple_tv:
+#  alias: 'Living Room Watch Apple TV'
+#  sequence:
+#    - service: remote.turn_on
+#      data:
+#        entity_id: remote.living_room
+#        activity: 'Watch Apple TV'
+#
+#harm_living_watch_smart_tv:
+#  alias: 'Living Room Watch Smart TV'
+#  sequence:
+#    - service: remote.turn_on
+#      data:
+#        entity_id: remote.living_room
+#        activity: 'Watch Smart TV'
+#
+#harm_living_channel_90:
+#  alias: 'Channel 90'
+#  sequence:
+#    - service: remote.send_command
+#      data:
+#        entity_id: remote.living_room
+#        device: 36174724
+#        delay_secs: 0.4
+#        command:
+#          - 9
+#          - 0
+#harm_living_channel_13:
+#  alias: 'Channel 13'
+#  sequence:
+#    - service: remote.send_command
+#      data:
+#        entity_id: remote.living_room
+#        device: 36174724
+#        delay_secs: 0.4
+#        command:
+#          - 1
+#          - 3
+#harm_living_channel_70:
+#  alias: 'Channel 70'
+#  sequence:
+#    - service: remote.send_command
+#      data:
+#        entity_id: remote.living_room
+#        device: 36174724
+#        delay_secs: 0.4
+#        command:
+#          - 7
+#          - 0
+#harm_living_channel_24:
+#  alias: 'Channel 24'
+#  sequence:
+#    - service: remote.send_command
+#      data:
+#        entity_id: remote.living_room
+#        device: 36174724
+#        delay_secs: 0.4
+#        command:
+#          - 2
+#          - 4
 lounge_air_fan_auto:
   alias: 'Loungeroom Aircon Fan Auto'
   sequence:
@@ -129,27 +123,27 @@ office_air_fan_high:
         entity_id: climate.office_aircon
         fan_mode: 'high'
 
-bedroom_air_fan_low:
-  alias: 'Bedroom Aircon Fan Low'
-  sequence:
-    - service: climate.set_fan_mode
-      data:
-        entity_id: climate.bedroom_aircon
-        fan_mode: 'low'
-bedroom_air_fan_medium:  
-  alias: 'Bedroom Aircon Fan Medium'
-  sequence:
-    - service: climate.set_fan_mode
-      data:
-        entity_id: climate.bedroom_aircon
-        fan_mode: 'medium'
-bedroom_air_fan_high:
-  alias: 'Bedroom Aircon Fan High'
-  sequence:
-    - service: climate.set_fan_mode
-      data:
-        entity_id: climate.bedroom_aircon
-        fan_mode: 'high'
+#bedroom_air_fan_low:
+#  alias: 'Bedroom Aircon Fan Low'
+#  sequence:
+#    - service: climate.set_fan_mode
+#      data:
+#        entity_id: climate.bedroom_aircon
+#        fan_mode: 'low'
+#bedroom_air_fan_medium:  
+#  alias: 'Bedroom Aircon Fan Medium'
+#  sequence:
+#    - service: climate.set_fan_mode
+#      data:
+#        entity_id: climate.bedroom_aircon
+#        fan_mode: 'medium'
+#bedroom_air_fan_high:
+#  alias: 'Bedroom Aircon Fan High'
+#  sequence:
+#    - service: climate.set_fan_mode
+#      data:
+#        entity_id: climate.bedroom_aircon
+#        fan_mode: 'high'
 
 bedroom_reading:
   alias: 'Bedroom Reading Lights'
@@ -219,7 +213,7 @@ roborock_clean_master:
   sequence:
     - service: xiaomi_miio.vacuum_clean_zone
       data:
-        entity_id: vacuum.xiaomi_vacuum_cleaner
+        entity_id: vacuum.roborock_s6_pure
         zone: [[21200,26400,27250,31100]]
         repeats: 1
       
@@ -228,7 +222,7 @@ roborock_clean_ensuite:
   sequence:
     - service: xiaomi_miio.vacuum_clean_zone
       data:
-        entity_id: vacuum.xiaomi_vacuum_cleaner
+        entity_id: vacuum.roborock_s6_pure
         zone: [[21150,23150,25150,26600]]
         repeats: 1
 
@@ -238,7 +232,7 @@ roborock_clean_office:
   sequence:
     - service: xiaomi_miio.vacuum_clean_zone
       data:
-        entity_id: vacuum.xiaomi_vacuum_cleaner
+        entity_id: vacuum.roborock_s6_pure
         zone: [[22600,19800,27800,23200],[25100,22800,27750,24150]]
         repeats: 1        
 
@@ -247,7 +241,7 @@ roborock_clean_server_room:
   sequence:
     - service: xiaomi_miio.vacuum_clean_zone
       data:
-        entity_id: vacuum.xiaomi_vacuum_cleaner
+        entity_id: vacuum.roborock_s6_pure
         zone: [[25050,24100,27800,26550]]
         repeats: 1    
         
@@ -256,7 +250,7 @@ roborock_clean_laundry:
   sequence:
     - service: xiaomi_miio.vacuum_clean_zone
       data:
-        entity_id: vacuum.xiaomi_vacuum_cleaner
+        entity_id: vacuum.roborock_s6_pure
         zone: [[30650,18250,33500,20350]]
         repeats: 1    
 
@@ -265,7 +259,7 @@ roborock_clean_west_wing:
   sequence:
     - service: xiaomi_miio.vacuum_clean_zone
       data:
-        entity_id: vacuum.xiaomi_vacuum_cleaner
+        entity_id: vacuum.roborock_s6_pure
         zone: [[29450,10750,33850,20400]]
         repeats: 1  
 
@@ -274,7 +268,7 @@ roborock_clean_east_wing:
   sequence:
     - service: xiaomi_miio.vacuum_clean_zone
       data:
-        entity_id: vacuum.xiaomi_vacuum_cleaner
+        entity_id: vacuum.roborock_s6_pure
         zone: [[23300,14800,29600,20100],[18200,10800,25900,16000]]
         repeats: 1  
 
@@ -283,7 +277,7 @@ roborock_clean_kitchen:
   sequence:
     - service: xiaomi_miio.vacuum_clean_zone
       data:
-        entity_id: vacuum.xiaomi_vacuum_cleaner
+        entity_id: vacuum.roborock_s6_pure
         zone: [[23200,11400,25950,14800]]
         repeats: 1          
 
@@ -292,7 +286,7 @@ roborock_clean_hallway:
   sequence:
     - service: xiaomi_miio.vacuum_clean_zone
       data:
-        entity_id: vacuum.xiaomi_vacuum_cleaner
+        entity_id: vacuum.roborock_s6_pure
         zone: [[27150,26450,29050,29000],[27650,19750,29200,26650]]
         repeats: 1    
         
@@ -300,7 +294,7 @@ roborock_clean_house:
   alias: 'Vacuum House'
   sequence:
     - service: vacuum.start
-      entity_id: vacuum.xiaomi_vacuum_cleaner
+      entity_id: vacuum.roborock_s6_pure
 
         
         

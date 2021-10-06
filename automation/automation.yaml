@@ -128,30 +128,6 @@
     entity_id: cover.garage_door
 
 
-  ####Leave Home Test#####
-- alias: 'Danny Arrives Home'
-  trigger:
-    - platform: state
-      entity_id: device_tracker.ichicane
-      to: 'home'
-  action:
-    service: notify.chicane_pushbullet
-    data:
-      title: 'Danny just got home'
-      message: "Danny home"
-      target: 'device/iChicane'
-
-- alias: 'Danny Leaves Home'
-  trigger:
-    - platform: state
-      entity_id: device_tracker.ichicane
-      from: 'home'
-  action:
-    service: notify.mobile_app_duffel
-    data:
-      title: 'Danny just left home'
-      message: "Danny left home"
-
 ###Bedroom Heater###
 - alias: 'Turn on Bedroom Heater when cold'
   trigger:
@@ -181,6 +157,11 @@
       data:
         hvac_mode: heat
         temperature: 24
+    - service: climate.set_fan_mode
+      target:
+        entity_id: climate.bedroom_aircon
+      data:
+        fan_mode: medium        
           
 
 - alias: 'Turn on Bedroom Heater when 8pm'
@@ -210,6 +191,11 @@
       data:
         hvac_mode: heat
         temperature: 24
+    - service: climate.set_fan_mode
+      target:
+        entity_id: climate.bedroom_aircon
+      data:
+        fan_mode: medium
 
 
 - alias: 'Turn off Bedroom Heater when hot'
@@ -399,6 +385,35 @@
     condition: sun
     after: sunset
     after_offset: "-00:45:00"
+  action:
+    - service: scene.turn_on
+      entity_id: scene.lights_on
+    - condition: time
+      weekday:
+        - fri
+        - sat
+    - service: light.turn_on
+      entity_id: light.Niche
+
+###DARK AT HOME###
+- alias: 'Got dark at home'
+  #initial_state: True
+  trigger:
+    - platform: numeric_state
+      entity_id: sensor.bathroom_illumination
+      below: 700
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: group.at_home
+        state: 'home'
+      - condition: time
+        after: "12:00:00"
+      - condition: sun
+        before: sunset
+        before_offset: "-00:45:00"
+
   action:
     - service: scene.turn_on
       entity_id: scene.lights_on
@@ -994,6 +1009,8 @@
     entity_id: switch.danny_s_pc
     from: 'on'
     to: 'off'
+    for: 
+      minutes: 2
   condition:
     condition: and
     conditions:
@@ -1026,30 +1043,30 @@
       data:
         name: midnight_blue
 #    - delay: "00:00:30"
-    - wait_template: >-
-        {% if not states.light.loungeroom_1 %}
-          false
-        {% elif not states.light.loungeroom_2 %}
-          false
-        {% elif not states.light.loungeroom_3 %}
-          false
-        {% elif not states.light.loungeroom_4 %}
-          false
-        {% elif not states.light.kitchen_1 %}
-          false
-        {% elif not states.light.kitchen_2 %}
-          false
-        {% elif not states.light.bathroom %}
-          false
-        # Repeat for every entity
-        {% else %}
-          true
-        {% endif %}
-      timeout: 00:02  # Waits 2 minutes
-      continue_on_timeout: false
-#    - condition: template
-#      value_template: "{{ states('light.bathroom') != 'unknown' }}"
-    - service: homekit.start
+#    - wait_template: >-
+#        {% if not states.light.loungeroom_1 %}
+#          false
+#        {% elif not states.light.loungeroom_2 %}
+#          false
+#        {% elif not states.light.loungeroom_3 %}
+#          false
+#        {% elif not states.light.loungeroom_4 %}
+#          false
+#        {% elif not states.light.kitchen_1 %}
+#          false
+#        {% elif not states.light.kitchen_2 %}
+#          false
+#        {% elif not states.light.bathroom %}
+#          false
+#        # Repeat for every entity
+#        {% else %}
+#          true
+#        {% endif %}
+#      timeout: 00:01  # Waits 1 minutes
+#      continue_on_timeout: false
+##    - condition: template
+##      value_template: "{{ states('light.bathroom') != 'unknown' }}"
+#    - service: homekit.start
 
 - alias: 'Restart HASS if xiaomi fails at startup'
   #initial_state: 'on'
@@ -1214,3 +1231,82 @@
       data_template: 
         entity_id: input_number.weather_pws_precip_month
         value: "{{ 0 | float }}"   
+
+# PC Speakers On/Off Xiaomi switch
+
+- alias: "PC Speaker on switch with PC"
+  trigger:
+    platform: state
+    entity_id: switch.danny_s_pc
+    from: "off"
+    to: "on"
+  action:
+    - service: switch.turn_on
+      entity_id: switch.pc_speaker
+
+- alias: "PC Speaker off switch with PC"
+  trigger:
+    platform: state
+    entity_id: switch.danny_s_pc
+    from: "on"
+    to: "off"
+  action:
+    - service: switch.turn_off
+      entity_id: switch.pc_speaker      
+
+
+
+##sprinkler
+
+- alias: "Back Sprinkler before sunset"
+  trigger:
+    - platform: sun
+      event: sunset
+      offset: "-00:15:00"
+  action:
+    - service: switch.turn_on
+      entity_id: switch.back_sprinkler   
+    - delay: 00:05:00
+    - service: switch.turn_off
+      entity_id: switch.back_sprinkler     
+
+- alias: "Back Sprinkler Alert"
+  trigger:
+    platform: state
+    entity_id: switch.back_sprinkler
+    from: "off"
+    to: "on"    
+    for: 
+      minutes: 30
+  action:
+    - service: notify.mobile_app_ichicane
+      data:
+        message: 'You might want to turn it off'
+        title: 'Sprinklers been on for 30 minutes!'
+        data:
+          push:
+            category: 'sprinkleroff'
+    
+    - service: notify.mobile_app_duffel
+      data:
+        message: 'You might want to turn it off'
+        title: 'Sprinklers been on for 30 minutes!'
+        data:
+          push:
+            category: 'sprinkleroff'                
+
+- alias: iOS Push - Turn Off Sprinkler
+  trigger:
+    platform: event
+    event_type: ios.notification_action_fired
+    event_data:
+      actionName: SPRINKLER_OFF
+  condition:
+    condition: state
+    entity_id: switch.back_sprinkler  
+    state: 'on'
+  action:
+    service: switch.turn_off
+    entity_id: switch.back_sprinkler             
+
+    

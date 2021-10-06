@@ -122,6 +122,15 @@ ios:
             authenticationRequired: true
           - identifier: 'DO_NOTHING'
             title: 'Do Nothing'
+      - name: sprinkleroff
+        identifier: 'sprinkleroff'
+        actions:
+          - identifier: 'SPRINKLER_OFF'
+            title: 'Turn off Sprinkler'
+            destructive: true
+            authenticationRequired: false
+          - identifier: 'DO_NOTHING'
+            title: 'Do Nothing'            
 
 mqtt:
   broker: server
@@ -179,14 +188,18 @@ tts:
 
 logger:
   default: error
-  logs:
-    homeassistant.components.http.ban: warning
+ #logs:
+    #homeassistant.components.http.ban: warning
     # homeassistant.components.miio_gateway: debug
     # homeassistant.components.media_player: warning
     # homeassistant.components.sensor.sensor.bom_sunshine_coast_air_temp_c: debug
     # homeassistant.components.bom: debug
     # homeassistant.components.shell_command.chicane_sleep: debug
     # homeassistant.components.switch.dannys_pc: debug
+    #homeassistant.components.homekit: debug
+    #custom_components.xiaomi_miot_raw: debug
+    #miio: debug
+    #pyhap: debug
 
 sensor: !include sensor.yaml
 
@@ -226,6 +239,8 @@ script: !include script.yaml
 climate: !include climate.yaml
 
 group: !include groups.yaml
+
+fan: !include fan.yaml
 
 #circadian_lighting:
 
@@ -358,6 +373,11 @@ google_assistant:
   service_account: !include HASS-66445e08203e.json
   expose_by_default: false
   entity_config:
+    switch.back_sprinkler:
+      name: Back Sprinkler
+      expose: true
+      room: Outside
+
     switch.mozzie_zapper:
       name: Mozzie Zapper
       expose: true
@@ -437,7 +457,7 @@ google_assistant:
       #   room: Pantry
 
 homekit:
-  auto_start: false
+  #auto_start: false
   entity_config:
     sensor.outside_temperature:
       name: Outside Temperature
@@ -512,6 +532,7 @@ homekit:
       - switch.cooking_light
       - switch.danny_s_pc
       - switch.mozzie_zapper
+      - switch.back_sprinkler
       - light.bathroom
       - light.loungeroom_1
       - light.loungeroom_2

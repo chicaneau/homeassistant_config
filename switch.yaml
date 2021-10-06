@@ -7,39 +7,39 @@
 
   - platform: template
     switches:
-      living_room_harmony_watch_tv:
-        friendly_name: 'Lounge TV'
-        value_template: "{{ is_state_attr('remote.living_room', 'current_activity', 'Watch TV')}}"
-        turn_on:
-          service: script.turn_on
-          data:
-            entity_id: script.harm_living_watch_tv
-        turn_off:
-          service: script.turn_on
-          data:
-            entity_id: script.harm_living_turn_off
-      living_room_harmony_watch_apple_tv:
-        friendly_name: 'Apple TV'
-        value_template: "{{ is_state_attr('remote.living_room', 'current_activity', 'Watch Apple TV')}}"
-        turn_on:
-          service: script.turn_on
-          data:
-            entity_id: script.harm_living_watch_apple_tv
-        turn_off:
-          service: script.turn_on
-          data:
-            entity_id: script.harm_living_turn_off
-      living_room_harmony_watch_smart_tv:
-        friendly_name: 'Smart TV'
-        value_template: "{{ is_state_attr('remote.living_room', 'current_activity', 'Watch Smart TV')}}"
-        turn_on:
-          service: script.turn_on
-          data:
-            entity_id: script.harm_living_watch_smart_tv
-        turn_off:
-          service: script.turn_on
-          data:
-            entity_id: script.harm_living_turn_off
+    #  living_room_harmony_watch_tv:
+    #    friendly_name: 'Lounge TV'
+    #    value_template: "{{ is_state_attr('remote.living_room', 'current_activity', 'Watch TV')}}"
+    #    turn_on:
+    #      service: script.turn_on
+    #      data:
+    #        entity_id: script.harm_living_watch_tv
+    #    turn_off:
+    #      service: script.turn_on
+    #      data:
+    #        entity_id: script.harm_living_turn_off
+    #  living_room_harmony_watch_apple_tv:
+    #    friendly_name: 'Apple TV'
+    #    value_template: "{{ is_state_attr('remote.living_room', 'current_activity', 'Watch Apple TV')}}"
+    #    turn_on:
+    #      service: script.turn_on
+    #      data:
+    #        entity_id: script.harm_living_watch_apple_tv
+    #    turn_off:
+    #      service: script.turn_on
+    #      data:
+    #        entity_id: script.harm_living_turn_off
+    #  living_room_harmony_watch_smart_tv:
+    #    friendly_name: 'Smart TV'
+    #    value_template: "{{ is_state_attr('remote.living_room', 'current_activity', 'Watch Smart TV')}}"
+    #    turn_on:
+    #      service: script.turn_on
+    #      data:
+    #        entity_id: script.harm_living_watch_smart_tv
+    #    turn_off:
+    #      service: script.turn_on
+    #      data:
+    #        entity_id: script.harm_living_turn_off
       christmas_tree:
         friendly_name: 'Christmas Tree'
         value_template: "{{ states.switch.bedroom_heater.state == 'on' }}"
@@ -52,6 +52,19 @@
           data:
             entity_id: switch.bedroom_heater
 
+  - platform: mqtt
+    unique_id: back_sprinker
+    name: "Back Sprinkler"
+    state_topic: "stat/sprinkler/POWER"
+    command_topic: "cmnd/sprinkler/POWER"
+    availability_topic : "tele/sprinkler/LWT"
+    payload_available: "Online"
+    payload_not_available: "Offline"
+    payload_on: "ON"
+    payload_off: "OFF"
+    state_on: "ON"
+    state_off: "OFF"
+    
 # Circadian Lighting
 #  - platform: circadian_lighting
 #    name: Loungeroom

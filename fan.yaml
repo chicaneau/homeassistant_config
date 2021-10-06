@@ -1,0 +1,32 @@
+- platform: template
+  fans:
+    bedroom_aircon_fan:
+      friendly_name: "Bedroom Aircon Fan"
+      value_template: >
+       {% if states.climate.bedroom_aircon.state == 'off' %}
+         off
+       {% else %}
+         on 
+       {% endif %}
+      preset_mode_template: "{{ states.climate.bedroom_aircon.attributes.fan_mode }}"
+      preset_modes:
+        - 'auto'
+        - 'low'
+        - 'medium'
+        - 'high'
+      turn_on:
+        service: climate.set_hvac_mode
+        target:
+          entity_id: climate.bedroom_aircon
+        data: 
+          hvac_mode: auto
+      turn_off:
+        service: climate.turn_off
+        target:
+          entity_id: climate.bedroom_aircon
+      set_preset_mode:
+        service: climate.set_fan_mode
+        target:
+          entity_id: climate.bedroom_aircon
+        data:
+          fan_mode: "{{ preset_mode }}"

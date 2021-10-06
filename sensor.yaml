@@ -487,7 +487,9 @@
     server_raid_capacity:
        friendly_name: Server RAID Capacity
        value_template: >
-         {{ (((states.sensor.server_raid_size.state|int - states.sensor.server_raid_free_2.state|int) / (states.sensor.server_raid_size.state|int)|round(2)) * 100)|round(2) }}
+         {% if states.sensor.server_raid_free_2.state|float > 0 %}
+           {{ (((states.sensor.server_raid_size.state|int - states.sensor.server_raid_free_2.state|int) / (states.sensor.server_raid_size.state|int)|round(2)) * 100)|round(2) }}
+         {% endif %}
        unit_of_measurement: "%"
        icon_template: mdi:harddisk     
 #    server_raid_free:
@@ -499,7 +501,9 @@
     server_raid_free:
        friendly_name: Server RAID Free
        value_template: >
-         {{ (states.sensor.server_raid_free_2.state|int / 1024 / 1024 / 1024)|round(2) }}
+         {% if states.sensor.server_raid_free_2.state|float > 0 %}
+           {{ (states.sensor.server_raid_free_2.state|int / 1024 / 1024 / 1024)|round(2) }}
+         {% endif %}
        unit_of_measurement: "GB"
        icon_template: mdi:harddisk-plu  
 #    server_torrents_capacity:
@@ -511,7 +515,9 @@
     server_torrents_capacity:
        friendly_name: Server Torrents Capacity
        value_template: >
-         {{ (((states.sensor.server_torrents_size.state|int - states.sensor.server_torrents_free_2.state|int) / (states.sensor.server_torrents_size.state|int)|round(2)) * 100)|round(2) }}
+        {% if states.sensor.server_torrents_free_2.state|float > 0 %}
+          {{ (((states.sensor.server_torrents_size.state|int - states.sensor.server_torrents_free_2.state|int) / (states.sensor.server_torrents_size.state|int)|round(2)) * 100)|round(2) }}
+        {% endif %}
        unit_of_measurement: "%"
        icon_template: mdi:harddisk       
 #    server_torrents_free:
@@ -523,7 +529,9 @@
     server_torrents_free:
        friendly_name: Server Torrents Free
        value_template: >
-         {{ (states.sensor.server_torrents_free_2.state|int / 1024 / 1024 / 1024)|round(2) }}
+         {% if states.sensor.server_torrents_free_2.state|float > 0 %}
+           {{ (states.sensor.server_torrents_free_2.state|int / 1024 / 1024 / 1024)|round(2) }}
+         {% endif %}
        unit_of_measurement: "GB"
        icon_template: mdi:harddisk-plu        
 #    server_ram_capacity:
@@ -547,7 +555,9 @@
     server_ram_free:
        friendly_name: Server RAM Free
        value_template: >
-         {{ ((states.sensor.server_ram_capacity.state|float * states.sensor.server_ram.state|float) / 1024 / 1024 / 1024 /100)|round(2) }}
+         {% if states.sensor.server_ram.state|float > 0 %}
+           {{ ((states.sensor.server_ram_capacity.state|float * (100-states.sensor.server_ram.state|float)) / 1024 / 1024 / 1024 /100)|round(2) }}
+         {% endif %}
        unit_of_measurement: "GB"
        icon_template: mdi:memory
     outside_door:
@@ -617,9 +627,14 @@
 ### POWER CONSUMPTION###
     cooking_light_load_power:
       friendly_name: "Cooking Light Power Use"
-      value_template: "{{ states.switch.cooking_light.attributes.load_power }}"
+      value_template: "{{ states.switch.cooking_light.attributes.power_cons_electric_power }}"
       unit_of_measurement: "Wh"
       device_class: power 
+    pc_speaker_load_power:
+      friendly_name: "PC Speaker Power Use"
+      value_template: "{{ states.switch.pc_speaker.attributes.load_power }}"  
+      unit_of_measurement: "Wh"
+      device_class: power       
     coffee_machine_load_power:
       friendly_name: "Coffee Machine Power Use"
       value_template: "{{ states.switch.coffee_machine.attributes.load_power }}"

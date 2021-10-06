@@ -139,19 +139,22 @@ views:
           entity: switch.cooking_light
           icon: mdi:chef-hat
         - type: button
-          entity: switch.bedroom_heater
-          icon: mdi:radiator
+          entity: switch.mozzie_zapper
+          icon: mdi:flash-outline          
+
       - type: horizontal-stack
         cards:
         - type: button
           entity: switch.danny_s_pc
           icon: mdi:desktop-classic
         - type: button
-          entity: switch.mozzie_zapper
-          icon: mdi:flash-outline
+          entity: switch.pc_speaker        
         - type: button
           entity: input_boolean.bedtime_triggered
           icon: mdi:bed-king
+        - type: button
+          entity: switch.back_sprinkler
+          icon: mdi:sprinkler-variant         
       - type: picture-entity
         entity: cover.garage_door
         #name: General Waste
@@ -429,7 +432,6 @@ views:
           - sensor.office_temp_feels_like
           - sensor.office_humidity
           - sensor.office_pressure
-          - sensor.server_uptime
           - sensor.home_chicane_me
           - sensor.chicane_me
           - sensor.whitehavendesignhouse_com_au
@@ -454,7 +456,7 @@ views:
           - sensor.outside_temperature
           - sensor.outside_temp_feels_like
           - sensor.outside_humidity
-          - sensor.outside_door
+          - group.back_door
 
       - type: entities
         title: Garage
@@ -486,7 +488,6 @@ views:
         show_header_toggle: false
         entities:
           - input_boolean.on_holidays
-          - script.restart_hass
           - sensor.installed_hass_release
           - sensor.current_hass_release
           - sensor.hacs
@@ -626,6 +627,8 @@ views:
             name: Coffee Machine
           - entity: sensor.cooking_light_load_power
             name: Cooking Light
+          - entity: sensor.pc_speaker_load_power
+            name: PC Speaker
 
   - title: Vacuum
     icon:  mdi:robot
@@ -761,18 +764,18 @@ views:
   - title: Remote
     icon: mdi:remote
     cards:
-      - type: entities
-        title: Living Room
-        show_header_toggle: false
-        entities:
-          - remote.living_room
-          - switch.living_room_harmony_watch_tv
-          - switch.living_room_harmony_watch_apple_tv
-          - switch.living_room_harmony_watch_smart_tv
-          - script.harm_living_channel_13
-          - script.harm_living_channel_90
-          - script.harm_living_channel_70
-          - script.harm_living_channel_24
+      #- type: entities
+      #  title: Living Room
+      #  show_header_toggle: false
+      #  entities:
+      #    - remote.living_room
+      #    - switch.living_room_harmony_watch_tv
+      #    - switch.living_room_harmony_watch_apple_tv
+      #    - switch.living_room_harmony_watch_smart_tv
+      #    - script.harm_living_channel_13
+      #    - script.harm_living_channel_90
+      #    - script.harm_living_channel_70
+      #    - script.harm_living_channel_24
       #- type: media-control
       #  entity: media_player.fire_tv
       - type: media-control
