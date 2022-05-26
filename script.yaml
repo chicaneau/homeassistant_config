@@ -101,26 +101,26 @@ lounge_air_fan_high:
         entity_id: climate.loungeroom_aircon
         fan_mode: 'high'
 
-office_air_fan_low:
-  alias: 'Office Aircon Fan Low'
+gym_air_fan_low:
+  alias: 'Gym Aircon Fan Low'
   sequence:
     - service: climate.set_fan_mode
       data:
-        entity_id: climate.office_aircon
+        entity_id: climate.gym_aircon
         fan_mode: 'low'
-office_air_fan_medium:  
-  alias: 'Office Aircon Fan Medium'
+gym_air_fan_medium:  
+  alias: 'Gym Aircon Fan Medium'
   sequence:
     - service: climate.set_fan_mode
       data:
-        entity_id: climate.office_aircon
+        entity_id: climate.gym_aircon
         fan_mode: 'medium'
-office_air_fan_high:
-  alias: 'Office Aircon Fan High'
+gym_air_fan_high:
+  alias: 'Gym Aircon Fan High'
   sequence:
     - service: climate.set_fan_mode
       data:
-        entity_id: climate.office_aircon
+        entity_id: climate.gym_aircon
         fan_mode: 'high'
 
 #bedroom_air_fan_low:
@@ -227,8 +227,8 @@ roborock_clean_ensuite:
         repeats: 1
 
         
-roborock_clean_office:
-  alias: 'Vacuum Office'
+roborock_clean_gym:
+  alias: 'Vacuum Gym'
   sequence:
     - service: xiaomi_miio.vacuum_clean_zone
       data:

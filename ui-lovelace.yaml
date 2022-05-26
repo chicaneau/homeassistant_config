@@ -3,9 +3,12 @@ views:
   - title: default_view
     icon: mdi:home
     badges: 
+      - entity: sensor.weather_pws_precip_rate
       - entity: sensor.weather_pws_precip_12am
       - entity: sensor.weather_pws_precip_month
+      - entity: sensor.rainfall_this_month
       - entity: sensor.weather_pws_wind
+     # - entity: switch.christmas_tree
     cards:
     - type: vertical-stack
       title: Lights      
@@ -52,6 +55,7 @@ views:
         cards:
         - type: light
           entity: light.bedroom
+          name: Bedroom
         - type: light
           entity: light.kitchen
         - type: light
@@ -60,10 +64,13 @@ views:
         cards:
         - type: light
           entity: light.hallway
+          name: Hallway
         - type: light
           entity: light.pantry
+          name: Pantry
         - type: light
           entity: light.bathroom
+          name: Bathroom
       - type: vertical-stack
         cards:
         - type: horizontal-stack
@@ -77,7 +84,7 @@ views:
         - type: horizontal-stack
           cards:          
           - type: light
-            entity: light.office
+            entity: light.gym
           - type: light
             entity: light.outside
           - type: light
@@ -141,20 +148,30 @@ views:
         - type: button
           entity: switch.mozzie_zapper
           icon: mdi:flash-outline          
-
+        
       - type: horizontal-stack
         cards:
         - type: button
           entity: switch.danny_s_pc
           icon: mdi:desktop-classic
         - type: button
+          entity: switch.racing_pc
+          icon: mdi:google-controller 
+        - type: button
           entity: switch.pc_speaker        
+
+      - type: horizontal-stack
+        cards:
         - type: button
           entity: input_boolean.bedtime_triggered
           icon: mdi:bed-king
         - type: button
           entity: switch.back_sprinkler
           icon: mdi:sprinkler-variant         
+        - type: button
+          entity: automation.back_sprinkler_before_sunset
+          icon: mdi:timer-outline
+          name: Sprinkler Automation    
       - type: picture-entity
         entity: cover.garage_door
         #name: General Waste
@@ -171,12 +188,19 @@ views:
     - type: horizontal-stack
       title: Climate Control
       cards:
-      - type: thermostat
-        entity: climate.loungeroom_aircon
-      - type: thermostat
-        entity: climate.office_aircon
-      - type: thermostat
-        entity: climate.bedroom_aircon
+      - type: vertical-stack
+        cards:
+        - type: thermostat
+          entity: climate.loungeroom_aircon
+        - type: thermostat
+          entity: climate.gym_aircon
+      - type: vertical-stack
+        cards:          
+        - type: thermostat
+          entity: climate.bedroom_aircon
+        - type: thermostat
+          entity: climate.office_aircon
+        
     - type: vertical-stack
       title: Bins
       cards:
@@ -216,23 +240,42 @@ views:
     - type: vertical-stack
       title: "Temps"
       cards:
-      - type: custom:mini-graph-card
-        name: Outside
-        entities:
-          - entity: sensor.outside_temperature
-        hours_to_show: 72
-        points_per_hour: 2
-        color_thresholds:
-          - value: 0
-            color: "#5DADE2"
-          - value: 15
-            color: "#5DADE2"
-          - value: 24
-            color: "#9CCC65"
-          - value: 30
-            color: "#F44336"
-        show:
-          labels: true
+      - type: horizontal-stack
+        cards:
+        - type: custom:mini-graph-card
+          name: Outside
+          entities:
+            - entity: sensor.outside_temperature
+          hours_to_show: 72
+          points_per_hour: 2
+          color_thresholds:
+            - value: 0
+              color: "#5DADE2"
+            - value: 15
+              color: "#5DADE2"
+            - value: 24
+              color: "#9CCC65"
+            - value: 30
+              color: "#F44336"
+          show:
+            labels: true
+        - type: custom:mini-graph-card
+          name: Office
+          entities:
+            - entity: sensor.office_temperature
+          hours_to_show: 72
+          points_per_hour: 2
+          color_thresholds:
+            - value: 0
+              color: "#5DADE2"
+            - value: 15
+              color: "#5DADE2"
+            - value: 24
+              color: "#9CCC65"
+            - value: 30
+              color: "#F44336"
+          show:
+            labels: true            
       - type: horizontal-stack
         cards:
         
@@ -254,9 +297,9 @@ views:
           show:
             labels: true
         - type: custom:mini-graph-card
-          name: Office
+          name: Gym
           entities:
-            - entity: sensor.office_temperature
+            - entity: sensor.gym_temperature
           hours_to_show: 72
           points_per_hour: 2
           color_thresholds:
@@ -348,7 +391,9 @@ views:
         entities:
           - entity: sensor.pantry_humidity
           - entity: sensor.loungeroom_humidity
-          - entity: sensor.office_humidity 
+          - entity: sensor.gym_humidity 
+          - entity: sensor.bedroom_humidity
+          - entity: sensor.outside_humidity
         hours_to_show: 72
         points_per_hour: 2
         #color_thresholds:
@@ -402,8 +447,8 @@ views:
   - title: Secondary
     icon: mdi:home-analytics
     cards:
-      - type: weather-forecast
-        entity: weather.caloundra_west
+#      - type: weather-forecast
+#        entity: weather.caloundra_west
       - type: entities
         title: Bedroom
         show_header_toggle: false
@@ -423,15 +468,15 @@ views:
           - scene.bedtime_scene
 
       - type: entities
-        title: Office
+        title: Gym
         show_header_toggle: true
         entities:
           - switch.danny_s_pc
-          - climate.office_aircon
-          - sensor.office_temperature
-          - sensor.office_temp_feels_like
-          - sensor.office_humidity
-          - sensor.office_pressure
+          - climate.gym_aircon
+          - sensor.gym_temperature
+          - sensor.gym_temp_feels_like
+          - sensor.gym_humidity
+          - sensor.gym_pressure
           - sensor.home_chicane_me
           - sensor.chicane_me
           - sensor.whitehavendesignhouse_com_au
@@ -488,7 +533,7 @@ views:
         show_header_toggle: false
         entities:
           - input_boolean.on_holidays
-          - sensor.installed_hass_release
+          - sensor.current_version
           - sensor.current_hass_release
           - sensor.hacs
           - sensor.current_docker_hass_build
@@ -551,15 +596,17 @@ views:
           - entity: sensor.loungeroom_temperature
             name: Loungeroom
           - entity: sensor.office_temperature
-            name: Office
+            name: Office  
+          - entity: sensor.gym_temperature
+            name: Gym
           - entity: sensor.garage_temperature
             name: Garage
           - entity: sensor.outside_temperature
             name: Outside
           - entity: sensor.pantry_temperature
             name: Pantry            
-          - entity: sensor.bom_sunshine_coast_air_temp_c
-            name: BOM Sunshine Coast
+#          - entity: sensor.bom_sunshine_coast_air_temp_c
+#            name: BOM Sunshine Coast
       - type: history-graph
         title: Humidity Graph
         hours_to_show: 48
@@ -569,16 +616,16 @@ views:
             name: Bedroom
           - entity: sensor.loungeroom_humidity
             name: Loungeroom
-          - entity: sensor.office_humidity
-            name: Office
+          - entity: sensor.gym_humidity
+            name: Gym
           - entity: sensor.garage_humidity
             name: Garage
           - entity: sensor.outside_humidity
             name: Outside
           - entity: sensor.pantry_humidity
             name: Pantry
-          - entity: sensor.bom_sunshine_coast_relative_humidity
-            name: BOM Sunshine Coast
+#         - entity: sensor.bom_sunshine_coast_relative_humidity
+#            name: BOM Sunshine Coast
       - type: history-graph
         title: Pressure Graph
         hours_to_show: 48
@@ -588,12 +635,14 @@ views:
             name: Bedroom
           - entity: sensor.loungeroom_pressure
             name: Loungeroom
-          - entity: sensor.office_pressure
-            name: Office
+          - entity: sensor.gym_pressure
+            name: Gym
           - entity: sensor.garage_pressure
             name: Garage
-          - entity: sensor.bom_sunshine_coast_pressure_msl
-            name: BOM Sunshine Coast
+          - entity: sensor.outside_pressure
+            name: Outside            
+#          - entity: sensor.bom_sunshine_coast_pressure_msl
+#            name: BOM Sunshine Coast
       - type: history-graph
         title: Mould Graph
         hours_to_show: 48
@@ -603,8 +652,8 @@ views:
             name: Bedroom
           - entity: sensor.loungeroom_mould
             name: Loungeroom
-          - entity: sensor.office_mould
-            name: Office
+          - entity: sensor.gym_mould
+            name: Gym
           - entity: sensor.garage_mould
             name: Garage
       - type: history-graph
@@ -642,38 +691,44 @@ views:
         entity: vacuum.roborock_s6_pure
         stats:
           default:
-            - attribute: filter_left
+            - entity_id: sensor.roborock_s6_pure_filter_left_hours
               unit: hours
               subtitle: Filter
-            - attribute: side_brush_left
+            - entity_id: sensor.roborock_s6_pure_side_brush_left_hours
               unit: hours
               subtitle: Side brush
-            - attribute: main_brush_left
+            - entity_id: sensor.roborock_s6_pure_main_brush_left_hours
               unit: hours
               subtitle: Main brush
-            - attribute: sensor_dirty_left
+            - entity_id: sensor.roborock_s6_pure_sensor_dirty_left_hours
               unit: hours
               subtitle: Sensors
           cleaning:
-            - attribute: cleaned_area
+            - attribute: sensor.roborock_s6_pure_current_clean_area
               unit: m2
               subtitle: Cleaning area
-            - attribute: cleaning_time
+            - attribute: sensor.roborock_s6_pure_current_clean_duration_mins
               unit: minutes
               subtitle: Cleaning time
       - type: custom:xiaomi-vacuum-map-card
         entity: vacuum.roborock_s6_pure
-        map_camera: camera.xiaomi_cloud_map_extractor
-        camera_calibration: true
-        zones:
-          - [[27150,26450,29050,29000],[27650,19750,29200,26650]]
-          - [[23300,14800,29600,20100],[18200,10800,25900,16000]]
-          - [[29450,10750,33850,20400]]
-          - [[30650,18250,33500,20350]]
-          - [[25050,24100,27800,26550]]
-          - [[22600,19800,27800,23200],[25100,22800,27750,24150]]
-          - [[21150,23150,25150,26600]]
-          - [[21200,26400,27250,31100]]
+        map_source:
+          camera: camera.xiaomi_cloud_map_extractor
+        calibration_source:
+          camera: true
+        selection_type: PREDEFINED_RECTANGLE
+        predefined_selections:  
+        map_modes:
+           - template: vacuum_clean_zone_predefined
+             predefined_selections:
+               - zones: [[27150,26450,29050,29000],[27650,19750,29200,26650]]
+               - zones: [[23300,14800,29600,20100],[18200,10800,25900,16000]]
+               - zones: [[29450,10750,33850,20400]]
+               - zones: [[30650,18250,33500,20350]]
+               - zones: [[25050,24100,27800,26550]]
+               - zones: [[22600,19800,27800,23200],[25100,22800,27750,24150]]
+               - zones: [[21150,23150,25150,26600]]
+               - zones: [[21200,26400,27250,31100]]
 
 
   - title: 4 Week Graph
@@ -686,16 +741,18 @@ views:
         entities:
           - entity: sensor.bedroom_temperature
             name: Bedroom
-          - entity: sensor.loungeroom_temperature
-            name: Loungeroom
           - entity: sensor.office_temperature
             name: Office
+          - entity: sensor.loungeroom_temperature
+            name: Loungeroom  
+          - entity: sensor.gym_temperature
+            name: Gym
           - entity: sensor.garage_temperature
             name: Garage
           - entity: sensor.outside_temperature
             name: Outside
-          - entity: sensor.bom_sunshine_coast_air_temp_c
-            name: BOM Sunshine Coast
+#          - entity: sensor.bom_sunshine_coast_air_temp_c
+#            name: BOM Sunshine Coast
       - type: history-graph
         title: Daily Rain Graph
         hours_to_show: 672
@@ -724,14 +781,14 @@ views:
             name: Bedroom
           - entity: sensor.loungeroom_humidity
             name: Loungeroom
-          - entity: sensor.office_humidity
-            name: Office
+          - entity: sensor.gym_humidity
+            name: Gym
           - entity: sensor.garage_humidity
             name: Garage
           - entity: sensor.outside_humidity
             name: Outside
-          - entity: sensor.bom_sunshine_coast_relative_humidity
-            name: BOM Sunshine Coast
+#          - entity: sensor.bom_sunshine_coast_relative_humidity
+#            name: BOM Sunshine Coast
       - type: history-graph
         title: Pressure Graph
         hours_to_show: 672
@@ -741,12 +798,12 @@ views:
             name: Bedroom
           - entity: sensor.loungeroom_pressure
             name: Loungeroom
-          - entity: sensor.office_pressure
-            name: Office
+          - entity: sensor.gym_pressure
+            name: Gym
           - entity: sensor.garage_pressure
             name: Garage
-          - entity: sensor.bom_sunshine_coast_pressure_msl
-            name: BOM Sunshine Coast
+#          - entity: sensor.bom_sunshine_coast_pressure_msl
+#            name: BOM Sunshine Coast
       - type: history-graph
         title: Mould Graph
         hours_to_show: 672
@@ -756,8 +813,8 @@ views:
             name: Bedroom
           - entity: sensor.loungeroom_mould
             name: Loungeroom
-          - entity: sensor.office_mould
-            name: Office
+          - entity: sensor.gym_mould
+            name: Gym
           - entity: sensor.garage_mould
             name: Garage
 
@@ -941,8 +998,46 @@ views:
         show_header_toggle: false
         entities:
           - sensor.battery_bedroom_motion
+          - sensor.battery_wardrobe_motion
+          - sensor.battery_pantry_motion
           - sensor.battery_danny_bed_switch
           - sensor.battery_liz_bed_switch
-          - sensor.battery_loungeroom_switch
+          - sensor.battery_switch_loungeroom
           - sensor.battery_outside_door_sensor
+          - sensor.battery_outside_screen_door_sensor
           - sensor.battery_outside_temp_sensor
+          - sensor.battery_garage_door_sensor
+
+  - title: ZHA
+    icon: mdi:lan
+    panel: true
+    cards:
+      - type: 'custom:zha-network-card'
+        clickable: true
+        columns:
+          - name: Name
+            prop: name
+          - attr: available
+            id: available
+            modify: x || "false"
+            name: Online
+          - attr: manufacturer
+            name: Manufacturer
+          - attr: model
+            name: Model
+          - attr: ieee
+            name: IEEE
+          - name: NWK
+            prop: nwk
+          - attr: rssi
+            name: RSSI
+          - attr: lqi
+            name: LQI
+          - attr: last_seen
+            name: Last Seen
+          - attr: power_source
+            name: Power Source
+          - attr: quirk_class
+            name: Quirk
+        sort_by: available
+        

@@ -12,11 +12,25 @@
       - light.loungeroom_3
       - light.loungeroom_4
 
-  - platform: group
-    name: Bedroom Night Lamps
-    entities:
-      - light.bedroom_2
-      - light.bedroom_1
+#  - platform: group
+#    name: Hallway
+#    entities:
+#      - light.hallway_1
+#      - light.hallway_2
+#
+#  - platform: group
+#    name: Bedroom
+#    entities:
+#      - light.bedroom_1
+#      - light.bedroom_2      
+#      - light.bedroom_3
+#      - light.bedroom_4    
+
+#  - platform: group
+#    name: Bedroom Night Lamps
+#    entities:
+#      - light.bedroom_2
+#      - light.bedroom_1
 
   - platform: template
     lights:
@@ -36,10 +50,10 @@
             entity_id: input_boolean.outside_triggered
 
   - platform: mqtt
-    name: Office
-    command_topic: "office/lights/cmnd/POWER"
-    availability_topic: "office/lights/tele/LWT"
-    state_topic: "office/lights/tele/STATE"
+    name: Gym
+    command_topic: "gym/lights/cmnd/POWER"
+    availability_topic: "gym/lights/tele/LWT"
+    state_topic: "gym/lights/tele/STATE"
     state_value_template: "{{ value_json.POWER }}"
     payload_on: "ON"
     payload_off: "OFF"

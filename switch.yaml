@@ -5,6 +5,11 @@
     turn_off:
       service: shell_command.chicane_sleep
 
+  - platform: wake_on_lan
+    mac: !secret racing_pc_mac
+    name: "Racing PC"
+    host: !secret racing_pc_ip      
+
   - platform: template
     switches:
     #  living_room_harmony_watch_tv:
@@ -51,6 +56,7 @@
           service: switch.turn_off
           data:
             entity_id: switch.bedroom_heater
+        icon_template: mdi:tree
 
   - platform: mqtt
     unique_id: back_sprinker

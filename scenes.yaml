@@ -3,136 +3,208 @@
   entities:
     input_boolean.bedtime_triggered:
       editable: false
-      friendly_name: Bedtime Triggered
       icon: mdi:hotel
+      friendly_name: Bedtime Triggered
       state: 'on'
     light.hallway_1:
       min_mireds: 153
       max_mireds: 454
+      supported_color_modes:
+      - color_temp
+      off_brightness:
       friendly_name: Hallway 1
       supported_features: 43
       state: 'off'
     light.hallway_2:
       min_mireds: 153
       max_mireds: 454
+      supported_color_modes:
+      - color_temp
+      off_brightness:
       friendly_name: Hallway 2
       supported_features: 43
       state: 'off'
     light.bedroom_3:
       min_mireds: 153
       max_mireds: 454
-      friendly_name: Bedroom 3
+      supported_color_modes:
+      - color_temp
+      off_brightness:
+      friendly_name: Bedroom Light 3
       supported_features: 43
       state: 'off'
     light.bedroom_1:
       min_mireds: 153
       max_mireds: 454
+      supported_color_modes:
+      - color_temp
+      color_mode: color_temp
       brightness: 2
       color_temp: 454
-      friendly_name: Bedroom 1
+      hs_color:
+      - 29.79
+      - 84.553
+      rgb_color:
+      - 255
+      - 146
+      - 39
+      xy_color:
+      - 0.579
+      - 0.388
+      off_brightness:
+      friendly_name: Bedroom Light 1
       supported_features: 43
       state: 'on'
     light.bedroom_4:
       min_mireds: 153
       max_mireds: 454
-      friendly_name: Bedroom 4
+      supported_color_modes:
+      - color_temp
+      off_brightness:
+      friendly_name: Bedroom Light 4
       supported_features: 43
       state: 'off'
     light.bedroom_2:
       min_mireds: 153
       max_mireds: 454
+      supported_color_modes:
+      - color_temp
+      color_mode: color_temp
       brightness: 2
       color_temp: 454
-      friendly_name: Bedroom 2
+      hs_color:
+      - 29.79
+      - 84.553
+      rgb_color:
+      - 255
+      - 146
+      - 39
+      xy_color:
+      - 0.579
+      - 0.388
+      off_brightness:
+      friendly_name: Bedroom Light 2
       supported_features: 43
       state: 'on'
     light.kitchen_1:
       min_mireds: 111
-      max_mireds: 400
+      max_mireds: 666
       effect_list:
       - effect_colorloop
       - effect_pulse
       - effect_stop
+      supported_color_modes:
+      - color_temp
+      - hs
       friendly_name: Kitchen 1
       supported_features: 55
       state: 'off'
     light.kitchen_2:
       min_mireds: 111
-      max_mireds: 400
+      max_mireds: 666
       effect_list:
       - effect_colorloop
       - effect_pulse
       - effect_stop
+      supported_color_modes:
+      - color_temp
+      - hs
       friendly_name: Kitchen 2
       supported_features: 55
       state: 'off'
     light.loungeroom_1:
       min_mireds: 111
-      max_mireds: 400
+      max_mireds: 666
       effect_list:
       - effect_colorloop
       - effect_pulse
       - effect_stop
+      supported_color_modes:
+      - color_temp
+      - hs
       friendly_name: Loungeroom 1
       supported_features: 55
       state: 'off'
     light.loungeroom_2:
       min_mireds: 111
-      max_mireds: 400
+      max_mireds: 666
       effect_list:
       - effect_colorloop
       - effect_pulse
       - effect_stop
+      supported_color_modes:
+      - color_temp
+      - hs
       friendly_name: Loungeroom 2
       supported_features: 55
       state: 'off'
     light.loungeroom_3:
       min_mireds: 111
-      max_mireds: 400
+      max_mireds: 666
       effect_list:
       - effect_colorloop
       - effect_pulse
       - effect_stop
+      supported_color_modes:
+      - color_temp
+      - hs
       friendly_name: Loungeroom 3
       supported_features: 55
       state: 'off'
     light.loungeroom_4:
       min_mireds: 111
-      max_mireds: 400
+      max_mireds: 666
       effect_list:
       - effect_colorloop
       - effect_pulse
       - effect_stop
+      supported_color_modes:
+      - color_temp
+      - hs
       friendly_name: Loungeroom 4
       supported_features: 55
       state: 'off'
     light.niche:
+      supported_color_modes:
+      - onoff
       friendly_name: Niche
       supported_features: 0
       state: 'off'
-    light.office:
-      friendly_name: Office
+    light.gym:
+      supported_color_modes:
+      - onoff
+      friendly_name: Gym
       supported_features: 0
       state: 'off'
     light.wardrobe:
+      supported_color_modes:
+      - onoff
       friendly_name: Wardrobe
       supported_features: 0
-      state: 'off'     
+      state: 'off'
     light.garage:
+      supported_color_modes:
+      - onoff
       friendly_name: Garage
       supported_features: 0
-      state: 'off'    
+      state: 'off'
     light.outside:
+      supported_color_modes:
+      - onoff
       friendly_name: Outside
       supported_features: 0
       state: 'off'
     light.dining_room:
+      supported_color_modes:
+      - onoff
       friendly_name: Dining Room
       supported_features: 0
       state: 'off'
     switch.mozzie_zapper:
+      restored: true
       friendly_name: Mozzie Zapper
-      state: 'off'
+      supported_features: 0
+      state: unavailable
     switch.adaptive_lighting_bedroom:
       brightness_pct:
       color_temp_kelvin:
@@ -141,159 +213,236 @@
       xy_color:
       hs_color:
       sun_position:
-      friendly_name: 'Adaptive Lighting: Bedroom'
       icon: mdi:theme-light-dark
+      friendly_name: 'Adaptive Lighting: Bedroom'
       state: 'off'
     switch.cooking_light:
-      in_use: 0
-      load_power: 0
-      power_consumed: 3918
-      voltage: 3.6
-      battery_level: 100
+      model: chuangmi.plug.212a01
+      firmware_version: 2.1.0_0025
+      hardware_version: esp32
+      switch_switch_status: false
+      switch_temperature: 35
+      switch_working_time: 97
+      power_cons_power_consumption: 182
+      power_cons_electric_current: 5
+      power_cons_voltage: 220
+      power_cons_electric_power: 0
+      state_value: false
       friendly_name: Cooking Light
-      icon: mdi:power-plug
+      state: 'off'
+    switch.christmas_tree:
+      icon: mdi:tree
+      friendly_name: Christmas Tree
       state: 'off'
 - id: '1576734523139'
   name: Goodnight
   entities:
     input_boolean.bedtime_triggered:
       editable: false
-      friendly_name: Bedtime Triggered
       icon: mdi:hotel
+      friendly_name: Bedtime Triggered
       state: 'on'
     light.hallway_1:
       min_mireds: 153
       max_mireds: 454
+      supported_color_modes:
+      - color_temp
+      off_brightness:
       friendly_name: Hallway 1
       supported_features: 43
       state: 'off'
     light.hallway_2:
       min_mireds: 153
       max_mireds: 454
+      supported_color_modes:
+      - color_temp
+      off_brightness:
       friendly_name: Hallway 2
       supported_features: 43
       state: 'off'
     light.bedroom_3:
       min_mireds: 153
       max_mireds: 454
-      friendly_name: Bedroom 3
+      supported_color_modes:
+      - color_temp
+      off_brightness:
+      friendly_name: Bedroom Light 3
       supported_features: 43
       state: 'off'
     light.bedroom_1:
       min_mireds: 153
       max_mireds: 454
-      friendly_name: Bedroom 1
+      supported_color_modes:
+      - color_temp
+      off_brightness:
+      friendly_name: Bedroom Light 1
       supported_features: 43
       state: 'off'
     light.bedroom_4:
       min_mireds: 153
       max_mireds: 454
-      friendly_name: Bedroom 4
+      supported_color_modes:
+      - color_temp
+      off_brightness:
+      friendly_name: Bedroom Light 4
       supported_features: 43
       state: 'off'
     light.bedroom_2:
       min_mireds: 153
       max_mireds: 454
-      friendly_name: Bedroom 2
+      supported_color_modes:
+      - color_temp
+      off_brightness:
+      friendly_name: Bedroom Light 2
       supported_features: 43
       state: 'off'
     light.kitchen_1:
       min_mireds: 111
-      max_mireds: 400
+      max_mireds: 666
       effect_list:
       - effect_colorloop
       - effect_pulse
       - effect_stop
+      supported_color_modes:
+      - color_temp
+      - hs
       friendly_name: Kitchen 1
       supported_features: 55
       state: 'off'
     light.kitchen_2:
       min_mireds: 111
-      max_mireds: 400
+      max_mireds: 666
       effect_list:
       - effect_colorloop
       - effect_pulse
       - effect_stop
+      supported_color_modes:
+      - color_temp
+      - hs
       friendly_name: Kitchen 2
       supported_features: 55
       state: 'off'
     light.loungeroom_1:
       min_mireds: 111
-      max_mireds: 400
+      max_mireds: 666
       effect_list:
       - effect_colorloop
       - effect_pulse
       - effect_stop
+      supported_color_modes:
+      - color_temp
+      - hs
       friendly_name: Loungeroom 1
       supported_features: 55
       state: 'off'
     light.loungeroom_2:
       min_mireds: 111
-      max_mireds: 400
+      max_mireds: 666
       effect_list:
       - effect_colorloop
       - effect_pulse
       - effect_stop
+      supported_color_modes:
+      - color_temp
+      - hs
       friendly_name: Loungeroom 2
       supported_features: 55
       state: 'off'
     light.loungeroom_3:
       min_mireds: 111
-      max_mireds: 400
+      max_mireds: 666
       effect_list:
       - effect_colorloop
       - effect_pulse
       - effect_stop
+      supported_color_modes:
+      - color_temp
+      - hs
       friendly_name: Loungeroom 3
       supported_features: 55
       state: 'off'
     light.loungeroom_4:
       min_mireds: 111
-      max_mireds: 400
+      max_mireds: 666
       effect_list:
       - effect_colorloop
       - effect_pulse
       - effect_stop
+      supported_color_modes:
+      - color_temp
+      - hs
       friendly_name: Loungeroom 4
       supported_features: 55
       state: 'off'
     light.niche:
+      supported_color_modes:
+      - onoff
       friendly_name: Niche
       supported_features: 0
       state: 'off'
-    light.office:
-      friendly_name: Office
+    light.gym:
+      supported_color_modes:
+      - onoff
+      friendly_name: Gym
       supported_features: 0
       state: 'off'
     light.wardrobe:
+      supported_color_modes:
+      - onoff
       friendly_name: Wardrobe
       supported_features: 0
-      state: 'off'     
+      state: 'off'
     light.garage:
+      supported_color_modes:
+      - onoff
       friendly_name: Garage
       supported_features: 0
-      state: 'off'    
+      state: 'off'
     light.outside:
+      supported_color_modes:
+      - onoff
       friendly_name: Outside
       supported_features: 0
       state: 'off'
     light.dining_room:
+      supported_color_modes:
+      - onoff
       friendly_name: Dining Room
       supported_features: 0
       state: 'off'
     switch.mozzie_zapper:
+      restored: true
       friendly_name: Mozzie Zapper
-      state: 'off'
+      supported_features: 0
+      state: unavailable
     switch.adaptive_lighting_bedroom:
+      brightness_pct:
+      color_temp_kelvin:
+      color_temp_mired:
+      rgb_color:
+      xy_color:
+      hs_color:
+      sun_position:
+      icon: mdi:theme-light-dark
+      friendly_name: 'Adaptive Lighting: Bedroom'
       state: 'off'
     switch.cooking_light:
-      in_use: 0
-      load_power: 0
-      power_consumed: 3159
-      voltage: 3.6
-      battery_level: 100
+      model: chuangmi.plug.212a01
+      firmware_version: 2.1.0_0025
+      hardware_version: esp32
+      switch_switch_status: false
+      switch_temperature: 35
+      switch_working_time: 97
+      power_cons_power_consumption: 182
+      power_cons_electric_current: 5
+      power_cons_voltage: 220
+      power_cons_electric_power: 0.14
+      state_value: false
       friendly_name: Cooking Light
-      icon: mdi:power-plug
+      state: 'off'
+    switch.christmas_tree:
+      icon: mdi:tree
+      friendly_name: Christmas Tree
       state: 'off'
 - id: '1589517046897'
   name: Gaming Time
@@ -407,18 +556,18 @@
       friendly_name: Niche
       supported_features: 0
       state: 'off'
-    light.office:
-      friendly_name: Office
+    light.gym:
+      friendly_name: Gym
       supported_features: 0
-      state: 'on'
+      state: 'off'
     light.wardrobe:
       friendly_name: Wardrobe
       supported_features: 0
-      state: 'off'     
+      state: 'off'
     light.garage:
       friendly_name: Garage
       supported_features: 0
-      state: 'off'          
+      state: 'off'
     light.outside:
       friendly_name: Outside
       supported_features: 0
@@ -454,32 +603,93 @@
   name: Lights On
   entities:
     light.hallway:
-      friendly_name: Hallway
-      is_hue_group: true
-      max_mireds: 500
       min_mireds: 153
-      state: 'on'
+      max_mireds: 454
+      supported_color_modes:
+      - color_temp
+      color_mode: color_temp
+      brightness: 254
+      color_temp: 184
+      hs_color:
+      - 27.746
+      - 13.648
+      rgb_color:
+      - 255
+      - 236
+      - 220
+      xy_color:
+      - 0.356
+      - 0.344
+      off_brightness:
+      friendly_name: Hallway Lights
       supported_features: 43
+      state: 'on'
     light.kitchen:
+      min_mireds: 111
+      max_mireds: 666
       effect_list:
-      - effect_pulse
       - effect_colorloop
+      - effect_pulse
       - effect_stop
+      supported_color_modes:
+      - color_temp
+      - hs
+      color_mode: color_temp
+      brightness: 255
+      color_temp: 184
+      hs_color:
+      - 27.746
+      - 13.648
+      rgb_color:
+      - 255
+      - 236
+      - 220
+      xy_color:
+      - 0.356
+      - 0.344
+      entity_id:
+      - light.kitchen_1
+      - light.kitchen_2
+      icon: mdi:lightbulb-group
       friendly_name: Kitchen
-      max_mireds: 400
-      min_mireds: 111
+      supported_features: 36
       state: 'on'
-      supported_features: 55
     light.loungeroom:
-      effect_list:
-      - effect_pulse
-      - effect_colorloop
-      - effect_stop
-      friendly_name: Loungeroom
-      max_mireds: 400
       min_mireds: 111
+      max_mireds: 666
+      effect_list:
+      - effect_colorloop
+      - effect_pulse
+      - effect_stop
+      supported_color_modes:
+      - color_temp
+      - hs
+      color_mode: color_temp
+      brightness: 255
+      color_temp: 184
+      hs_color:
+      - 27.746
+      - 13.648
+      rgb_color:
+      - 255
+      - 236
+      - 220
+      xy_color:
+      - 0.356
+      - 0.344
+      entity_id:
+      - light.loungeroom_1
+      - light.loungeroom_2
+      - light.loungeroom_3
+      - light.loungeroom_4
+      icon: mdi:lightbulb-group
+      friendly_name: Loungeroom
+      supported_features: 36
       state: 'on'
-      supported_features: 55
+    switch.christmas_tree:
+      icon: mdi:tree
+      friendly_name: Christmas Tree
+      state: 'on'
 - id: '1591749480739'
   name: Lights Off
   entities:
@@ -489,7 +699,7 @@
       state: 'off'
     light.bedroom:
       state: 'off'
-    light.office:
+    light.gym:
       state: 'off'
     light.dining:
       state: 'off'

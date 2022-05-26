@@ -119,15 +119,15 @@
   default_sleep_mode: "-1" #optional - default "-1" string value
   
 - platform: tasmota_irhvac
-  name: "Office Aircon"
-  command_topic: "cmnd/office/irhvac"
+  name: "Gym Aircon"
+  command_topic: "cmnd/gym/irhvac"
   # Pick one of the following:
   # State is updated when the tasmota device receives an IR signal (includes own transmission and original remote)
   # useful when a normal remote is in use alongside the tasmota device, may be less reliable than the second option.
   #state_topic: "tele/bedroom/RESULT"
   # State is updated when the tasmota device completes IR transmissionm, should be pretty reliable.
-  state_topic: "stat/office/RESULT"
-  temperature_sensor: sensor.office_temperature
+  state_topic: "stat/gym/RESULT"
+  temperature_sensor: sensor.gym_temperature
   vendor: "FUJITSU_AC"
   min_temp: 18 #optional - default 16 int value
   max_temp: 28 #optional - default 32 int value

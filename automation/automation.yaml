@@ -228,22 +228,22 @@
     service: climate.turn_off
     entity_id: climate.bedroom_aircon
 
-- alias: 'Turn on Bedroom Heater at 4:30am'
-  trigger:
-    platform: time
-    at: '04:30:00'
-  condition:
-    condition: and
-    conditions:
-      - condition: state
-        entity_id: switch.bedroom_heater
-        state: 'off'
-      - condition: state
-        entity_id: group.at_home
-        state: 'home'
-  action:
-    service: switch.turn_on
-    entity_id: switch.bedroom_heater
+#- alias: 'Turn on Bedroom Heater at 4:30am'
+#  trigger:
+#    platform: time
+#    at: '04:30:00'
+#  condition:
+#    condition: and
+#    conditions:
+#      - condition: state
+#        entity_id: switch.bedroom_heater
+#        state: 'off'
+#      - condition: state
+#        entity_id: group.at_home
+#        state: 'home'
+#  action:
+#    service: switch.turn_on
+#    entity_id: switch.bedroom_heater
 
 ###Coffee Machine###
 - alias: 'Turn on coffee machine weekday morning'
@@ -331,6 +331,23 @@
     service: switch.turn_off
     entity_id: switch.coffee_machine
 
+- alias: 'Alert Coffee Machine 15 mins'
+  trigger:
+    platform: state
+    entity_id: switch.coffee_machine
+    from: 'off'
+    to: 'on'
+    for:
+      minutes: 15
+  condition: 
+    condition: time
+    after: "9:00:00"   
+  action:
+    - service: notify.mobile_app_ichicane
+      data_template:
+        title: 'Coffee Machine is warmed up and ready!'
+        message: '15 Minute Lapsed'  
+
 - alias: 'Turn off Mozzie Zapper 4 hours'
   trigger:
     platform: state
@@ -382,9 +399,26 @@
       entity_id: cover.garage_door
       to: 'open'    
   condition:
-    condition: sun
-    after: sunset
-    after_offset: "-00:45:00"
+  - condition: and
+    conditions:  
+    - condition: state
+      entity_id: light.loungeroom
+      state: 'off'
+    - condition: or
+      conditions:
+        - condition: and
+          conditions:
+            - condition: numeric_state
+              entity_id: sensor.bathroom_illumination
+              below: 700  
+            - condition: time
+              after: "12:00:00"
+            - condition: sun
+              before: sunset
+              before_offset: "-00:45:00"      
+        - condition: sun
+          after: sunset
+          after_offset: "-00:45:00"
   action:
     - service: scene.turn_on
       entity_id: scene.lights_on
@@ -413,6 +447,9 @@
       - condition: sun
         before: sunset
         before_offset: "-00:45:00"
+      - condition: state
+        entity_id: light.loungeroom
+        state: 'off'
 
   action:
     - service: scene.turn_on
@@ -434,9 +471,14 @@
   condition:
     condition: or
     conditions:
-      - condition: state
-        entity_id: group.at_home
-        state: 'home'
+      - condition: and
+        conditions:
+        - condition: state
+          entity_id: group.at_home
+          state: 'home'
+        - condition: state
+          entity_id: light.loungeroom
+          state: 'off'
       - condition: state
         entity_id: input_boolean.on_holidays
         state: 'on'
@@ -590,46 +632,49 @@
 - alias: Loungeroom Single Click
   trigger:
     - platform: event
-      event_type: xiaomi_aqara.click
+      event_type: zha_event
       event_data:
-        #DANNY
-        entity_id: binary_sensor.switch_loungeroom
-        click_type: single
+        device_ieee: "00:15:8d:00:02:85:fb:3b"
+        command: click
+        args:
+          click_type: single
   action:
     - service: light.toggle
       entity_id: light.loungeroom
 #    - service: light.turn_off
 #      entity_id: light.cooking_light
 
-- alias: Loungeroom Long Click
+- alias: Loungeroom Double Click
   trigger:
     - platform: event
-      event_type: xiaomi_aqara.click
+      event_type: zha_event
       event_data:
         #DANNY
-        entity_id: binary_sensor.switch_loungeroom
-        click_type: long_click_press
+        device_ieee: "00:15:8d:00:02:85:fb:3b"
+        command: click
+        args:
+          click_type: double
   action:
-    - service: light.turn_on
-      entity_id: light.kitchen
-      data:
-        brightness: 100
-        color_temp: 278
-    - service: light.turn_on
-      entity_id: light.loungeroom
-      data:
-        brightness: 75
-        color_temp: 278
-    - service: switch.turn_off
+   #- service: light.turn_on
+   #  entity_id: light.kitchen
+   #  data:
+   #    brightness: 100
+   #    color_temp: 278
+   #- service: light.turn_on
+   #  entity_id: light.loungeroom
+   #  data:
+   #    brightness: 75
+   #    color_temp: 278
+    - service: switch.toggle
       entity_id: switch.cooking_light
 
-- alias: Test Hue Dimmer
+- alias: Hue Dimmer Kitchen On
   trigger:
     platform: event
-    event_type: hue_event
+    event_type: zha_event
     event_data:
-      entity_id: remote.hue_dimmer_switch_1
-      event: 2002
+      entity_id: sensor.philips_switch_1_power
+      command: "up_short_release"
   condition:
     condition: and
     conditions:
@@ -642,13 +687,14 @@
       data_template:
         brightness: '{{states.light.kitchen.attributes.brightness | int + 25}}'
 
-- alias: Test Hue Switch On
+- alias: Hue Switch Kitchen On
   trigger:
     platform: event
-    event_type: hue_event
+    event_type: zha_event
     event_data:
-      entity_id: remote.hue_dimmer_switch_1
-      event: 1002
+      #entity_id:  sensor.philips_switch_1_power
+      device_id: "09dee5ea04536b04e35ccbcef7b38f2f"
+      command: "on_short_release"
       #new_state: '3_click_up'
 #  condition:
 #    condition: and
@@ -670,13 +716,13 @@
           {% endif %}
         #278 153
 
-- alias: Test Hue Switch Off
+- alias: Hue Switch Kitchen Off
   trigger:
     platform: event
-    event_type: hue_event
+    event_type: zha_event
     event_data:
-      entity_id: remote.hue_dimmer_switch_1
-      event: 4002
+      device_id: "09dee5ea04536b04e35ccbcef7b38f2f"
+      command: "off_short_release"
   condition:
     condition: and
     conditions:
@@ -1130,6 +1176,12 @@
   trigger:
     - platform: state
       entity_id: sensor.current_hass_release
+  condition:
+    condition: not
+    conditions:
+      - condition: state
+        entity_id: sensor.current_hass_release
+        state: 'Unavailable'
   action:
     - delay: 00:00:03
     - service: notify.mobile_app_ichicane
@@ -1137,31 +1189,43 @@
         title: 'Home Assistant V{{states.sensor.current_hass_release.state}} Released'
         message: 'https://www.home-assistant.io/blog/'
         #target: 'device/iChicane'
-- alias: 'New HASS Docker released'
-  #initial_state: 'on'
-  trigger:
-    - platform: state
-      entity_id: sensor.current_docker_hass_build
-  action:
-    - delay: 00:00:03
-    - service: notify.mobile_app_ichicane
-      data_template:
-        title: 'Home Assistant Docker V{{states.sensor.current_docker_hass_build.state}} Available'
-        message: 'https://www.home-assistant.io/blog/'
-        #target: 'device/iChicane'
+#- alias: 'New HASS Docker released'
+#  #initial_state: 'on'
+#  trigger:
+#    - platform: state
+#      entity_id: sensor.current_docker_hass_build
+#  condition:
+#    condition: not
+#    conditions:
+#      - condition: state
+#        entity_id: sensor.current_docker_hass_build
+#        state: 'Unavailable'
+#  action:
+#    - delay: 00:00:03
+#    - service: notify.mobile_app_ichicane
+#      data_template:
+#        title: 'Home Assistant Docker V{{states.sensor.current_docker_hass_build.state}} Available'
+#        message: 'https://www.home-assistant.io/blog/'
+#        #target: 'device/iChicane'
 
-- alias: 'New Portainer Docker released'
-  #initial_state: 'on'
-  trigger:
-    - platform: state
-      entity_id: sensor.current_docker_portainer_build
-  action:
-    - delay: 00:00:03
-    - service: notify.mobile_app_ichicane
-      data_template:
-        title: 'Portainer Docker V{{states.sensor.current_docker_portainer_build.state}} Available'
-        message: 'https://hub.docker.com/r/portainer/portainer/'
-        #target: 'device/iChicane'
+#- alias: 'New Portainer Docker released'
+#  #initial_state: 'on'
+#  trigger:
+#    - platform: state
+#      entity_id: sensor.current_docker_portainer_build
+#  condition:
+#    condition: not
+#    conditions:
+#      - condition: state
+#        entity_id: sensor.current_docker_portainer_build
+#        state: 'Unavailable'
+#  action:
+#    - delay: 00:00:03
+#    - service: notify.mobile_app_ichicane
+#      data_template:
+#        title: 'Portainer Docker V{{states.sensor.current_docker_portainer_build.state}} Available'
+#        message: 'https://hub.docker.com/r/portainer/portainer/'
+#        #target: 'device/iChicane'
 
 - alias: Server Torrents Low
   trigger:

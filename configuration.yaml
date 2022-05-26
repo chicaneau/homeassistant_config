@@ -54,13 +54,25 @@ http:
   trusted_proxies:
     - !secret server_ip
 
+panel_custom:
+  - name: ZHA
+    sidebar_title: ZHA
+    sidebar_icon: mdi:lan
+    js_url: /api/hassio/app/entrypoint.js
+    url_path: 'config/zha/visualization?config_entry=e13282db2694834610bda980c8a67a97config/server_control'
+    embed_iframe: true
+    config:
+      ingress: core_configurator    
+    require_admin: true
+
+
 lovelace:
   mode: yaml
   resources:
     - url: /hacsfiles/light-entity-card/light-entity-card.js
       type: module
-    - url: /hacsfiles/bom-weather-card/bom-weather-card.js
-      type: module
+#    - url: /hacsfiles/bom-weather-card/bom-weather-card.js
+#      type: module
     - url: /hacsfiles/lovelace-slider-entity-row/slider-entity-row.js
       type: module
     - url: /hacsfiles/mini-graph-card/mini-graph-card-bundle.js
@@ -71,10 +83,12 @@ lovelace:
       type: module       
     - url: /hacsfiles/vacuum-card/vacuum-card.js
       type: module   
+    - url: /hacsfiles/zha-network-card/zha-network-card.js
+      type: module        
   
 # Checks for available updates
-updater:
-  include_used_components: true
+#updater:
+#  include_used_components: true
 
 # Discover some devices automatically
 # discovery:
@@ -143,11 +157,11 @@ notify:
     platform: 'pushbullet'
     api_key: !secret pb_apikey
 
-hue:
-  bridges:
-    - host: !secret hue_host
-      allow_unreachable: true
-      allow_hue_groups: true
+#hue:
+#  bridges:
+#    - host: !secret hue_host
+#      allow_unreachable: true
+#      allow_hue_groups: true
 
 binary_sensor:
   - platform: workday
@@ -188,7 +202,19 @@ tts:
 
 logger:
   default: error
- #logs:
+  #logs:
+    #homeassistant.core: debug
+    #homeassistant.components.zha: debug
+    #bellows.zigbee.application: debug
+    #bellows.ezsp: debug
+    #zigpy: debug
+    #zigpy_deconz.zigbee.application: debug
+    #zigpy_deconz.api: debug
+    #zigpy_xbee.zigbee.application: debug
+    #zigpy_xbee.api: debug
+    #zigpy_zigate: debug
+    #zigpy_znp: debug
+    #zhaquirks: debug
     #homeassistant.components.http.ban: warning
     # homeassistant.components.miio_gateway: debug
     # homeassistant.components.media_player: warning
@@ -225,7 +251,7 @@ emulated_roku:
 shell_command:
   chicane_sleep: 'touch /config/config/sleepchicane.txt'
 
-apple_tv:
+#apple_tv:
 
 lifx:
   light:
@@ -259,10 +285,11 @@ adaptive_lighting:
     min_brightness: 20
   - name: "Bedroom"
     lights: 
-      - light.bedroom_3
-      - light.bedroom_1 
-      - light.bedroom_4 
-      - light.bedroom_2 
+     # - light.bedroom_3
+     # - light.bedroom_1 
+     # - light.bedroom_4 
+     # - light.bedroom_2 
+     - light.bedroom
     min_brightness: 20
   - name: "Hallway"
     lights: 
@@ -288,23 +315,23 @@ tplink:
     - host: !secret tplink_1
     - host: !secret tplink_2
 
-garbage_collection:
-  sensors:
-    - name: Normal Bin
-      frequency: "weekly"
-      collection_days: wed
-      verbose_state: true
+#garbage_collection:
+#  sensors:
+#    - name: Normal Bin
+#      frequency: "weekly"
+#      collection_days: wed
+#      verbose_state: true
   #  - name: Recycling Bin broken
   #    frequency: "odd-weeks"
   #    collection_days: wed
   #    verbose_state: true
 
-    - name: Recycling Bin 
-      frequency: "every-n-days"
-      first_date: '2020-12-30'
-      period: 14
-      #collection_days: wed
-      verbose_state: true
+#    - name: Recycling Bin 
+#      frequency: "every-n-days"
+#      first_date: '2020-12-30'
+#      period: 14
+#      #collection_days: wed
+#      verbose_state: true
 
 input_boolean:
   dannyhome:
@@ -390,10 +417,10 @@ google_assistant:
       name: Loungeroom Aircon
       expose: true
       room: Lounge Room
-    climate.office_aircon:
-      name: Office Aircon
+    climate.gym_aircon:
+      name: Gym Aircon
       expose: true
-      room: Office
+      room: Gym
     # cover.garage_door:
     #  name: Garage Door
     #  expose: true
@@ -418,14 +445,18 @@ google_assistant:
       name: Dining Light
       expose: true
       room: Dining Room
-    light.office:
-      name: Office Light
+    light.gym:
+      name: Gym Light
       expose: true
-      room: Office
+      room: Gym
     light.niche:
       name: Niche Light
       expose: true
       room: Niche
+    light.bedroom:
+      name: Bedroom Light
+      expose: true
+      room: Bedroom      
     light.outside:
       name: Outside Light
       expose: true
@@ -472,7 +503,11 @@ homekit:
     light.dining_room:
       name: Dining Rooms Lights
     light.pantry:
-      name: Pantry Lights
+      name: Pantry Light
+    scene.bedtime_scene:
+      name: Bedtime Scene Switch
+    scene.gaming_time:
+      name: Gaming Time Scene Switch
 
 
   filter:
@@ -487,6 +522,7 @@ homekit:
       - switch
       - vacuum
     exclude_entities:
+      #- climate.office_aircon
       - input_boolean.danny_bin_alerted
       - input_boolean.liz_bin_alerted
       - input_boolean.both_bin_alerted
@@ -495,7 +531,7 @@ homekit:
       - script.harm_living_watch_tv
       - script.harm_living_watch_smart_tv
       - script.restart_hass
-      - camera.bom_radar
+#      - camera.bom_radar
       - switch.adaptive_lighting_adapt_brightness_bedroom
       - switch.adaptive_lighting_adapt_brightness_hallway
       - switch.adaptive_lighting_adapt_brightness_kitchen
@@ -527,7 +563,7 @@ homekit:
       #- script.bedroom_air_fan_low
 
     include_entities:
-      - switch.bedroom_heater
+      #- switch.bedroom_heater
       - switch.coffee_machine
       - switch.cooking_light
       - switch.danny_s_pc
@@ -541,7 +577,7 @@ homekit:
       - light.kitchen_1
       - light.kitchen_2
       - light.outside
-      - light.office
+      - light.gym
       - light.niche
       - light.dining_room
       - light.garage
@@ -554,13 +590,13 @@ homekit:
       - light.hallway_1
       - light.hallway_2
       - sensor.garage_temperature
-      - sensor.office_temperature
+      - sensor.gym_temperature
       - sensor.bedroom_temperature
       - sensor.loungeroom_temperature
       - sensor.outside_temperature
       - sensor.pantry_temperature
       - sensor.garage_humidity
-      - sensor.office_humidity
+      - sensor.gym_humidity
       - sensor.bedroom_humidity
       - sensor.loungeroom_humidity
       - sensor.outside_humidity
@@ -576,3 +612,5 @@ homekit:
 #    - sid: lumi.158d00052245a5
 #      class: door 
 #      friendly_name: Front Door Sensor  # display name (optional)
+
+

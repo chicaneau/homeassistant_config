@@ -1,3 +1,24 @@
+#- platform: gtfs
+#  origin: 600324
+#  destination: 600298
+#  data: data.zip
+#- platform: gtfs_rt
+#  trip_update_url: 'https://gtfsrt.api.translink.com.au/api/realtime/SEQ/TripUpdates'
+#  vehicle_position_url: 'https://gtfsrt.api.translink.com.au/api/realtime/SEQ/VehiclePositions'
+#  #route_delimiter: '-'
+#  departures:
+#   - name: "Indooroo to school"
+#     route: 'IPBR-2360'
+#     stopid: '600324'
+#     icon: 'mdi:train'
+#     service_type: 'Train'
+#   - name: Ferny Grove Train
+#     route: BNFG
+#     stopid: 600196
+#     icon: mdi:train
+#     service_type: Train
+#
+
 #- platform: time_date
 #  display_options:
 #    - 'time'
@@ -80,13 +101,13 @@
 #    {{ value_json.results.8.name }}
 #   {%- endif -%}
 
-- platform: version
-  name: 'Current HASS Release'
-  source: hassio
+#- platform: version
+#  name: 'Current HASS Release'
+#  source: hassio
 
-- platform: version
-  name: 'Current Docker HASS Build'
-  source: docker
+#- platform: version
+#  name: 'Current Docker HASS Build'
+#  source: docker
 
 - platform: rest
   name: 'Current Docker Portainer Build'
@@ -153,30 +174,30 @@
   unit_of_measurement: "hPa"
 
 - platform: mqtt
-  name: "Office Temperature"
-  state_topic: "tele/office/SENSOR"
+  name: "Gym Temperature"
+  state_topic: "tele/gym/SENSOR"
   value_template: "{{ value_json['BME280'].Temperature }}"
-  availability_topic: "tele/office/LWT"
+  availability_topic: "tele/gym/LWT"
   payload_available: "Online"
   payload_not_available: "Offline"
   device_class: temperature
   unit_of_measurement: "°C"
 
 - platform: mqtt
-  name: "Office Humidity"
-  state_topic: "tele/office/SENSOR"
+  name: "Gym Humidity"
+  state_topic: "tele/gym/SENSOR"
   value_template: "{{ value_json['BME280'].Humidity }}"
-  availability_topic: "tele/office/LWT"
+  availability_topic: "tele/gym/LWT"
   payload_available: "Online"
   payload_not_available: "Offline"
   device_class: humidity
   unit_of_measurement: "%"
 
 - platform: mqtt
-  name: "Office Pressure"
-  state_topic: "tele/office/SENSOR"
+  name: "Gym Pressure"
+  state_topic: "tele/gym/SENSOR"
   value_template: "{{ value_json['BME280'].Pressure }}"
-  availability_topic: "tele/office/LWT"
+  availability_topic: "tele/gym/LWT"
   payload_available: "Online"
   payload_not_available: "Offline"
   unit_of_measurement: "hPa"
@@ -213,6 +234,36 @@
   device_class: pressure
 
 - platform: mqtt
+  name: "Outside Temperature"
+  state_topic: "tele/outside_temp/SENSOR"
+  value_template: "{{ value_json['BME280'].Temperature }}"
+  availability_topic: "tele/outside_temp/LWT"
+  payload_available: "Online"
+  payload_not_available: "Offline"
+  device_class: temperature
+  unit_of_measurement: "°C"
+
+- platform: mqtt
+  name: "Outside Pressure"
+  state_topic: "tele/outside_temp/SENSOR"
+  value_template: "{{ value_json['BME280'].Pressure }}"
+  availability_topic: "tele/outside_temp/LWT"
+  payload_available: "Online"
+  payload_not_available: "Offline"
+  unit_of_measurement: "hPa"
+  device_class: pressure
+
+- platform: mqtt
+  name: "Outside Humidity"
+  state_topic: "tele/outside_temp/SENSOR"
+  value_template: "{{ value_json['BME280'].Humidity }}"
+  availability_topic: "tele/outside_temp/LWT"
+  payload_available: "Online"
+  payload_not_available: "Offline"
+  device_class: humidity
+  unit_of_measurement: "%"
+
+- platform: mqtt
   name: "Garage Temperature"
   state_topic: "garage/stats/temperature"
   device_class: temperature
@@ -244,9 +295,9 @@
   calibration_factor: 2
 
 - platform: mold_indicator
-  name: Office Mould
-  indoor_temp_sensor: sensor.office_temperature
-  indoor_humidity_sensor: sensor.office_humidity
+  name: Gym Mould
+  indoor_temp_sensor: sensor.gym_temperature
+  indoor_humidity_sensor: sensor.gym_humidity
   outdoor_temp_sensor: sensor.outside_temperature
   calibration_factor: 2
 
@@ -257,8 +308,8 @@
   outdoor_temp_sensor: sensor.outside_temperature
   calibration_factor: 2
 
-- platform: version
-  name: 'Installed HASS Release'
+#- platform: version
+#  name: 'Installed HASS Release'
 
 - platform: cert_expiry
   host: !secret cert1
@@ -408,7 +459,7 @@
 
 - platform: rest
   name: Caloundra West PWS
-  resource: https://api.weather.com/v2/pws/observations/current?stationId=ICALOU7&format=json&units=m&apiKey=81f1719d60af46fbb1719d60afe6fba8&numericPrecision=decimal
+  resource: https://api.weather.com/v2/pws/observations/current?stationId=ICALOU9&format=json&units=m&apiKey=81f1719d60af46fbb1719d60afe6fba8&numericPrecision=decimal
   json_attributes: 
     - observations
   value_template: '{{ value_json["observations"][0].stationID }}'
@@ -586,13 +637,13 @@
        {% endif %}
       unit_of_measurement: "°C"
 
-    office_temp_feels_like:
-      friendly_name: 'Office Temp Feels Like'
+    gym_temp_feels_like:
+      friendly_name: 'Gym Temp Feels Like'
       value_template: >-
-       {% if (states.sensor.office_temperature.state|float > 27 and states.sensor.office_humidity.state|float > 40) %}
-        {{ (((-42.379 + (2.04901523 * (states.sensor.office_temperature.state|float * 1.8 + 32)|float) + (10.14333127 * (states.sensor.office_humidity.state)|float) + (-0.22475541 * (states.sensor.office_temperature.state|float * 1.8 + 32)|float * (states.sensor.office_humidity.state)|float) + ((-6.83783*(10**-3)) * ((states.sensor.office_temperature.state|float * 1.8 + 32)|float**2)) + ((-5.481717*(10**-2)) * ((states.sensor.office_humidity.state)|float**2)) + ((1.22874*(10**-3)) * ((states.sensor.office_temperature.state|float * 1.8 + 32)|float**2) * (states.sensor.office_humidity.state)|float) + ((8.5282*(10**-4)) * (states.sensor.office_temperature.state|float * 1.8 + 32)|float * ((states.sensor.office_humidity.state)|float**2)) + ((-1.99*(10**-6)) * ((states.sensor.office_temperature.state|float * 1.8 + 32)|float**2) * ((states.sensor.office_humidity.state)|float**2)))|float - 32) * 5 / 9)|round(2) }}
+       {% if (states.sensor.gym_temperature.state|float > 27 and states.sensor.gym_humidity.state|float > 40) %}
+        {{ (((-42.379 + (2.04901523 * (states.sensor.gym_temperature.state|float * 1.8 + 32)|float) + (10.14333127 * (states.sensor.gym_humidity.state)|float) + (-0.22475541 * (states.sensor.gym_temperature.state|float * 1.8 + 32)|float * (states.sensor.gym_humidity.state)|float) + ((-6.83783*(10**-3)) * ((states.sensor.gym_temperature.state|float * 1.8 + 32)|float**2)) + ((-5.481717*(10**-2)) * ((states.sensor.gym_humidity.state)|float**2)) + ((1.22874*(10**-3)) * ((states.sensor.gym_temperature.state|float * 1.8 + 32)|float**2) * (states.sensor.gym_humidity.state)|float) + ((8.5282*(10**-4)) * (states.sensor.gym_temperature.state|float * 1.8 + 32)|float * ((states.sensor.gym_humidity.state)|float**2)) + ((-1.99*(10**-6)) * ((states.sensor.gym_temperature.state|float * 1.8 + 32)|float**2) * ((states.sensor.gym_humidity.state)|float**2)))|float - 32) * 5 / 9)|round(2) }}
        {% else %}
-        {{ states.sensor.office_temperature.state|round(2) }}
+        {{ states.sensor.gym_temperature.state|round(2) }}
        {% endif %}
       unit_of_measurement: "°C"
 
@@ -624,57 +675,94 @@
           {{ states.sensor.garage_temperature.state|round(2) }}
          {% endif %}
         unit_of_measurement: "°C"
+###Vac sensors
+    roborock_s6_pure_filter_left_hours:
+      friendly_name: "Roborock S6 Filter Left"
+      value_template: "{{ (states.sensor.roborock_s6_pure_filter_left.state|float / 60 / 60)|int }}"
+      unit_of_measurement: "h"
+    roborock_s6_pure_main_brush_left_hours:
+      friendly_name: "Roborock S6 Main Brush Left"
+      value_template: "{{ (states.sensor.roborock_s6_pure_main_brush_left.state|float / 60 / 60)|int }}"
+      unit_of_measurement: "h"
+    roborock_s6_pure_sensor_dirty_left_hours:
+      friendly_name: "Roborock S6 Sensor Dirty Left"
+      value_template: "{{ (states.sensor.roborock_s6_pure_sensor_dirty_left.state|float / 60 / 60)|int }}"
+      unit_of_measurement: "h"
+    roborock_s6_pure_side_brush_left_hours:
+      friendly_name: "Roborock S6 Side Brush Left"
+      value_template: "{{ (states.sensor.roborock_s6_pure_side_brush_left.state|float / 60 / 60)|int }}"
+      unit_of_measurement: "h"
+    roborock_s6_pure_current_clean_duration_mins:
+      friendly_name: "Roborock S6 Current Clean Duration"
+      value_template: "{{ (states.sensor.roborock_s6_pure_current_clean_duration.state|float / 60)|int }}"
+      unit_of_measurement: "m"
+
 ### POWER CONSUMPTION###
     cooking_light_load_power:
       friendly_name: "Cooking Light Power Use"
       value_template: "{{ states.switch.cooking_light.attributes.power_cons_electric_power }}"
       unit_of_measurement: "Wh"
       device_class: power 
-    pc_speaker_load_power:
-      friendly_name: "PC Speaker Power Use"
-      value_template: "{{ states.switch.pc_speaker.attributes.load_power }}"  
-      unit_of_measurement: "Wh"
-      device_class: power       
-    coffee_machine_load_power:
-      friendly_name: "Coffee Machine Power Use"
-      value_template: "{{ states.switch.coffee_machine.attributes.load_power }}"
-      unit_of_measurement: "Wh"
-      device_class: power 
-    battery_bedroom_motion:
-      friendly_name: "Bedroom Motion Sensor"
-      value_template: "{{ states.binary_sensor.motion_sensor_bedroom.attributes.battery_level }}"
-      device_class: battery
-      unit_of_measurement: "%"
-    battery_pantry_motion:
-      friendly_name: "Pantry Motion Sensor"
-      value_template: "{{ states.binary_sensor.motion_sensor_pantry.attributes.battery_level }}"
-      device_class: battery
-      unit_of_measurement: "%"
-    battery_danny_bed_switch:
-      friendly_name: "Bedroom Danny Bed Switch"
-      value_template: "{{ states.binary_sensor.switch_danny_bed.attributes.battery_level }}"
-      device_class: battery
-      unit_of_measurement: "%"
-    battery_liz_bed_switch:
-      friendly_name: "Bedroom Liz Bed Switch"
-      value_template: "{{ states.binary_sensor.switch_liz_bed.attributes.battery_level }}"
-      device_class: battery
-      unit_of_measurement: "%"
-    battery_loungeroom_switch:
-      friendly_name: "Loungeroom Switch"
-      value_template: "{{ states.binary_sensor.switch_loungeroom.attributes.battery_level }}"
-      device_class: battery
-      unit_of_measurement: "%"
-    battery_outside_door_sensor:
-      friendly_name: "Outside Door Sensor"
-      value_template: "{{ states.binary_sensor.door_outside_rear.attributes.battery_level }}"
-      device_class: battery
-      unit_of_measurement: "%"
-    battery_outside_temp_sensor:
-      friendly_name: "Outside Temp Sensor"
-      value_template: "{{ states.sensor.outside_temperature.attributes.battery_level }}"
-      device_class: battery
-      unit_of_measurement: "%"
+#    pc_speaker_load_power:
+#      friendly_name: "PC Speaker Power Use"
+#      value_template: "{{ states.switch.pc_speaker.attributes.load_power }}"  
+#      unit_of_measurement: "Wh"
+#      device_class: power       
+#    coffee_machine_load_power:
+#      friendly_name: "Coffee Machine Power Use"
+#      value_template: "{{ states.switch.coffee_machine.attributes.load_power }}"
+#      unit_of_measurement: "Wh"
+#      device_class: power 
+   ## battery_bedroom_motion:
+   #   friendly_name: "Bedroom Motion Sensor"
+   #   value_template: "{{ states.binary_sensor.motion_sensor_bedroom.attributes.battery_level }}"
+   #   device_class: battery
+   #   unit_of_measurement: "%"
+   ## battery_pantry_motion:
+   #   friendly_name: "Pantry Motion Sensor"
+   #   value_template: "{{ states.binary_sensor.motion_sensor_pantry.attributes.battery_level }}"
+   #   device_class: battery
+   #   unit_of_measurement: "%"
+   ## battery_wardrobe_motion:
+   #   friendly_name: "Wardrobe Motion Sensor"
+   #   value_template: "{{ states.binary_sensor.motion_sensor_wardrobe.attributes.battery_level }}"
+   #   device_class: battery
+   #   unit_of_measurement: "%"      
+   # battery_danny_bed_switch:
+   #   friendly_name: "Bedroom Danny Bed Switch"
+   #   value_template: "{{ states.binary_sensor.switch_danny_bed.attributes.battery_level }}"
+   #   device_class: battery
+   #   unit_of_measurement: "%"
+   # battery_liz_bed_switch:
+   #   friendly_name: "Bedroom Liz Bed Switch"
+   #   value_template: "{{ states.binary_sensor.switch_liz_bed.attributes.battery_level }}"
+   #   device_class: battery
+   #   unit_of_measurement: "%"
+   ## battery_loungeroom_switch:
+   #   friendly_name: "Loungeroom Switch"
+   #   value_template: "{{ states.binary_sensor.switch_loungeroom.attributes.battery_level }}"
+   #   device_class: battery
+   #   unit_of_measurement: "%"
+   ## battery_garage_door_sensor:
+   #   friendly_name: "Garage Door Sensor"
+   #   value_template: "{{ states.binary_sensor.door_garage_internal.attributes.battery_level }}"
+   #   device_class: battery
+   #   unit_of_measurement: "%"      
+   ## battery_outside_door_sensor:
+   #   friendly_name: "Outside Door Sensor"
+   #   value_template: "{{ states.binary_sensor.door_outside_rear.attributes.battery_level }}"
+   #   device_class: battery
+   #   unit_of_measurement: "%"
+   ## battery_outside_screen_door_sensor:
+   #   friendly_name: "Outside Screen Door Sensor"
+   #   value_template: "{{ states.binary_sensor.door_outside_screen.attributes.battery_level }}"
+   #   device_class: battery
+   #   unit_of_measurement: "%"      
+   ## battery_outside_temp_sensor:
+   #   friendly_name: "Outside Temp Sensor"
+   #   value_template: "{{ states.sensor.outside_temperature.attributes.battery_level }}"
+   #   device_class: battery
+    #  unit_of_measurement: "%"
 #     bom_current_text:
 #       value_template: >
 #           {% set val = states("sensor.bom_sunshine_coast_detailed_summary_0") %}
@@ -851,15 +939,30 @@
 ### ERTIFICATES#### 
     home_chicane_me:
       friendly_name: "home.chicane.me"
-      value_template: "{{ ((as_timestamp(states('sensor.cert_expiry_timestamp_home_chicane_me')) - as_timestamp(now())) /60 /60/24) | round(0) }}"
+      value_template: >
+        {% if states('sensor.cert_expiry_timestamp_home_chicane_me')  != 'unavailable' %}
+        {{ ((as_timestamp(states('sensor.cert_expiry_timestamp_home_chicane_me')) - as_timestamp(now())) /60 /60/24) | round(0) }}
+        {% else %}
+        {{states('sensor.cert_expiry_timestamp_home_chicane_me') }}
+        {% endif %}
       unit_of_measurement: "days" 
     chicane_me:
       friendly_name: "chicane.me"
-      value_template: "{{ ((as_timestamp(states('sensor.cert_expiry_timestamp_chicane_me')) - as_timestamp(now())) /60 /60/24) | round(0) }}"
+      value_template: >
+        {% if states('sensor.cert_expiry_timestamp_chicane_me')  != 'unavailable' %}
+        {{ ((as_timestamp(states('sensor.cert_expiry_timestamp_chicane_me')) - as_timestamp(now())) /60 /60/24) | round(0) }}
+        {% else %}
+        {{states('sensor.cert_expiry_timestamp_chicane_me') }}
+        {% endif %}
       unit_of_measurement: "days"
     whitehavendesignhouse_com_au:
       friendly_name: "whitehavendesignhouse.com.au"
-      value_template: "{{ ((as_timestamp(states('sensor.cert_expiry_timestamp_whitehavendesignhouse_com_au')) - as_timestamp(now())) /60 /60/24) | round(0) }}"
+      value_template: > #"{{ ((as_timestamp(states('sensor.cert_expiry_timestamp_whitehavendesignhouse_com_au')) - as_timestamp(now())) /60 /60/24) | round(0) }}"
+        {% if states('sensor.cert_expiry_timestamp_whitehavendesignhouse_com_au')  != 'unavailable' %}
+        {{ ((as_timestamp(states('sensor.cert_expiry_timestamp_whitehavendesignhouse_com_au')) - as_timestamp(now())) /60 /60/24) | round(0) }}
+        {% else %}
+        {{states('sensor.cert_expiry_timestamp_whitehavendesignhouse_com_au') }}
+        {% endif %}
       unit_of_measurement: "days"
 
 #- platform: statistics

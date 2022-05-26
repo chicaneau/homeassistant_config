@@ -88,9 +88,21 @@
         state: 'off'
       #- condition: time
       #  before: '21:30:00'
-      - condition: sun
-        after: sunset
-        after_offset: "-00:45:00"
+      - condition: or
+        conditions:
+          - condition: and
+            conditions:
+              - condition: numeric_state
+                entity_id: sensor.bathroom_illumination
+                below: 700  
+              - condition: time
+                after: "12:00:00"
+              - condition: sun
+                before: sunset
+                before_offset: "-00:45:00"    
+          - condition: sun
+            after: sunset
+            after_offset: "-00:45:00"
   action:
     - service: light.turn_on
       entity_id: light.bedroom
@@ -138,17 +150,23 @@
 - alias: Bed Single Click 2 lights
   trigger:
     - platform: event
-      event_type: xiaomi_aqara.click
+      event_type: zha_event
       event_data:
         #DANNY
-        entity_id: binary_sensor.switch_danny_bed
-        click_type: single
+        device_ieee: "00:15:8d:00:02:3d:c1:df"
+        command: attribute_updated
+        args: 
+          attribute_name: on_off
+          value: 1
     - platform: event
-      event_type: xiaomi_aqara.click
+      event_type: zha_event
       event_data:
         #LIZ
-        entity_id: binary_sensor.switch_liz_bed
-        click_type: single
+        device_ieee: "00:15:8d:00:02:3e:3e:51"
+        command: attribute_updated
+        args: 
+          attribute_name: on_off
+          value: 1
   condition:
     condition: and
     conditions:
@@ -171,17 +189,23 @@
 - alias: Bed Single Click 4 lights
   trigger:
     - platform: event
-      event_type: xiaomi_aqara.click
+      event_type: zha_event
       event_data:
         #DANNY
-        entity_id: binary_sensor.switch_danny_bed
-        click_type: single
+        device_ieee: "00:15:8d:00:02:3d:c1:df"
+        command: attribute_updated
+        args: 
+          attribute_name: on_off
+          value: 1
     - platform: event
-      event_type: xiaomi_aqara.click
+      event_type: zha_event
       event_data:
         #LIZ
-        entity_id: binary_sensor.switch_liz_bed
-        click_type: single
+        device_ieee: "00:15:8d:00:02:3e:3e:51"
+        command: attribute_updated
+        args: 
+          attribute_name: on_off
+          value: 1
   condition:
     condition: or
     conditions:
@@ -213,17 +237,23 @@
 - alias: Bed Single Click 2 lights on
   trigger:
     - platform: event
-      event_type: xiaomi_aqara.click
+      event_type: zha_event
       event_data:
         #DANNY
-        entity_id: binary_sensor.switch_danny_bed
-        click_type: single
+        device_ieee: "00:15:8d:00:02:3d:c1:df"
+        command: attribute_updated
+        args: 
+          attribute_name: on_off
+          value: 1
     - platform: event
-      event_type: xiaomi_aqara.click
+      event_type: zha_event
       event_data:
         #LIZ
-        entity_id: binary_sensor.switch_liz_bed
-        click_type: single
+        device_ieee: "00:15:8d:00:02:3e:3e:51"
+        command: attribute_updated
+        args: 
+          attribute_name: on_off
+          value: 1
   condition:
     condition: and
     conditions:
@@ -254,17 +284,23 @@
 - alias: Bed Double Click
   trigger:
     - platform: event
-      event_type: xiaomi_aqara.click
+      event_type: zha_event
       event_data:
-        # DANNY
-        entity_id: binary_sensor.switch_danny_bed
-        click_type: double
+        #DANNY
+        device_ieee: "00:15:8d:00:02:3d:c1:df"
+        command: attribute_updated
+        args: 
+          attribute_name: Unknown
+          value: 2
     - platform: event
-      event_type: xiaomi_aqara.click
+      event_type: zha_event
       event_data:
-        # LIZ
-        entity_id: binary_sensor.switch_liz_bed
-        click_type: double
+        #LIZ
+        device_ieee: "00:15:8d:00:02:3e:3e:51"
+        command: attribute_updated
+        args: 
+          attribute_name: Unknown
+          value: 2
   condition:
     condition: and
     conditions:
@@ -288,17 +324,23 @@
 - alias: Bed Double Click Bedtime
   trigger:
     - platform: event
-      event_type: xiaomi_aqara.click
+      event_type: zha_event
       event_data:
-        # DANNY
-        entity_id: binary_sensor.switch_danny_bed
-        click_type: double
+        #DANNY
+        device_ieee: "00:15:8d:00:02:3d:c1:df"
+        command: attribute_updated
+        args: 
+          attribute_name: Unknown
+          value: 2
     - platform: event
-      event_type: xiaomi_aqara.click
+      event_type: zha_event
       event_data:
-        # LIZ
-        entity_id: binary_sensor.switch_liz_bed
-        click_type: double
+        #LIZ
+        device_ieee: "00:15:8d:00:02:3e:3e:51"
+        command: attribute_updated
+        args: 
+          attribute_name: Unknown
+          value: 2
   condition:
     condition: and
     conditions:
