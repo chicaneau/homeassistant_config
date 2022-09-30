@@ -134,7 +134,7 @@
   target_temp: 23 #optional - default 26 int value
   #initial_operation_mode: "off" # optional - default "off" string value (one of the "supported_modes")
   away_temp: 24 #optional - default 24 int value
-  precision: 0.5 #optional - default 1 int or float value. Can be set to 1, 0.5 or 0.1
+  precision: 1 #optional - default 1 int or float value. Can be set to 1, 0.5 or 0.1
   supported_modes:
     - "heat"
     - "cool"
@@ -237,3 +237,12 @@
   default_clean_mode: "Off" #optional - default "Off" string value
   default_beep_mode: "On" #optional - default "Off" string value
   default_sleep_mode: "-1" #optional - default "-1" string value
+
+- platform: smartir
+  name: Lounge AC 2
+  unique_id: office_ac_2
+  device_code: 1281 #1287
+  controller_data: remote.lounge_broadlink_remote_remote
+  temperature_sensor: sensor.loungeroom_temperature
+  humidity_sensor: sensor.loungeroom_humidity
+  #power_sensor: binary_sensor.ac_power
