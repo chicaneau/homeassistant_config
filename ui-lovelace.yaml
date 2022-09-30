@@ -5,7 +5,7 @@ views:
     badges: 
       - entity: sensor.weather_pws_precip_rate
       - entity: sensor.weather_pws_precip_12am
-      - entity: sensor.weather_pws_precip_month
+      #- entity: sensor.weather_pws_precip_month
       - entity: sensor.rainfall_this_month
       - entity: sensor.weather_pws_wind
      # - entity: switch.christmas_tree
@@ -53,42 +53,85 @@ views:
               entity_id: scene.reset_bedroom_lights
       - type: horizontal-stack
         cards:
-        - type: light
+        - type: custom:slider-button-card #light
           entity: light.bedroom
           name: Bedroom
-        - type: light
+          action_button:
+            tap_action: 
+              action: toggle
+          icon:
+            action: more-info           
+          
+        - type: custom:slider-button-card
           entity: light.kitchen
-        - type: light
+          action_button:
+            tap_action: 
+              action: toggle
+          icon:
+            action: more-info            
+        - type: custom:slider-button-card
           entity: light.loungeroom
+          action_button:
+            tap_action: 
+              action: toggle
+          icon:
+            action: more-info            
       - type: horizontal-stack
         cards:
-        - type: light
+        - type: custom:slider-button-card
           entity: light.hallway
           name: Hallway
-        - type: light
+          action_button:
+            tap_action: 
+              action: toggle
+          icon:
+            action: more-info            
+        - type: custom:slider-button-card
           entity: light.pantry
           name: Pantry
-        - type: light
+          action_button:
+            tap_action: 
+              action: toggle
+          icon:
+            action: more-info            
+        - type: custom:slider-button-card
           entity: light.bathroom
           name: Bathroom
+          action_button:
+            tap_action: 
+              action: toggle
+          icon:
+            action: more-info            
       - type: vertical-stack
         cards:
         - type: horizontal-stack
           cards:
-          - type: light
-            entity: light.wardrobe        
-          - type: light
+          - type: custom:slider-button-card
+            entity: light.wardrobe  
+            action_button:
+              show: false
+          - type: custom:slider-button-card
             entity: light.dining_room
-          - type: light
+            action_button:
+              show: false            
+          - type: custom:slider-button-card
             entity: light.niche
+            action_button:
+              show: false            
         - type: horizontal-stack
           cards:          
-          - type: light
+          - type: custom:slider-button-card
             entity: light.gym
-          - type: light
+            action_button:
+              show: false            
+          - type: custom:slider-button-card
             entity: light.outside
-          - type: light
+            action_button:
+              show: false            
+          - type: custom:slider-button-card
             entity: light.garage
+            action_button:
+              show: false            
 
 
       - type: vertical-stack
@@ -200,6 +243,50 @@ views:
           entity: climate.bedroom_aircon
         - type: thermostat
           entity: climate.office_aircon
+    - type: custom:mini-climate
+      entity: climate.office_aircon
+      hvac_mode:
+        #style: "(value, entity) => ({ color: 'black' })"
+        source:
+          'off':
+            icon: mdi:power
+            name: 'off'
+          heat_cool:
+            icon: mdi:cached
+            name: auto
+          cool:
+            icon: mdi:snowflake
+            name: cool
+          heat:
+            icon: mdi:weather-sunny
+            name: heat            
+          dry:
+            icon: mdi:water
+            name: dry
+          fan_only:
+            icon: mdi:fan
+            name: fan
+        change_action: >
+          (selected, entity) => this.call_service('climate', 'set_hvac_mode', { entity_id: entity.entity_id, hvac_mode: selected })
+      buttons:
+        swing_mode:
+          type: dropdown
+          icon: mdi:approximately-equal
+          state:
+            attribute: swing_mode
+            mapper: >
+              (state,entity) => (state === 'VerticalOff' ? 'off': 'on')
+            #mapper: "(state,entity) => (state ? 'on': 'off')"
+          #style: >
+          #  (value) => (value = 'VerticalOff' ? { color: 'black'} : {})
+          active: state => state !== 'off'
+          source:
+            VerticalOff: 'Off'
+            VerticalSwing: 'Vertical Swing'
+          change_action: >
+            (selected, state, entity) => this.call_service('climate', 'set_swing_mode', { entity_id: entity.entity_id, swing_mode: selected })
+    - type: custom:slider-button-card
+      entity: fan.loungeroom_fan
         
     - type: vertical-stack
       title: Bins
@@ -391,6 +478,7 @@ views:
         entities:
           - entity: sensor.pantry_humidity
           - entity: sensor.loungeroom_humidity
+          - entity: sensor.office_humidity
           - entity: sensor.gym_humidity 
           - entity: sensor.bedroom_humidity
           - entity: sensor.outside_humidity
@@ -616,6 +704,8 @@ views:
             name: Bedroom
           - entity: sensor.loungeroom_humidity
             name: Loungeroom
+          - entity: sensor.office_humidity
+            name: Office            
           - entity: sensor.gym_humidity
             name: Gym
           - entity: sensor.garage_humidity
@@ -634,7 +724,9 @@ views:
           - entity: sensor.bedroom_pressure
             name: Bedroom
           - entity: sensor.loungeroom_pressure
-            name: Loungeroom
+            name: Loungeroom          
+          - entity: sensor.office_pressure
+            name: Office
           - entity: sensor.gym_pressure
             name: Gym
           - entity: sensor.garage_pressure
@@ -704,10 +796,10 @@ views:
               unit: hours
               subtitle: Sensors
           cleaning:
-            - attribute: sensor.roborock_s6_pure_current_clean_area
+            - entity_id: sensor.roborock_s6_pure_current_clean_area
               unit: m2
               subtitle: Cleaning area
-            - attribute: sensor.roborock_s6_pure_current_clean_duration_mins
+            - entity_id: sensor.roborock_s6_pure_current_clean_duration_mins
               unit: minutes
               subtitle: Cleaning time
       - type: custom:xiaomi-vacuum-map-card
@@ -729,6 +821,9 @@ views:
                - zones: [[22600,19800,27800,23200],[25100,22800,27750,24150]]
                - zones: [[21150,23150,25150,26600]]
                - zones: [[21200,26400,27250,31100]]
+               - zones: [[33231,10990,36425,14641]]
+           - template: vacuum_clean_zone
+           - template: vacuum_goto
 
 
   - title: 4 Week Graph
@@ -765,10 +860,8 @@ views:
         hours_to_show: 672
         refresh_interval: 60
         entities:
-          - entity: sensor.weather_pws_precip_month
-            name: Rain Sensor
-          - entity: input_number.weather_pws_precip_month
-            name: Rain Input Number       
+          - entity: sensor.rainfall_this_month
+            name: Rain Sensor     
 
                 
                        
@@ -781,12 +874,15 @@ views:
             name: Bedroom
           - entity: sensor.loungeroom_humidity
             name: Loungeroom
+          - entity: sensor.office_humidity
+            name: Office                  
           - entity: sensor.gym_humidity
             name: Gym
           - entity: sensor.garage_humidity
             name: Garage
           - entity: sensor.outside_humidity
             name: Outside
+      
 #          - entity: sensor.bom_sunshine_coast_relative_humidity
 #            name: BOM Sunshine Coast
       - type: history-graph
@@ -798,6 +894,8 @@ views:
             name: Bedroom
           - entity: sensor.loungeroom_pressure
             name: Loungeroom
+          - entity: sensor.office_pressure
+            name: Office      
           - entity: sensor.gym_pressure
             name: Gym
           - entity: sensor.garage_pressure
@@ -852,9 +950,10 @@ views:
           - sensor.server_torrents_capacity
           - sensor.server_torrents_free
 
-#      - type: history-graph
-#        entities:
-#          - sensor.server_cpu_1
+      - type: history-graph
+        entities:
+          - entity: sensor.server_cpu
+            name: Server CPU Used
 #          - sensor.server_cpu_2
 #          - sensor.server_cpu_3
 #          - sensor.server_cpu_4
@@ -862,8 +961,8 @@ views:
 
       - type: history-graph
         entities:
-          - sensor.server_ram
-        name: Server RAM Used
+          - entity: sensor.server_ram
+            name: Server RAM Used
 
   - title: Automations
     icon: mdi:home-automation
