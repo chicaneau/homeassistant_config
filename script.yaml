@@ -290,6 +290,15 @@ roborock_clean_hallway:
         zone: [[27150,26450,29050,29000],[27650,19750,29200,26650]]
         repeats: 1    
         
+roborock_clean_office:
+  alias: 'Vacuum Office'
+  sequence:
+    - service: xiaomi_miio.vacuum_clean_zone
+      data:
+        entity_id: vacuum.roborock_s6_pure
+        zone: [[33231,10990,36425,14641]]
+        repeats: 1    
+
 roborock_clean_house:
   alias: 'Vacuum House'
   sequence:

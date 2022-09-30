@@ -919,11 +919,52 @@
   action:
     - service: switch.turn_off
       entity_id: switch.adaptive_lighting_kitchen
+    #- service: light.turn_on
+    #  entity_id: light.kitchen
+    #  data:
+    #    rgb_color: [0, 0, 255]
+    #- delay: 0.5
+    #- service: light.turn_on
+    #  entity_id: light.kitchen
+    #  data:
+    #    rgb_color: [0, 255, 0]
+    #- delay: 0.5   
+    #- service: light.turn_on
+    #  entity_id: light.kitchen
+    #  data:
+    #    rgb_color: [255, 0, 0]        
     - service: light.turn_on
       data:
         entity_id: light.kitchen
         brightness: 255
         color_temp: 153
+
+#flicker kitchen lights for faulty bulb
+#- alias: Flicker Kitchen Light
+#  trigger:
+#    platform: state
+#    entity_id: light.kitchen
+#    from: 'off'
+#    to: 'on'
+#  action:
+#    - service: light.turn_on
+#      entity_id: light.kitchen
+#      data:
+#        rgb_color: [0, 0, 255]
+#    - delay: 0.5
+#    - service: light.turn_on
+#      entity_id: light.kitchen
+#      data:
+#        rgb_color: [0, 255, 0]
+#    - delay: 0.5   
+#    - service: light.turn_on
+#      entity_id: light.kitchen
+#      data:
+#        rgb_color: [255, 0, 0]    
+#    - service: switch.turn_off
+#      entity_id: switch.adaptive_lighting_kitchen
+#    - service: switch.turn_on
+#      entity_id: switch.adaptive_lighting_kitchen      
 
 #####Circadian disable on adjust#####
 
@@ -1088,6 +1129,9 @@
     - service: frontend.set_theme
       data:
         name: midnight_blue
+    - service: button.press
+      target:
+        entity_id: button.server_publishallsensors
 #    - delay: "00:00:30"
 #    - wait_template: >-
 #        {% if not states.light.loungeroom_1 %}

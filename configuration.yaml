@@ -85,6 +85,10 @@ lovelace:
       type: module   
     - url: /hacsfiles/zha-network-card/zha-network-card.js
       type: module        
+    - url: /hacsfiles/slider-button-card/slider-button-card.js
+      type: module       
+    - url: /hacsfiles/mini-climate-card/mini-climate-card-bundle.js
+      type: module      
   
 # Checks for available updates
 #updater:
@@ -146,16 +150,12 @@ ios:
           - identifier: 'DO_NOTHING'
             title: 'Do Nothing'            
 
-mqtt:
-  broker: server
-  discovery: true
-
 system_health:
 
-notify:
-  - name: 'chicane_pushbullet'
-    platform: 'pushbullet'
-    api_key: !secret pb_apikey
+#notify:
+#  - name: 'chicane_pushbullet'
+#    platform: 'pushbullet'
+#    api_key: !secret pb_apikey
 
 #hue:
 #  bridges:
@@ -203,6 +203,7 @@ tts:
 logger:
   default: error
   #logs:
+    #homeassistant.components.homekit: debug
     #homeassistant.core: debug
     #homeassistant.components.zha: debug
     #bellows.zigbee.application: debug
@@ -226,6 +227,8 @@ logger:
     #custom_components.xiaomi_miot_raw: debug
     #miio: debug
     #pyhap: debug
+
+mqtt: !include mqtt.yaml
 
 sensor: !include sensor.yaml
 
@@ -267,6 +270,8 @@ climate: !include climate.yaml
 group: !include groups.yaml
 
 fan: !include fan.yaml
+
+
 
 #circadian_lighting:
 
@@ -314,6 +319,8 @@ tplink:
   switch:
     - host: !secret tplink_1
     - host: !secret tplink_2
+
+smartir:
 
 #garbage_collection:
 #  sensors:
@@ -461,6 +468,10 @@ google_assistant:
       name: Outside Light
       expose: true
       room: Outside
+    light.hallway:
+      name: Hallway Light
+      expose: true
+      room: Hallway
     scene.goodnight_scene:
       name: Goodnight
       expose: true
@@ -550,6 +561,8 @@ homekit:
       - switch.adaptive_lighting_sleep_mode_loungeroom
       - input_boolean.outside_triggered
       - camera.xiaomi_cloud_map_extractor
+      - scene.lights_off
+      - button.server_publishallsensors
       #- script.roborock_clean_east_wing
       #- script.roborock_clean_ensuite
       #- script.roborock_clean_hallway

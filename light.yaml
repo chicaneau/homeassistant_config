@@ -51,9 +51,9 @@
 
   - platform: mqtt
     name: Gym
-    command_topic: "gym/lights/cmnd/POWER"
-    availability_topic: "gym/lights/tele/LWT"
-    state_topic: "gym/lights/tele/STATE"
+    command_topic: "gymlights/lights/cmnd/POWER"
+    availability_topic: "gymlights/lights/tele/LWT"
+    state_topic: "gymlights/lights/tele/STATE"
     state_value_template: "{{ value_json.POWER }}"
     payload_on: "ON"
     payload_off: "OFF"

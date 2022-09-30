@@ -123,162 +123,6 @@
     {%- endif -%}
    {% endfor %}
 
-- platform: mqtt
-  name: "Pantry Temperature"
-  state_topic: "tele/pantry/SENSOR"
-  value_template: "{{ value_json['AM2301'].Temperature }}"
-  availability_topic: "tele/pantry/LWT"
-  payload_available: "Online"
-  payload_not_available: "Offline"
-  device_class: temperature
-  unit_of_measurement: "°C"
- 
-- platform: mqtt
-  name: "Pantry Humidity"
-  state_topic: "tele/pantry/SENSOR"
-  value_template: "{{ value_json['AM2301'].Humidity }}"
-  availability_topic: "tele/pantry/LWT"
-  payload_available: "Online"
-  payload_not_available: "Offline"
-  device_class: humidity
-  unit_of_measurement: "%"
-
-- platform: mqtt
-  name: "Loungeroom Temperature"
-  state_topic: "tele/loungeroom/SENSOR"
-  value_template: "{{ value_json['BME280'].Temperature }}"
-  availability_topic: "tele/loungeroom/LWT"
-  payload_available: "Online"
-  payload_not_available: "Offline"
-  device_class: temperature
-  unit_of_measurement: "°C"
-
-- platform: mqtt
-  name: "Loungeroom Humidity"
-  state_topic: "tele/loungeroom/SENSOR"
-  value_template: "{{ value_json['BME280'].Humidity }}"
-  availability_topic: "tele/loungeroom/LWT"
-  payload_available: "Online"
-  payload_not_available: "Offline"
-  device_class: humidity
-  unit_of_measurement: "%"
-
-- platform: mqtt
-  name: "Loungeroom Pressure"
-  state_topic: "tele/loungeroom/SENSOR"
-  value_template: "{{ value_json['BME280'].Pressure }}"
-  availability_topic: "tele/loungeroom/LWT"
-  payload_available: "Online"
-  payload_not_available: "Offline"
-  device_class: pressure
-  unit_of_measurement: "hPa"
-
-- platform: mqtt
-  name: "Gym Temperature"
-  state_topic: "tele/gym/SENSOR"
-  value_template: "{{ value_json['BME280'].Temperature }}"
-  availability_topic: "tele/gym/LWT"
-  payload_available: "Online"
-  payload_not_available: "Offline"
-  device_class: temperature
-  unit_of_measurement: "°C"
-
-- platform: mqtt
-  name: "Gym Humidity"
-  state_topic: "tele/gym/SENSOR"
-  value_template: "{{ value_json['BME280'].Humidity }}"
-  availability_topic: "tele/gym/LWT"
-  payload_available: "Online"
-  payload_not_available: "Offline"
-  device_class: humidity
-  unit_of_measurement: "%"
-
-- platform: mqtt
-  name: "Gym Pressure"
-  state_topic: "tele/gym/SENSOR"
-  value_template: "{{ value_json['BME280'].Pressure }}"
-  availability_topic: "tele/gym/LWT"
-  payload_available: "Online"
-  payload_not_available: "Offline"
-  unit_of_measurement: "hPa"
-  device_class: pressure
-
-- platform: mqtt
-  name: "Bedroom Temperature"
-  state_topic: "tele/bedroom/SENSOR"
-  value_template: "{{ value_json['BME280'].Temperature }}"
-  availability_topic: "tele/bedroom/LWT"
-  payload_available: "Online"
-  payload_not_available: "Offline"
-  device_class: temperature
-  unit_of_measurement: "°C"
-
-- platform: mqtt
-  name: "Bedroom Humidity"
-  state_topic: "tele/bedroom/SENSOR"
-  value_template: "{{ value_json['BME280'].Humidity }}"
-  availability_topic: "tele/bedroom/LWT"
-  payload_available: "Online"
-  payload_not_available: "Offline"
-  device_class: humidity
-  unit_of_measurement: "%"
-
-- platform: mqtt
-  name: "Bedroom Pressure"
-  state_topic: "tele/bedroom/SENSOR"
-  value_template: "{{ value_json['BME280'].Pressure }}"
-  availability_topic: "tele/bedroom/LWT"
-  payload_available: "Online"
-  payload_not_available: "Offline"
-  unit_of_measurement: "hPa"
-  device_class: pressure
-
-- platform: mqtt
-  name: "Outside Temperature"
-  state_topic: "tele/outside_temp/SENSOR"
-  value_template: "{{ value_json['BME280'].Temperature }}"
-  availability_topic: "tele/outside_temp/LWT"
-  payload_available: "Online"
-  payload_not_available: "Offline"
-  device_class: temperature
-  unit_of_measurement: "°C"
-
-- platform: mqtt
-  name: "Outside Pressure"
-  state_topic: "tele/outside_temp/SENSOR"
-  value_template: "{{ value_json['BME280'].Pressure }}"
-  availability_topic: "tele/outside_temp/LWT"
-  payload_available: "Online"
-  payload_not_available: "Offline"
-  unit_of_measurement: "hPa"
-  device_class: pressure
-
-- platform: mqtt
-  name: "Outside Humidity"
-  state_topic: "tele/outside_temp/SENSOR"
-  value_template: "{{ value_json['BME280'].Humidity }}"
-  availability_topic: "tele/outside_temp/LWT"
-  payload_available: "Online"
-  payload_not_available: "Offline"
-  device_class: humidity
-  unit_of_measurement: "%"
-
-- platform: mqtt
-  name: "Garage Temperature"
-  state_topic: "garage/stats/temperature"
-  device_class: temperature
-  unit_of_measurement: "°C"
-
-- platform: mqtt
-  name: "Garage Humidity"
-  state_topic: "garage/stats/humidity"
-  device_class: humidity
-  unit_of_measurement: "%"
-
-- platform: mqtt
-  name: "Garage Pressure"
-  state_topic: "garage/stats/pressure"
-  unit_of_measurement: "hPa"
 
 - platform: mold_indicator
   name: Loungeroom Mould
@@ -537,10 +381,11 @@
 #       icon_template: mdi:harddisk
     server_raid_capacity:
        friendly_name: Server RAID Capacity
-       value_template: >
-         {% if states.sensor.server_raid_free_2.state|float > 0 %}
-           {{ (((states.sensor.server_raid_size.state|int - states.sensor.server_raid_free_2.state|int) / (states.sensor.server_raid_size.state|int)|round(2)) * 100)|round(2) }}
-         {% endif %}
+      # value_template: >
+      #   {% if states.sensor.server_raid_free_2.state|float > 0 %}
+      #     {{ (((states.sensor.server_raid_size.state|int - states.sensor.server_raid_free_2.state|int) / (states.sensor.server_raid_size.state|int)|round(2)) * 100)|round(2) }}
+      #   {% endif %}
+       value_template: "{{ states.sensor.server_storage_g.attributes.UsedSpacePercentage }}"
        unit_of_measurement: "%"
        icon_template: mdi:harddisk     
 #    server_raid_free:
@@ -551,10 +396,11 @@
 #       icon_template: mdi:harddisk-plu 
     server_raid_free:
        friendly_name: Server RAID Free
-       value_template: >
-         {% if states.sensor.server_raid_free_2.state|float > 0 %}
-           {{ (states.sensor.server_raid_free_2.state|int / 1024 / 1024 / 1024)|round(2) }}
-         {% endif %}
+      # value_template: >
+      #   {% if states.sensor.server_raid_free_2.state|float > 0 %}
+      #     {{ (states.sensor.server_raid_free_2.state|int / 1024 / 1024 / 1024)|round(2) }}
+      #   {% endif %}
+       value_template: "{{ (states.sensor.server_storage_g.attributes.AvailableSpaceMB / 1024)|round(2) }}"
        unit_of_measurement: "GB"
        icon_template: mdi:harddisk-plu  
 #    server_torrents_capacity:
@@ -565,10 +411,11 @@
 #       icon_template: mdi:harddisk
     server_torrents_capacity:
        friendly_name: Server Torrents Capacity
-       value_template: >
-        {% if states.sensor.server_torrents_free_2.state|float > 0 %}
-          {{ (((states.sensor.server_torrents_size.state|int - states.sensor.server_torrents_free_2.state|int) / (states.sensor.server_torrents_size.state|int)|round(2)) * 100)|round(2) }}
-        {% endif %}
+       #value_template: >
+       # {% if states.sensor.server_torrents_free_2.state|float > 0 %}
+       #   {{ (((states.sensor.server_torrents_size.state|int - states.sensor.server_torrents_free_2.state|int) / (states.sensor.server_torrents_size.state|int)|round(2)) * 100)|round(2) }}
+       # {% endif %}
+       value_template: "{{ states.sensor.server_storage_e.attributes.UsedSpacePercentage }}"
        unit_of_measurement: "%"
        icon_template: mdi:harddisk       
 #    server_torrents_free:
@@ -579,10 +426,11 @@
 #       icon_template: mdi:harddisk-plu 
     server_torrents_free:
        friendly_name: Server Torrents Free
-       value_template: >
-         {% if states.sensor.server_torrents_free_2.state|float > 0 %}
-           {{ (states.sensor.server_torrents_free_2.state|int / 1024 / 1024 / 1024)|round(2) }}
-         {% endif %}
+       #value_template: >
+       #  {% if states.sensor.server_torrents_free_2.state|float > 0 %}
+       #    {{ (states.sensor.server_torrents_free_2.state|int / 1024 / 1024 / 1024)|round(2) }}
+       #  {% endif %}
+       value_template: "{{ (states.sensor.server_storage_e.attributes.AvailableSpaceMB / 1024)|round(2) }}"
        unit_of_measurement: "GB"
        icon_template: mdi:harddisk-plu        
 #    server_ram_capacity:
