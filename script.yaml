@@ -305,6 +305,10 @@ roborock_clean_house:
     - service: vacuum.start
       entity_id: vacuum.roborock_s6_pure
 
-        
+roborock_dock:
+  alias: 'Vacuum Dock'
+  sequence:
+    - service: vacuum.return_to_base 
+      entity_id: vacuum.roborock_s6_pure
         
         

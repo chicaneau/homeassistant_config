@@ -3,7 +3,8 @@
     name: "Danny's PC"
     host: !secret danny_pc_ip
     turn_off:
-      service: shell_command.chicane_sleep
+      service: button.press
+      entity_id: button.chicane_sleep
 
   - platform: wake_on_lan
     mac: !secret racing_pc_mac
@@ -57,19 +58,6 @@
           data:
             entity_id: switch.bedroom_heater
         icon_template: mdi:tree
-
-  - platform: mqtt
-    unique_id: back_sprinker
-    name: "Back Sprinkler"
-    state_topic: "stat/sprinkler/POWER"
-    command_topic: "cmnd/sprinkler/POWER"
-    availability_topic : "tele/sprinkler/LWT"
-    payload_available: "Online"
-    payload_not_available: "Offline"
-    payload_on: "ON"
-    payload_off: "OFF"
-    state_on: "ON"
-    state_off: "OFF"
     
 # Circadian Lighting
 #  - platform: circadian_lighting

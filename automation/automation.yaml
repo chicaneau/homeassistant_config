@@ -18,15 +18,26 @@
         message: 'You might want to close it :)'
         title: 'Garage Door open!'
         data:
-          push:
-            category: "garage"
+          actions:
+           - action: 'CLOSE_GARAGE'
+             title: 'Close Garage'
+             destructive: true           
+           - action: 'DO_NOTHING'
+             title: 'Do nothing'
     - service: notify.mobile_app_duffel
       data:
         title: 'Garage Door open!'
         message: 'You might want to close it :)'
+        data:
+          actions:
+           - action: 'CLOSE_GARAGE'
+             title: 'Close Garage'
+             destructive: true           
+           - action: 'DO_NOTHING'
+             title: 'Do nothing'        
     - service: tts.google_translate_say
       data:
-        entity_id: group.google_homes
+        entity_id: media_player.whole_house
         message: "Alert!, Garage door is open"
 
 - alias: 'Garage night alarm on open'
@@ -42,18 +53,30 @@
   action:
     - service: notify.mobile_app_ichicane
       data:
-        message: "It's late, was that a mistake? You might want to close it :)"
         title: 'Garage Door just opened!'
+        message: "It's late, was that a mistake? You might want to close it :)"
         data:
-          push:
-            category: 'garage'
+          actions:
+           - action: 'CLOSE_GARAGE'
+             title: 'Close Garage'
+             destructive: true           
+           - action: 'DO_NOTHING'
+             title: 'Do nothing'
+
     - service: notify.mobile_app_duffel
       data:
         title: 'Garage Door just opened!'
         message: "It's late, was that a mistake? You might want to close it :)"
+        data:
+          actions:
+           - action: 'CLOSE_GARAGE'
+             title: 'Close Garage'
+             destructive: true           
+           - action: 'DO_NOTHING'
+             title: 'Do nothing'
     - service: tts.google_translate_say
       data:
-        entity_id: group.google_homes
+        entity_id: media_player.whole_house
         message: "Alert!, Garage door just opened"
 
 
@@ -76,15 +99,35 @@
         title: "Garage Door just opened and no-one's home!"
         message: "No-one's home, was that a mistake? You might want to close it :)"
         data:
-          push:
-            category: 'garage'
+          actions:
+           - action: 'CLOSE_GARAGE'
+             title: 'Close Garage'
+             destructive: true           
+           - action: 'DO_NOTHING'
+             title: 'Do nothing'
+
     - service: notify.mobile_app_duffel
       data:
         title: "Garage Door just opened and no-one's home!"
         message: "No-one's home, was that a mistake? You might want to close it :)"
         data:
-          push:
-            category: 'garage'
+          actions:
+           - action: 'CLOSE_GARAGE'
+             title: 'Close Garage'
+             destructive: true           
+           - action: 'DO_NOTHING'
+             title: 'Do nothing'
+
+#        identifier: 'garage'
+#        actions:
+#          - identifier: 'CLOSE_GARAGE'
+#            title: 'Close Garage'
+#            destructive: true
+#            authenticationRequired: true
+#          - identifier: 'DO_NOTHING'
+#            title: 'Do Nothing'
+        #  push:
+        #    category: 'garage'
 
 - alias: 'Garage leaving home alarm'
   trigger:
@@ -101,24 +144,32 @@
         title: "Garage Doors still open and no-one's home!"
         message: "No-one's home, was that a mistake? You might want to close it :)"
         data:
-          push:
-            category: 'garage'
+          actions:
+           - action: 'CLOSE_GARAGE'
+             title: 'Close Garage'
+             destructive: true           
+           - action: 'DO_NOTHING'
+             title: 'Do nothing'
     - service: notify.mobile_app_duffel
       data:
         title: "Garage Doors still open and no-one's home!"
         message: "No-one's home, was that a mistake? You might want to close it :)"
         data:
-          push:
-            category: 'garage'            
+          actions:
+           - action: 'CLOSE_GARAGE'
+             title: 'Close Garage'
+             destructive: true           
+           - action: 'DO_NOTHING'
+             title: 'Do nothing'         
   
 ###IOS GARAGE PUSH BUTTON###
 
 - alias: iOS Push - Close the Garage
   trigger:
     platform: event
-    event_type: ios.notification_action_fired
+    event_type: mobile_app_notification_action
     event_data:
-      actionName: CLOSE_GARAGE
+      action: CLOSE_GARAGE
   condition:
     condition: state
     entity_id: cover.garage_door
@@ -359,6 +410,44 @@
   action:
     service: switch.turn_off
     entity_id: switch.mozzie_zapper
+
+- alias: 'T300 Wheel Turn on With Racing PC'
+  trigger:
+    platform: state
+    entity_id: switch.racing_pc
+    from: 'off'
+    to: 'on'
+  action:
+    service: switch.turn_on
+    entity_id: switch.t300_wheel_switch
+
+- alias: 'T300 Wheel Turn off With Racing PC'
+  trigger:
+    platform: state
+    entity_id: switch.racing_pc
+    from: 'on'
+    to: 'off'
+  action:
+    service: switch.turn_off
+    entity_id: switch.t300_wheel_switch
+
+- alias: 'Cat Fountain Turn off at bedtime'
+  trigger:
+    platform: state
+    entity_id: input_boolean.bedtime_triggered
+    to: 'on'
+  action:
+    service: switch.turn_off
+    entity_id: switch.cat_fountain_switch
+
+- alias: 'Cat Fountain Turn on at morning'
+  trigger:
+    - platform: sun
+      event: sunrise
+  action:
+    service: switch.turn_on
+    entity_id: switch.cat_fountain_switch
+
 
 ###HOLIDAYS####
 - alias: 'Turn off on-holidays on arrive home'
@@ -629,44 +718,110 @@
     - service: light.turn_off
       entity_id: light.garage           
 
-- alias: Loungeroom Single Click
-  trigger:
-    - platform: event
-      event_type: zha_event
-      event_data:
-        device_ieee: "00:15:8d:00:02:85:fb:3b"
-        command: click
-        args:
-          click_type: single
-  action:
-    - service: light.toggle
-      entity_id: light.loungeroom
-#    - service: light.turn_off
-#      entity_id: light.cooking_light
+#- alias: Loungeroom Single Click
+#  trigger:
+#    - platform: event
+#      event_type: zha_event
+#      event_data:
+#        device_ieee: "00:15:8d:00:02:85:fb:3b"
+#        command: click
+#        args:
+#          click_type: single
+#  action:
+#    - service: light.toggle
+#      entity_id: light.loungeroom
+##    - service: light.turn_off
+##      entity_id: light.cooking_light
 
-- alias: Loungeroom Double Click
+- alias: Door Bell Ring
   trigger:
     - platform: event
       event_type: zha_event
       event_data:
-        #DANNY
         device_ieee: "00:15:8d:00:02:85:fb:3b"
-        command: click
-        args:
-          click_type: double
+        #command: click
+        #args:
+        #  click_type: single
   action:
-   #- service: light.turn_on
-   #  entity_id: light.kitchen
-   #  data:
-   #    brightness: 100
-   #    color_temp: 278
-   #- service: light.turn_on
-   #  entity_id: light.loungeroom
-   #  data:
-   #    brightness: 75
-   #    color_temp: 278
-    - service: switch.toggle
-      entity_id: switch.cooking_light
+    - service: media_player.play_media
+      data:
+        media_content_id: 'http://10.0.1.4:8123/local/jetsons-doorbell.mp3'
+        media_content_type: 'music'
+      target:
+        entity_id: media_player.chicane
+    - service: media_player.play_media
+      data:
+        media_content_id: 'http://10.0.1.4:8123/local/jetsons-doorbell.mp3'
+        media_content_type: 'music'
+      target:
+        entity_id: media_player.gamer  
+    - service: media_player.turn_on
+      data:
+        entity_id: media_player.whole_house 
+    - delay: '00:00:02'    
+    - service: input_number.set_value
+      data:
+        entity_id: input_number.speaker_whole_house_volume_backup
+        value: "{{ (state_attr('media_player.whole_house','volume_level')) | round(4) }}"
+    - service: media_player.volume_set
+      data:
+        volume_level: .8
+      target:
+        entity_id: media_player.whole_house
+    - service: media_player.play_media
+      data:
+        entity_id: media_player.whole_house
+        media_content_id: 'http://10.0.1.4:8123/local/jetsons-doorbell.mp3'
+        media_content_type: 'audio/mp3'
+    - delay: '00:00:06'
+    - service: media_player.volume_set
+      data:
+        volume_level:  "{{ states('input_number.speaker_whole_house_volume_backup') }}"
+      target:
+        entity_id: media_player.whole_house  
+
+- alias: Door Bell Ring Not Home
+  trigger:
+    - platform: event
+      event_type: zha_event
+      event_data:
+        device_ieee: "00:15:8d:00:02:85:fb:3b"
+  condition:
+    condition: template
+    value_template: "{{ not is_state('group.at_home', 'home') }}"
+  action:
+    - service: notify.mobile_app_ichicane
+      data:
+        message: "Doorbell rang and you're not home"
+    - service: notify.mobile_app_duffel
+      data:
+        message: "Doorbell rang and you're not home"                
+
+
+
+#- alias: Loungeroom Double Click
+#  trigger:
+#    - platform: event
+#      event_type: zha_event
+#      event_data:
+#        #DANNY
+#        device_ieee: "00:15:8d:00:02:85:fb:3b"
+#        command: click
+#        args:
+#          click_type: double
+#  action:
+#   #- service: light.turn_on
+#   #  entity_id: light.kitchen
+#   #  data:
+#   #    brightness: 100
+#   #    color_temp: 278
+#   #- service: light.turn_on
+#   #  entity_id: light.loungeroom
+#   #  data:
+#   #    brightness: 75
+#   #    color_temp: 278
+#    - service: switch.toggle
+#      entity_id: switch.cooking_light
 
 - alias: Hue Dimmer Kitchen On
   trigger:
@@ -1392,29 +1547,35 @@
         message: 'You might want to turn it off'
         title: 'Sprinklers been on for 30 minutes!'
         data:
-          push:
-            category: 'sprinkleroff'
+          actions:
+           - action: 'SPRINKLER_OFF'
+             title: 'Turn off Sprinkler'
+             destructive: true           
+           - action: 'DO_NOTHING'
+             title: 'Do nothing'        
     
     - service: notify.mobile_app_duffel
       data:
         message: 'You might want to turn it off'
         title: 'Sprinklers been on for 30 minutes!'
         data:
-          push:
-            category: 'sprinkleroff'                
+          actions:
+           - action: 'SPRINKLER_OFF'
+             title: 'Turn off Sprinkler'
+             destructive: true           
+           - action: 'DO_NOTHING'
+             title: 'Do nothing'               
 
 - alias: iOS Push - Turn Off Sprinkler
   trigger:
     platform: event
-    event_type: ios.notification_action_fired
+    event_type: mobile_app_notification_action
     event_data:
-      actionName: SPRINKLER_OFF
+      action: SPRINKLER_OFF
   condition:
     condition: state
     entity_id: switch.back_sprinkler  
     state: 'on'
   action:
     service: switch.turn_off
-    entity_id: switch.back_sprinkler             
-
-    
+    entity_id: switch.back_sprinkler

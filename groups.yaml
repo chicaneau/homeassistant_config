@@ -6,7 +6,7 @@
 #Hallway: light.hallway, light.hallway_1, light.hallway_2
 At Home HomeKit: input_boolean.dannyhome, input_boolean.lizhome
 At Home: person.danny, person.liz
-Google Homes: media_player.kitchen_speaker, media_player.bedroom_speaker, media_player.outside_speaker
+Google Homes: media_player.kitchen_speaker, media_player.bedroom_speaker, media_player.outside_speaker, media_player.bedroom_speaker
 Back Door:
   entities:
     - binary_sensor.door_outside_screen

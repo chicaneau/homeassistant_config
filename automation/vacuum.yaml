@@ -1,0 +1,57 @@
+  - alias: Roborock S6 Error
+    id: roborock_s6_error
+    trigger:
+      - platform: state
+        entity_id: sensor.roborock_s6_status
+        to: 'Error'
+      - platform: state
+        entity_id: sensor.roborock_s6_status
+        to: 'In Error'
+      - platform: state
+        entity_id: sensor.roborock_s6_status
+        to: 'Charging Error'
+    action:
+      - service: camera.snapshot
+        target:
+          entity_id: camera.xiaomi_cloud_map_extractor
+        data:
+          filename: '/tmp/vacuum_map.jpg'
+      - service: notify.mobile_app_ichicane
+        data:
+          title: 'Roborock Error'
+          message: >-
+            {% if is_state('sensor.roborock_s6_error', 'No Error')  %}
+              {{states.sensor.roborock_s6_status.state}}
+            {% else %}
+              {{states.sensor.roborock_s6_error.state}}
+            {% endif %}
+          data:
+            actions:
+             - action: 'LOCATE_ROBOROCK'
+               title: 'Locate Roborock'
+            image: "/media/tmp/vacuum_map.jpg"
+      - service: notify.mobile_app_duffel
+        data:
+          title: 'Roborock Error'
+          message: >-
+            {% if is_state('sensor.roborock_s6_error', 'No Error')  %}
+              {{states.sensor.roborock_s6_status.state}}
+            {% else %}
+              {{states.sensor.roborock_s6_error.state}}
+            {% endif %}
+          data:
+            actions:
+             - action: 'LOCATE_ROBOROCK'
+               title: 'Locate Roborock'
+            image: "/media/tmp/vacuum_map.jpg"
+
+  - alias: iOS Push - Locate Roborock S6
+    trigger:
+      platform: event
+      event_type: mobile_app_notification_action
+      event_data:
+        action: LOCATE_ROBOROCK
+    action:
+      service: vacuum.locate
+      target:
+        entity_id: vacuum.roborock_s6_pure

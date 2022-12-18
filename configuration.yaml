@@ -10,9 +10,14 @@ homeassistant:
   unit_system: metric
   # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
   time_zone: Australia/Brisbane
+  country: AU
   # include Customize
   customize: !include customize.yaml
-
+  external_url: https://hass.chicane.me
+  allowlist_external_dirs:
+    - /tmp
+  media_dirs:
+    tmp: /tmp
 # Show links to resources in log and frontend
 # introduction:
 
@@ -48,8 +53,9 @@ http:
   # Uncomment this to add a password (recommended!)
   # Uncomment this if you are using SSL or running in Docker etc
   # base_url: example.duckdns.org:8123
-  ssl_certificate: !secret ssl_certificate
-  ssl_key: !secret ssl_key
+  #ssl_certificate: !secret ssl_certificate
+  #ssl_key: !secret ssl_key
+  server_port: 8123
   use_x_forwarded_for: true
   trusted_proxies:
     - !secret server_ip
@@ -129,29 +135,10 @@ recorder:
 mobile_app:
 
 ios:
-  push:
-    categories:
-      - name: Garage
-        identifier: 'garage'
-        actions:
-          - identifier: 'CLOSE_GARAGE'
-            title: 'Close Garage'
-            destructive: true
-            authenticationRequired: true
-          - identifier: 'DO_NOTHING'
-            title: 'Do Nothing'
-      - name: sprinkleroff
-        identifier: 'sprinkleroff'
-        actions:
-          - identifier: 'SPRINKLER_OFF'
-            title: 'Turn off Sprinkler'
-            destructive: true
-            authenticationRequired: false
-          - identifier: 'DO_NOTHING'
-            title: 'Do Nothing'            
 
 system_health:
 
+media_source:
 #notify:
 #  - name: 'chicane_pushbullet'
 #    platform: 'pushbullet'
@@ -178,11 +165,6 @@ binary_sensor:
     # - key: !secret xiaomi_key
       # host: !secret xiaomi_ip
 
-#vacuum:
-#  - platform: xiaomi_miio
-#    host: !secret xiaomi_vacuum_host
-#    token: !secret xiaomi_vacuum_token
-
 camera:
   - platform: xiaomi_cloud_map_extractor
     host: !secret xiaomi_vacuum_host
@@ -198,11 +180,13 @@ camera:
 # Text to speech
 tts:
   platform: google_translate
-  base_url: !secret base_url
+  #base_url: !secret base_url
 
 logger:
   default: error
-  #logs:
+  logs:
+    homeassistant.components.google_assistant: debug
+    google_assistant: debug
     #homeassistant.components.homekit: debug
     #homeassistant.core: debug
     #homeassistant.components.zha: debug
@@ -230,7 +214,7 @@ logger:
 
 mqtt: !include mqtt.yaml
 
-sensor: !include sensor.yaml
+sensor: !include_dir_merge_list sensor/
 
 #remote:
 #  - platform: harmony
@@ -243,16 +227,14 @@ emulated_roku:
     - name: Home Assistant
       listen_port: 8060
 
-#media_player:
-#  - platform: androidtv
-#    name: Fire TV
-#    host: x.x.x.x
-#    adb_server_ip: 127.0.0.1
-#    adbkey: '/config/config/android/adbkey'
-#    device_class: firetv
+#media_player: 
+#  name: "Hass Agent Chicane Media Player"
+#  platform: hass_agent_mediaplayer
+#  host: chicane.chic
+  #port: 5115 [optional]
 
-shell_command:
-  chicane_sleep: 'touch /config/config/sleepchicane.txt'
+#shell_command:
+#  chicane_sleep: 'touch /config/config/sleepchicane.txt'
 
 #apple_tv:
 
@@ -301,14 +283,6 @@ adaptive_lighting:
       - light.hallway_1
       - light.hallway_2
     min_brightness: 20   
-
-cover:
-  - platform: mqtt
-    name: 'Garage Door'
-    command_topic: "garage/trigger"
-    payload_open: "OPEN"
-    payload_close: "CLOSE"
-    state_topic: "garage/stats/position"
 
 #camera:
   #- platform: bom
@@ -400,6 +374,12 @@ input_number:
     max: 600
     unit_of_measurement: "mm"
     step: 0.01
+
+  speaker_whole_house_volume_backup:
+    name: "Speaker Whole House Volume Backup"
+    min: 0
+    max: 1
+    step: 0.0001
 
 
 google_assistant:
@@ -532,8 +512,10 @@ homekit:
       - sensor
       - switch
       - vacuum
+      - alarm_control_panel
     exclude_entities:
       #- climate.office_aircon
+      - button.chicane_sleep
       - input_boolean.danny_bin_alerted
       - input_boolean.liz_bin_alerted
       - input_boolean.both_bin_alerted
@@ -580,6 +562,9 @@ homekit:
       - switch.coffee_machine
       - switch.cooking_light
       - switch.danny_s_pc
+      - switch.racing_pc
+      - switch.t300_wheel_switch
+      - switch.amiibo_cabinet_switch
       - switch.mozzie_zapper
       - switch.back_sprinkler
       - light.bathroom
