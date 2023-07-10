@@ -13,8 +13,8 @@
         before: '23:59:59'
         after: '14:00:00'
       - condition: state
-        entity_id: sensor.recycling_bin
-        state: 'today'
+        entity_id: sensor.recycling_bin_today
+        state: 'Today'
       - condition: state
         entity_id: input_boolean.danny_bin_alerted
         state: 'off'
@@ -41,8 +41,8 @@
         before: '23:59:59'
         after: '14:00:00'
       - condition: state
-        entity_id: sensor.recycling_bin
-        state: 'today'
+        entity_id: sensor.recycling_bin_today
+        state: 'Today'
       - condition: state
         entity_id: input_boolean.liz_bin_alerted
         state: 'off'
@@ -68,8 +68,8 @@
         before: '23:59:59'
         after: '14:00:00'
       - condition: state
-        entity_id: sensor.recycling_bin
-        state: 'today'
+        entity_id: sensor.recycling_bin_today
+        state: 'Today'
       - condition: state
         entity_id: input_boolean.both_bin_alerted
         state: 'off'
@@ -81,7 +81,7 @@
     - service: input_boolean.turn_on
       entity_id: input_boolean.both_bin_alerted
 
-- alias: 'Normal Bin - Danny Arrives Home'
+- alias: 'Green Bin - Danny Arrives Home'
   trigger:
     platform: state
     entity_id: device_tracker.ichicane
@@ -95,10 +95,8 @@
         before: '23:59:59'
         after: '14:00:00'
       - condition: state
-        entity_id: sensor.normal_bin
-        state: 'today'
-      - condition: template
-        value_template: "{{ not is_state('sensor.recycling_bin', 'today') }}"
+        entity_id: sensor.green_bin_today
+        state: 'Today'
       - condition: state
         entity_id: input_boolean.danny_bin_alerted
         state: 'off'
@@ -111,7 +109,7 @@
     - service: input_boolean.turn_on
       entity_id: input_boolean.danny_bin_alerted
 
-- alias: 'Normal Bin - Liz Arrives Home'
+- alias: 'Green Bin - Liz Arrives Home'
   trigger:
     platform: state
     entity_id: device_tracker.lizsiphone
@@ -125,10 +123,8 @@
         before: '23:59:59'
         after: '14:00:00'
       - condition: state
-        entity_id: sensor.normal_bin
-        state: 'today'
-      - condition: template
-        value_template: "{{ not is_state('sensor.recycling_bin', 'today') }}"
+        entity_id: sensor.green_bin_today
+        state: 'Today'
       - condition: state
         entity_id: input_boolean.liz_bin_alerted
         state: 'off'
@@ -140,7 +136,7 @@
     - service: input_boolean.turn_on
       entity_id: input_boolean.liz_bin_alerted
 
-- alias: 'Normal Bin - Both Arrives Home'
+- alias: 'Green Bin - Both Arrives Home'
   trigger:
     platform: state
     entity_id: group.at_home
@@ -154,10 +150,9 @@
         before: '23:59:59'
         after: '14:00:00'
       - condition: state
-        entity_id: sensor.normal_bin
-        state: 'today'
-      - condition: template
-        value_template: "{{ not is_state('sensor.recycling_bin', 'today') }}"
+        entity_id: sensor.green_bin_today
+        state: 'Today'
+
       - condition: state
         entity_id: input_boolean.both_bin_alerted
         state: 'off'
@@ -181,8 +176,8 @@
         entity_id: device_tracker.ichicane
         state: 'home'
       - condition: state
-        entity_id: sensor.recycling_bin
-        state: 'today'
+        entity_id: sensor.recycling_bin_today
+        state: 'Today'
       - condition: state
         entity_id: input_boolean.danny_bin_alerted
         state: 'off'
@@ -206,8 +201,8 @@
         entity_id: device_tracker.lizsiphone
         state: 'home'
       - condition: state
-        entity_id: sensor.recycling_bin
-        state: 'today'
+        entity_id: sensor.recycling_bin_today
+        state: 'Today'
       - condition: state
         entity_id: input_boolean.liz_bin_alerted
         state: 'off'
@@ -230,8 +225,8 @@
         entity_id: group.at_home
         state: 'home'
       - condition: state
-        entity_id: sensor.recycling_bin
-        state: 'today'
+        entity_id: sensor.recycling_bin_today
+        state: 'Today'
       - condition: state
         entity_id: input_boolean.both_bin_alerted
         state: 'off'
@@ -243,7 +238,7 @@
     - service: input_boolean.turn_on
       entity_id: input_boolean.both_bin_alerted
 
-- alias: 'Normal Bin - Danny Is Home'
+- alias: 'Green Bin - Danny Is Home'
   trigger:
     platform: time
     at: '17:00:00'
@@ -254,10 +249,8 @@
         entity_id: device_tracker.ichicane
         state: 'home'
       - condition: state
-        entity_id: sensor.normal_bin
-        state: 'today'
-      - condition: template
-        value_template: "{{ not is_state('sensor.recycling_bin', 'today') }}"
+        entity_id: sensor.green_bin_today
+        state: 'Today'
       - condition: state
         entity_id: input_boolean.danny_bin_alerted
         state: 'off'
@@ -270,7 +263,7 @@
     - service: input_boolean.turn_on
       entity_id: input_boolean.danny_bin_alerted
 
-- alias: 'Normal Bin - Liz Is Home'
+- alias: 'Green Bin - Liz Is Home'
   trigger:
     platform: time
     at: '17:00:00'
@@ -281,10 +274,8 @@
         entity_id: device_tracker.lizsiphone
         state: 'home'
       - condition: state
-        entity_id: sensor.normal_bin
-        state: 'today'
-      - condition: template
-        value_template: "{{ not is_state('sensor.recycling_bin', 'today') }}"
+        entity_id: sensor.green_bin_today
+        state: 'Today'
       - condition: state
         entity_id: input_boolean.liz_bin_alerted
         state: 'off'
@@ -296,7 +287,7 @@
     - service: input_boolean.turn_on
       entity_id: input_boolean.liz_bin_alerted
 
-- alias: 'Normal Bin - Both Is Home'
+- alias: 'Green Bin - Both Is Home'
   trigger:
     platform: time
     at: '17:00:00'
@@ -307,10 +298,8 @@
         entity_id: group.at_home
         state: 'home'
       - condition: state
-        entity_id: sensor.normal_bin
-        state: 'today'
-      - condition: template
-        value_template: "{{ not is_state('sensor.recycling_bin', 'today') }}"
+        entity_id: sensor.green_bin_today
+        state: 'Today'
       - condition: state
         entity_id: input_boolean.both_bin_alerted
         state: 'off'

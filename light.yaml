@@ -37,7 +37,9 @@
       outside:
         friendly_name: Outside
         value_template: >-
-          {% if is_state('light.outside_real','unknown') or is_state('light.outside_real','unavailable') %}
+          {% if states('light.outside_real') == 'unknown' %}
+           off
+          {% elif is_state('light.outside_real','unavailable') %}
            off
           {% else %}
            {{ states('light.outside_real') }}

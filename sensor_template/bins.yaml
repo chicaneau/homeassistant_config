@@ -1,0 +1,40 @@
+  - name: Recycling Bin Today
+    state: >
+      {% set t = now() %}
+      {% set midnight = today_at() %}
+      {% set event = state_attr('calendar.recycling_bin', 'start_time') | as_datetime | as_local %}
+      {% set delta = event - midnight %}
+      {% if delta.days == 0 %}
+        Today
+      {% else %}
+        Not Today
+      {% endif %}  
+#          In {{ delta.days }} days
+              
+#        {% elif delta.days == 1 %}
+#          Tomorrow
+    attributes: 
+      days: >-
+        {{ ((state_attr('calendar.recycling_bin', 'start_time') | as_timestamp - today_at('00:00') | as_timestamp) / 86400 | int) }}
+
+
+  - name: Green Bin Today
+    state: >
+      {% set t = now() %}
+      {% set midnight = today_at() %}
+      {% set event = state_attr('calendar.green_bin', 'start_time') | as_datetime | as_local %}
+      {% set delta = event - midnight %}
+      {% if delta.days == 0 %}
+        Today
+      {% else %}
+        Not Today
+      {% endif %}  
+#          In {{ delta.days }} days
+              
+#        {% elif delta.days == 1 %}
+#          Tomorrow  
+#        {% elif delta.days == 2 %}
+#          After Tomorrow     
+    attributes: 
+      days: >-
+        {{ ((state_attr('calendar.green_bin', 'start_time') | as_timestamp - today_at('00:00') | as_timestamp) / 86400 | int) }}

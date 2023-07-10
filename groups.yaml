@@ -6,7 +6,7 @@
 #Hallway: light.hallway, light.hallway_1, light.hallway_2
 At Home HomeKit: input_boolean.dannyhome, input_boolean.lizhome
 At Home: person.danny, person.liz
-Google Homes: media_player.kitchen_speaker, media_player.bedroom_speaker, media_player.outside_speaker, media_player.bedroom_speaker
+Google Homes: media_player.kitchen_speaker, media_player.bedroom_speaker, media_player.outside_speaker, media_player.bedroom_speaker, media_player.office_speaker
 Back Door:
   entities:
     - binary_sensor.door_outside_screen
@@ -19,3 +19,23 @@ Garage Door:
     - cover.garage_door
   #all: true
   icon: mdi:door
+Port Forward FTP:
+  entities:
+    - switch.pfsense_home_nat_port_forward_rule_1295623160_ftp
+    - switch.pfsense_home_nat_port_forward_rule_1562559015_ftp_pasv_ports 
+Port Forward rFactor Server:
+  entities:
+    - switch.pfsense_home_nat_port_forward_rule_1658297923_rfactor_racing_rig_1
+    - switch.pfsense_home_nat_port_forward_rule_1658297951_rfactor_racing_rig_2
+    - switch.pfsense_home_nat_port_forward_rule_1658297969_rfactor_racing_rig_3
+Port Forward Sunshine/Moonlight:
+  entities:
+    - switch.pfsense_home_nat_port_forward_rule_1669849028_gamestream_tcp_1
+    - switch.pfsense_home_nat_port_forward_rule_1669849059_gamestream_tcp_2
+    - switch.pfsense_home_nat_port_forward_rule_1669849081_gamestream_tcp_3
+    - switch.pfsense_home_nat_port_forward_rule_1669849146_gamestream_udp_1
+    - switch.pfsense_home_nat_port_forward_rule_1669849163_gamestream_udp_2
+Port Forward Assetto Corsa:
+  entities: 
+    - switch.pfsense_home_nat_port_forward_rule_1641534405_assetto_on_server_http
+    - switch.pfsense_home_nat_port_forward_rule_1641534374_assetto_on_server

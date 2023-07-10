@@ -243,60 +243,80 @@
       friendly_name: Bedtime Triggered
       state: 'on'
     light.hallway_1:
+      min_color_temp_kelvin: 2202
+      max_color_temp_kelvin: 6535
       min_mireds: 153
       max_mireds: 454
       supported_color_modes:
       - color_temp
-      off_brightness:
+      off_with_transition: false
+      off_brightness: 254
       friendly_name: Hallway 1
-      supported_features: 43
+      supported_features: 40
       state: 'off'
     light.hallway_2:
+      min_color_temp_kelvin: 2202
+      max_color_temp_kelvin: 6535
       min_mireds: 153
       max_mireds: 454
       supported_color_modes:
       - color_temp
-      off_brightness:
+      off_with_transition: false
+      off_brightness: 254
       friendly_name: Hallway 2
-      supported_features: 43
+      supported_features: 40
       state: 'off'
     light.bedroom_3:
+      min_color_temp_kelvin: 2202
+      max_color_temp_kelvin: 6535
       min_mireds: 153
       max_mireds: 454
       supported_color_modes:
       - color_temp
-      off_brightness:
+      off_with_transition: false
+      off_brightness: 254
       friendly_name: Bedroom Light 3
-      supported_features: 43
+      supported_features: 40
       state: 'off'
     light.bedroom_1:
+      min_color_temp_kelvin: 2202
+      max_color_temp_kelvin: 6535
       min_mireds: 153
       max_mireds: 454
       supported_color_modes:
       - color_temp
-      off_brightness:
+      off_with_transition: false
+      off_brightness: 254
       friendly_name: Bedroom Light 1
-      supported_features: 43
+      supported_features: 40
       state: 'off'
     light.bedroom_4:
+      min_color_temp_kelvin: 2202
+      max_color_temp_kelvin: 6535
       min_mireds: 153
       max_mireds: 454
       supported_color_modes:
       - color_temp
-      off_brightness:
+      off_with_transition: false
+      off_brightness: 254
       friendly_name: Bedroom Light 4
-      supported_features: 43
+      supported_features: 40
       state: 'off'
     light.bedroom_2:
+      min_color_temp_kelvin: 2202
+      max_color_temp_kelvin: 6535
       min_mireds: 153
       max_mireds: 454
       supported_color_modes:
       - color_temp
-      off_brightness:
+      off_with_transition: false
+      off_brightness: 254
       friendly_name: Bedroom Light 2
-      supported_features: 43
+      supported_features: 40
       state: 'off'
     light.kitchen_1:
+      min_color_temp_kelvin: 1500
+      max_color_temp_kelvin: 9000
       min_mireds: 111
       max_mireds: 666
       effect_list:
@@ -307,9 +327,11 @@
       - color_temp
       - hs
       friendly_name: Kitchen 1
-      supported_features: 55
+      supported_features: 36
       state: 'off'
     light.kitchen_2:
+      min_color_temp_kelvin: 1500
+      max_color_temp_kelvin: 9000
       min_mireds: 111
       max_mireds: 666
       effect_list:
@@ -320,9 +342,11 @@
       - color_temp
       - hs
       friendly_name: Kitchen 2
-      supported_features: 55
+      supported_features: 36
       state: 'off'
     light.loungeroom_1:
+      min_color_temp_kelvin: 1500
+      max_color_temp_kelvin: 9000
       min_mireds: 111
       max_mireds: 666
       effect_list:
@@ -333,9 +357,11 @@
       - color_temp
       - hs
       friendly_name: Loungeroom 1
-      supported_features: 55
+      supported_features: 36
       state: 'off'
     light.loungeroom_2:
+      min_color_temp_kelvin: 1500
+      max_color_temp_kelvin: 9000
       min_mireds: 111
       max_mireds: 666
       effect_list:
@@ -346,9 +372,11 @@
       - color_temp
       - hs
       friendly_name: Loungeroom 2
-      supported_features: 55
+      supported_features: 36
       state: 'off'
     light.loungeroom_3:
+      min_color_temp_kelvin: 1500
+      max_color_temp_kelvin: 9000
       min_mireds: 111
       max_mireds: 666
       effect_list:
@@ -359,9 +387,11 @@
       - color_temp
       - hs
       friendly_name: Loungeroom 3
-      supported_features: 55
+      supported_features: 36
       state: 'off'
     light.loungeroom_4:
+      min_color_temp_kelvin: 1500
+      max_color_temp_kelvin: 9000
       min_mireds: 111
       max_mireds: 666
       effect_list:
@@ -372,7 +402,7 @@
       - color_temp
       - hs
       friendly_name: Loungeroom 4
-      supported_features: 55
+      supported_features: 36
       state: 'off'
     light.niche:
       supported_color_modes:
@@ -411,14 +441,11 @@
       supported_features: 0
       state: 'off'
     switch.mozzie_zapper:
-      restored: true
       friendly_name: Mozzie Zapper
-      supported_features: 0
-      state: unavailable
+      state: 'off'
     switch.adaptive_lighting_bedroom:
       brightness_pct:
       color_temp_kelvin:
-      color_temp_mired:
       rgb_color:
       xy_color:
       hs_color:
@@ -428,22 +455,58 @@
       state: 'off'
     switch.cooking_light:
       model: chuangmi.plug.212a01
-      firmware_version: 2.1.0_0025
-      hardware_version: esp32
-      switch_switch_status: false
-      switch_temperature: 35
-      switch_working_time: 97
-      power_cons_power_consumption: 182
-      power_cons_electric_current: 5
-      power_cons_voltage: 220
-      power_cons_electric_power: 0.14
-      state_value: false
+      lan_ip: 10.0.2.23
+      mac_address: 58:B6:23:EB:07:26
+      entity_class: MiotSwitchEntity
+      miot_type: urn:miot-spec-v2:device:outlet:0000A002:chuangmi-212a01:3
+      switch.on: false
+      switch.temperature: 36
+      imilab_timer.on_duration: 0
+      imilab_timer.off_duration: 0
+      imilab_timer.countdown: 0
+      imilab_timer.task_switch: false
+      imilab_timer.countdown_info: false
+      power_consumption: 100
+      electric_current-5-2: 5
+      power_consumption.voltage: 220
+      electric_power-5-6: 0
+      indicator_light.on: false
+      state_updater: lan
+      power_cost_today: 0
+      power_cost_month: 79485
+      device_class: outlet
+      icon: mdi:pot-steam
       friendly_name: Cooking Light
+      supported_features: 0
+      sub_entities:
+      - power_cost_today
+      - power_cost_month
+      - switch-2.temperature-6
+      - power_consumption-5.power_consumption-1
+      - power_consumption-5.electric_current-2
+      - power_consumption-5.voltage-3
+      - power_consumption-5.electric_power-6
+      - indicator_light-3
       state: 'off'
     switch.christmas_tree:
       icon: mdi:tree
       friendly_name: Christmas Tree
       state: 'off'
+    light.office:
+      supported_color_modes:
+      - color_temp
+      friendly_name: Office Lights
+      supported_features: 40
+      min_color_temp_kelvin: 2202
+      max_color_temp_kelvin: 4000
+      min_mireds: 250
+      max_mireds: 454
+      off_with_transition: false
+      off_brightness: 254
+      state: 'off'
+  metadata:
+    light.office:
+      entity_only: true
 - id: '1589517046897'
   name: Gaming Time
   entities:

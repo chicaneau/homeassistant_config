@@ -180,104 +180,104 @@
 
 
 ###Bedroom Heater###
-- alias: 'Turn on Bedroom Heater when cold'
-  trigger:
-    platform: template
-    value_template: "{% if states.sensor.bedroom_temperature.state | float < states.input_number.heater_on_below_temp.state | float %} true {% endif %}"
-  condition:
-    condition: and
-    conditions:
-      - condition: time
-        after: '20:00:00'
-        before: '06:30:00'
-      - condition: state
-        entity_id: group.at_home
-        state: 'home'
-      - condition: state
-        entity_id: climate.bedroom_aircon
-        state: 'off'
-  action:
-    - service: climate.set_hvac_mode
-      target:
-        entity_id: climate.bedroom_aircon
-      data:
-        hvac_mode: heat
-    - service: climate.set_temperature
-      target:
-        entity_id: climate.bedroom_aircon
-      data:
-        hvac_mode: heat
-        temperature: 24
-    - service: climate.set_fan_mode
-      target:
-        entity_id: climate.bedroom_aircon
-      data:
-        fan_mode: medium        
+#- alias: 'Turn on Bedroom Heater when cold'
+#  trigger:
+#    platform: template
+#    value_template: "{% if states.sensor.bedroom_temperature.state | float < states.input_number.heater_on_below_temp.state | float %} true {% endif %}"
+#  condition:
+#    condition: and
+#    conditions:
+#      - condition: time
+#        after: '20:00:00'
+#        before: '06:30:00'
+#      - condition: state
+#        entity_id: group.at_home
+#        state: 'home'
+#      - condition: state
+#        entity_id: climate.bedroom_aircon
+#        state: 'off'
+#  action:
+#    - service: climate.set_hvac_mode
+#      target:
+#        entity_id: climate.bedroom_aircon
+#      data:
+#        hvac_mode: heat
+#    - service: climate.set_temperature
+#      target:
+#        entity_id: climate.bedroom_aircon
+#      data:
+#        hvac_mode: heat
+#        temperature: 24
+#    - service: climate.set_fan_mode
+#      target:
+#        entity_id: climate.bedroom_aircon
+#      data:
+#        fan_mode: medium        
           
 
-- alias: 'Turn on Bedroom Heater when 8pm'
-  trigger:
-    platform: time
-    at: '20:00:00'
-  condition:
-    condition: and
-    conditions:
-      - condition: template
-        value_template: "{% if states.sensor.bedroom_temperature.state | float < states.input_number.heater_on_below_temp.state | float %} true {% endif %}"
-      - condition: state
-        entity_id: group.at_home
-        state: 'home'
-      - condition: state
-        entity_id: climate.bedroom_aircon
-        state: 'off'
-  action:
-    - service: climate.set_hvac_mode
-      target:
-        entity_id: climate.bedroom_aircon
-      data:
-        hvac_mode: heat
-    - service: climate.set_temperature
-      target:
-        entity_id: climate.bedroom_aircon
-      data:
-        hvac_mode: heat
-        temperature: 24
-    - service: climate.set_fan_mode
-      target:
-        entity_id: climate.bedroom_aircon
-      data:
-        fan_mode: medium
+#- alias: 'Turn on Bedroom Heater when 8pm'
+#  trigger:
+#    platform: time
+#    at: '20:00:00'
+#  condition:
+#    condition: and
+#    conditions:
+#      - condition: template
+#        value_template: "{% if states.sensor.bedroom_temperature.state | float < states.input_number.heater_on_below_temp.state | float %} true {% endif %}"
+#      - condition: state
+#        entity_id: group.at_home
+#        state: 'home'
+#      - condition: state
+#        entity_id: climate.bedroom_aircon
+#        state: 'off'
+#  action:
+#    - service: climate.set_hvac_mode
+#      target:
+#        entity_id: climate.bedroom_aircon
+#      data:
+#        hvac_mode: heat
+#    - service: climate.set_temperature
+#      target:
+#        entity_id: climate.bedroom_aircon
+#      data:
+#        hvac_mode: heat
+#        temperature: 24
+#    - service: climate.set_fan_mode
+#      target:
+#        entity_id: climate.bedroom_aircon
+#      data:
+#        fan_mode: medium
 
 
-- alias: 'Turn off Bedroom Heater when hot'
-  trigger:
-    platform: template
-    value_template: "{% if states.sensor.bedroom_temperature.state | float > states.input_number.heater_off_above_temp.state | float %} true {% endif %}"
-  condition:
-    condition: state
-    entity_id: climate.bedroom_aircon
-    state: 'heat'
+#- alias: 'Turn off Bedroom Heater when hot'
+#  trigger:
+#    platform: template
+#    value_template: "{% if states.sensor.bedroom_temperature.state | float > states.input_number.heater_off_above_temp.state | float %} true {% endif %}"
+#  condition:
+#    condition: state
+#    entity_id: climate.bedroom_aircon
+#    state: 'heat'
+#
+#  action:
+#    service: climate.turn_off
+#    entity_id: climate.bedroom_aircon
 
-  action:
-    service: climate.turn_off
-    entity_id: climate.bedroom_aircon
-
-- alias: 'Turn off Bedroom Heater after 8am'
-  trigger:
-    platform: time
-    at: '08:00:00'
-  condition:
-    condition: and
-    conditions:
-      - condition: state
-        entity_id: climate.bedroom_aircon
-        state: 'heat'
-      - condition: state
-        entity_id: group.at_home
-        state: 'home'
-  action:
-    service: climate.turn_off
-    entity_id: climate.bedroom_aircon
+#- alias: 'Turn off Bedroom Heater after 8am'
+#  trigger:
+#    platform: time
+#    at: '08:00:00'
+#  condition:
+#    condition: and
+#    conditions:
+#      - condition: state
+#        entity_id: climate.bedroom_aircon
+#        state: 'heat'
+#      - condition: state
+#        entity_id: group.at_home
+#        state: 'home'
+#  action:
+#    service: climate.turn_off
+#    entity_id: climate.bedroom_aircon
 
 #- alias: 'Turn on Bedroom Heater at 4:30am'
 #  trigger:
@@ -411,25 +411,25 @@
     service: switch.turn_off
     entity_id: switch.mozzie_zapper
 
-- alias: 'T300 Wheel Turn on With Racing PC'
-  trigger:
-    platform: state
-    entity_id: switch.racing_pc
-    from: 'off'
-    to: 'on'
-  action:
-    service: switch.turn_on
-    entity_id: switch.t300_wheel_switch
+#- alias: 'T300 Wheel Turn on With Racing PC'
+#  trigger:
+#    platform: state
+#    entity_id: switch.racing_pc
+#    from: 'off'
+#    to: 'on'
+#  action:
+#    service: switch.turn_on
+#    entity_id: switch.t300_wheel_switch
 
-- alias: 'T300 Wheel Turn off With Racing PC'
-  trigger:
-    platform: state
-    entity_id: switch.racing_pc
-    from: 'on'
-    to: 'off'
-  action:
-    service: switch.turn_off
-    entity_id: switch.t300_wheel_switch
+#- alias: 'T300 Wheel Turn off With Racing PC'
+#  trigger:
+#    platform: state
+#    entity_id: switch.racing_pc
+#    from: 'on'
+#    to: 'off'
+#  action:
+#    service: switch.turn_off
+#    entity_id: switch.t300_wheel_switch
 
 - alias: 'Cat Fountain Turn off at bedtime'
   trigger:
@@ -736,9 +736,15 @@
 - alias: Door Bell Ring
   trigger:
     - platform: event
-      event_type: zha_event
+      event_type: nest_event
       event_data:
-        device_ieee: "00:15:8d:00:02:85:fb:3b"
+        #nest_event_id: WyIxNjc3NjYzNTM4IiwgIm46MSJd
+        device_id: 12fcd95a91d26f57a7d65c60e1355017
+        type: doorbell_chime
+     # event_type: zha_event
+     # event_data:
+      #  device_ieee: "00:15:8d:00:02:85:fb:3b"
+       
         #command: click
         #args:
         #  click_type: single
@@ -755,47 +761,48 @@
         media_content_type: 'music'
       target:
         entity_id: media_player.gamer  
-    - service: media_player.turn_on
-      data:
-        entity_id: media_player.whole_house 
-    - delay: '00:00:02'    
-    - service: input_number.set_value
-      data:
-        entity_id: input_number.speaker_whole_house_volume_backup
-        value: "{{ (state_attr('media_player.whole_house','volume_level')) | round(4) }}"
-    - service: media_player.volume_set
-      data:
-        volume_level: .8
-      target:
-        entity_id: media_player.whole_house
-    - service: media_player.play_media
-      data:
-        entity_id: media_player.whole_house
-        media_content_id: 'http://10.0.1.4:8123/local/jetsons-doorbell.mp3'
-        media_content_type: 'audio/mp3'
-    - delay: '00:00:06'
-    - service: media_player.volume_set
-      data:
-        volume_level:  "{{ states('input_number.speaker_whole_house_volume_backup') }}"
-      target:
-        entity_id: media_player.whole_house  
-
-- alias: Door Bell Ring Not Home
-  trigger:
-    - platform: event
-      event_type: zha_event
-      event_data:
-        device_ieee: "00:15:8d:00:02:85:fb:3b"
-  condition:
-    condition: template
-    value_template: "{{ not is_state('group.at_home', 'home') }}"
-  action:
-    - service: notify.mobile_app_ichicane
-      data:
-        message: "Doorbell rang and you're not home"
-    - service: notify.mobile_app_duffel
-      data:
-        message: "Doorbell rang and you're not home"                
+    #- service: media_player.turn_on
+    #  data:
+    #    entity_id: media_player.whole_house 
+    #- delay: '00:00:02'    
+    #- service: input_number.set_value
+    #  data:
+    #    entity_id: input_number.speaker_whole_house_volume_backup
+    #    value: "{{ (state_attr('media_player.whole_house','volume_level')) | round(4) }}"
+    #- service: media_player.volume_set
+    #  data:
+    #    volume_level: .8
+    #  target:
+    #    entity_id: media_player.whole_house
+    #- service: media_player.play_media
+    #  data:
+    #    entity_id: media_player.whole_house
+    #    media_content_id: 'http://10.0.1.4:8123/local/jetsons-doorbell.mp3'
+    #    media_content_type: 'audio/mp3'
+    #- delay: '00:00:06'
+    #- service: media_player.volume_set
+    #  data:
+    #    volume_level:  "{{ states('input_number.speaker_whole_house_volume_backup') }}"
+    #  target:
+    #    entity_id: media_player.whole_house  
+     
+  
+#- alias: Door Bell Ring Not Home
+#  trigger:
+#    - platform: event
+#      event_type: zha_event
+#      event_data:
+#        device_ieee: "00:15:8d:00:02:85:fb:3b"
+#  condition:
+#    condition: template
+#    value_template: "{{ not is_state('group.at_home', 'home') }}"
+#  action:
+#    - service: notify.mobile_app_ichicane
+#      data:
+#        message: "Doorbell rang and you're not home"
+#    - service: notify.mobile_app_duffel
+#      data:
+#        message: "Doorbell rang and you're not home"                
 
 
 
@@ -969,22 +976,22 @@
             255
           {% endif %}
 
-- alias: Loungeroom Double Click
-  trigger:
-    - platform: event
-      event_type: xiaomi_aqara.click
-      event_data:
-        #DANNY
-        entity_id: binary_sensor.switch_loungeroom
-        click_type: double
-  action:
-    - service: light.turn_on
-      entity_id: light.kitchen
-      data:
-        brightness: 255
-        color_temp: 153
-    - service: switch.turn_on
-      entity_id: switch.cooking_light
+#- alias: Loungeroom Double Click
+#  trigger:
+#    - platform: event
+#      event_type: xiaomi_aqara.click
+#      event_data:
+#        #DANNY
+#        entity_id: binary_sensor.switch_loungeroom
+#        click_type: double
+#  action:
+#    - service: light.turn_on
+#      entity_id: light.kitchen
+#      data:
+#        brightness: 255
+#        color_temp: 153
+#    - service: switch.turn_on
+#      entity_id: switch.cooking_light
 
 ###DOOR SENSORS###
 - alias: Open Loungeroom Door
@@ -1262,6 +1269,68 @@
   action:
     - service: light.turn_off
       entity_id: light.office
+
+##OFFICE LIGHTS##
+- alias: 'Turn On Office Lights with Danny PC'
+  #initial_state: True
+  trigger:
+    - platform: state
+      entity_id: switch.danny_s_pc
+      from: 'off'
+      to: 'on'
+  
+  condition:
+    condition: and
+    conditions:
+    - condition: state
+      entity_id: group.at_home
+      state: 'home'
+    - condition: sun
+      after: sunset
+      after_offset: "-00:45:00"
+
+  action:
+    - service: light.turn_on
+      entity_id: light.office
+
+- alias: 'Turn Off Office Lights with Danny PC'
+  #initial_state: True
+  trigger:
+    - platform: state
+      entity_id: switch.danny_s_pc
+      from: 'on'
+      to: 'off'
+      for: '00:15:00'
+
+  action:
+    - service: light.turn_off
+      entity_id: light.office
+
+- alias: Office Light Toggle
+  trigger:
+    - platform: event
+      event_type: zha_event
+      event_data:
+        device_ieee: "00:15:8d:00:02:85:fb:3b"
+        command: click
+        args:
+          click_type: single
+  action:
+    - service: light.toggle
+      entity_id: light.office
+    - condition: state
+      entity_id: light.office 
+      state: 'on'
+    - delay: 00:00:01
+    - condition: numeric_state
+      entity_id: light.office
+      value_template: "{{ state_attr('light.office','brightness') | int }}"
+      below: 67
+    - service: light.turn_on
+      entity_id: light.office  
+      data:
+        brightness_pct: 65
+
 
 ###TASMOTA/SONOFF###
 #- alias: Auto On Office Tasmota
@@ -1579,3 +1648,13 @@
   action:
     service: switch.turn_off
     entity_id: switch.back_sprinkler
+
+- id: '1686468739793'
+  alias: Update Map Extractor camera
+  description: ''
+  use_blueprint:
+    path: PiotrMachowski/update_map_extractor.yaml
+    input:
+      mode_to_handle: turn_off_when_docked
+      vacuum: vacuum.roborock_s6_pure
+      camera: camera.xiaomi_cloud_map_extractor

@@ -1,6 +1,6 @@
 homeassistant:
   # Name of the location where Home Assistant is running
-  name: Venus Residence
+  name: Venus_Residence
   # Location required to calculate the time the sun rises and sets
   latitude: !secret home_lat
   longitude: !secret home_long
@@ -14,6 +14,7 @@ homeassistant:
   # include Customize
   customize: !include customize.yaml
   external_url: https://hass.chicane.me
+  #base_url: http://10.0.1.4:8123
   allowlist_external_dirs:
     - /tmp
   media_dirs:
@@ -46,6 +47,8 @@ scene: !include scenes.yaml
 
 map:
 
+zeroconf:
+
 # upnp:
 # port_mapping: false
 
@@ -75,8 +78,8 @@ panel_custom:
 lovelace:
   mode: yaml
   resources:
-    - url: /hacsfiles/light-entity-card/light-entity-card.js
-      type: module
+#    - url: /hacsfiles/light-entity-card/light-entity-card.js
+#      type: module
 #    - url: /hacsfiles/bom-weather-card/bom-weather-card.js
 #      type: module
     - url: /hacsfiles/lovelace-slider-entity-row/slider-entity-row.js
@@ -94,7 +97,10 @@ lovelace:
     - url: /hacsfiles/slider-button-card/slider-button-card.js
       type: module       
     - url: /hacsfiles/mini-climate-card/mini-climate-card-bundle.js
-      type: module      
+      type: module     
+    - url: /hacsfiles/lovelace-layout-card/layout-card.js
+      type: module
+                       
   
 # Checks for available updates
 #updater:
@@ -144,16 +150,24 @@ media_source:
 #    platform: 'pushbullet'
 #    api_key: !secret pb_apikey
 
+zha:
+  zigpy_config:
+    ota:
+      otau_directory: /config/zigpy_ota
+      ikea_provider: true 
+
+#zha_toolkit:
+
 #hue:
 #  bridges:
 #    - host: !secret hue_host
 #      allow_unreachable: true
 #      allow_hue_groups: true
 
-binary_sensor:
-  - platform: workday
-    country: AU
-    province: QLD
+#binary_sensor:
+#  - platform: workday
+#    country: AU
+#    province: QLD
       
 
 # binary_sensor:
@@ -172,6 +186,8 @@ camera:
     username: !secret xiaomi_cloud_username
     password: !secret xiaomi_cloud_password
     draw: ['all']
+    auto_update: false
+    scan_interval: 60
     attributes:
       - calibration_points   
     colors: 
@@ -182,11 +198,14 @@ tts:
   platform: google_translate
   #base_url: !secret base_url
 
+api:
+
 logger:
   default: error
-  logs:
-    homeassistant.components.google_assistant: debug
-    google_assistant: debug
+ # logs:
+    #homeassistant.components.google_assistant: debug
+    #google_assistant: debug
+    #custom_components.zha_toolkit: debug
     #homeassistant.components.homekit: debug
     #homeassistant.core: debug
     #homeassistant.components.zha: debug
@@ -253,6 +272,9 @@ group: !include groups.yaml
 
 fan: !include fan.yaml
 
+template:
+  sensor: !include_dir_merge_list sensor_template/
+
 
 
 #circadian_lighting:
@@ -260,16 +282,14 @@ fan: !include fan.yaml
 adaptive_lighting:
   - name: "Loungeroom"
     lights: 
-      - light.loungeroom_1
-      - light.loungeroom_2
-      - light.loungeroom_3
-      - light.loungeroom_4
+      - light.loungeroom
     min_brightness: 20
+    detect_non_ha_changes: true
   - name: "Kitchen"
     lights: 
-      - light.kitchen_1
-      - light.kitchen_2  
+      - light.kitchen 
     min_brightness: 20
+    detect_non_ha_changes: true
   - name: "Bedroom"
     lights: 
      # - light.bedroom_3
@@ -278,11 +298,12 @@ adaptive_lighting:
      # - light.bedroom_2 
      - light.bedroom
     min_brightness: 20
+    detect_non_ha_changes: true
   - name: "Hallway"
     lights: 
-      - light.hallway_1
-      - light.hallway_2
+      - light.hallway
     min_brightness: 20   
+    detect_non_ha_changes: true
 
 #camera:
   #- platform: bom
@@ -391,7 +412,10 @@ google_assistant:
       name: Back Sprinkler
       expose: true
       room: Outside
-
+    fan.loungeroom:
+      name: Loungeroom Fan
+      expose: true 
+      room: Loungeroom
     switch.mozzie_zapper:
       name: Mozzie Zapper
       expose: true
@@ -408,6 +432,14 @@ google_assistant:
       name: Gym Aircon
       expose: true
       room: Gym
+    climate.office_aircon:
+      name: Office Aircon
+      expose: true
+      room: Office  
+    climate.bedroom_aircon:
+      name: Bedroom Aircon
+      expose: true
+      room: Bedroom            
     # cover.garage_door:
     #  name: Garage Door
     #  expose: true
@@ -419,7 +451,7 @@ google_assistant:
     switch.cooking_light:
       name: Cooking Light
       expose: true
-      room: Cooking
+      room: Cooking  
     light.loungeroom:
       name: Loungeroom Light
       expose: true
@@ -444,6 +476,10 @@ google_assistant:
       name: Bedroom Light
       expose: true
       room: Bedroom      
+    light.office:
+      name: Office Light
+      expose: true
+      room: Office         
     light.outside:
       name: Outside Light
       expose: true
@@ -464,15 +500,23 @@ google_assistant:
     script.bedroom_circadian:
       name: Bedroom Circadian
       expose: true 
+      room: Circadian
     script.hallway_circadian:
       name: Hallway Circadian
       expose: true  
+      room: Circadian
     script.kitchen_circadian:
       name: Kitchen Circadian
       expose: true  
+      room: Circadian
     script.loungeroom_circadian:
       name: Loungeroom Circadian
-      expose: true  
+      expose: true 
+      room: Circadian
+    switch.pool_lights:
+      name: Pool Lights
+      expose: true
+      room: Pool
       # light.pantry:
       #   name: Pantry Light
       #   expose: true
@@ -499,6 +543,7 @@ homekit:
       name: Bedtime Scene Switch
     scene.gaming_time:
       name: Gaming Time Scene Switch
+ 
 
 
   filter:
@@ -563,10 +608,10 @@ homekit:
       - switch.cooking_light
       - switch.danny_s_pc
       - switch.racing_pc
-      - switch.t300_wheel_switch
       - switch.amiibo_cabinet_switch
       - switch.mozzie_zapper
       - switch.back_sprinkler
+      - switch.pool_lights
       - light.bathroom
       - light.loungeroom_1
       - light.loungeroom_2
@@ -587,6 +632,7 @@ homekit:
       - light.bedroom_4
       - light.hallway_1
       - light.hallway_2
+      - light.office
       - sensor.garage_temperature
       - sensor.gym_temperature
       - sensor.bedroom_temperature

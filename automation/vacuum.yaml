@@ -55,3 +55,33 @@
       service: vacuum.locate
       target:
         entity_id: vacuum.roborock_s6_pure
+
+
+  - alias: 'Run Vacuum Monday and Wednesday AM'
+    #id: turnoncoffeemachinewkday
+    #initial_state: True
+    trigger:
+      platform: time
+      at: '09:30:00'
+    condition:
+      condition: and
+      conditions:
+        - condition: time
+          weekday:
+            - mon
+        #   - tue
+            - wed
+        #    - thu
+        #    - fri
+        - condition: state
+          entity_id: device_tracker.ichicane
+          #group.at_home
+          state: 'home'
+    action:
+    - service: notify.mobile_app_ichicane
+      data:
+        message: "Vacuum will start in 5 minutes!"
+        title: 'Cleanup floor now'
+    - delay: 00:05:00
+    - service: vacuum.start
+      entity_id: vacuum.roborock_s6_pure

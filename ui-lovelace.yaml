@@ -7,8 +7,10 @@ views:
       - entity: sensor.weather_pws_precip_12am
       #- entity: sensor.weather_pws_precip_month
       - entity: sensor.rainfall_this_month
-      - entity: sensor.weather_pws_wind
+      - entity: sensor.weather_pws_wind_dir
+      - entity: sensor.weather_pws_wind_speed
       - entity: sensor.weather_pws_wind_gust
+     # - entity: sensor.pool_temperature
      # - entity: switch.christmas_tree
     cards:
     - type: vertical-stack
@@ -32,6 +34,7 @@ views:
               entity_id: scene.bedtime_scene
         - type: button
           entity: scene.goodnight_scene
+          name: 'Good Night'
           tap_action:
             action: call-service
             service: scene.turn_on
@@ -128,11 +131,25 @@ views:
           - type: custom:slider-button-card
             entity: light.outside
             action_button:
-              show: false            
+              show: false     
+          - type: custom:slider-button-card
+            entity: switch.pool_lights
+            action_button:
+              show: false       
+            icon: 
+              icon: mdi:lightbulb
+
+        - type: horizontal-stack
+          cards:          
+          - type: custom:slider-button-card
+            entity: light.office
+            action_button:
+              tap_action: 
+                action: toggle           
           - type: custom:slider-button-card
             entity: light.garage
             action_button:
-              show: false            
+              show: false          
 
 
       - type: vertical-stack
@@ -200,20 +217,19 @@ views:
           icon: mdi:desktop-classic
         - type: button
           entity: switch.racing_pc
-          icon: mdi:google-controller 
+         # icon: mdi:google-controller 
         - type: button
           entity: switch.pc_speaker    
 
-      - type: horizontal-stack
-        cards:
-        - type: button
-          entity: switch.t300_wheel_switch
-        - type: button
-          entity: switch.cat_fountain_switch          
+      #- type: horizontal-stack
+      #  cards:
+       # - type: button
+       #   entity: switch.t300_wheel_switch
+       # - type: button
+       #   entity: switch.cat_fountain_switch          
        # - type: custom:button-card
        #   color_type: blank-card          
-        - type: button
-          entity: switch.amiibo_cabinet_switch
+
 
       - type: horizontal-stack
         cards:
@@ -221,12 +237,14 @@ views:
           entity: input_boolean.bedtime_triggered
           icon: mdi:bed-king
         - type: button
+          entity: switch.amiibo_cabinet_switch          
+        - type: button
           entity: switch.back_sprinkler
           icon: mdi:sprinkler-variant         
-        - type: button
-          entity: automation.back_sprinkler_before_sunset
-          icon: mdi:timer-outline
-          name: Sprinkler Automation    
+      #  - type: button
+      #    entity: automation.back_sprinkler_before_sunset
+      #    icon: mdi:timer-outline
+      #    name: Sprinkler Automation    
 
       - type: picture-entity
         entity: cover.garage_door
@@ -241,63 +259,192 @@ views:
         #  "Not Today": grayscale(85%)
         #  "Today": contrast(200%)"
 
-    - type: horizontal-stack
+    #- type: horizontal-stack
+    #  title: Climate Control
+    #  cards:
+    #  - type: vertical-stack
+    #    cards:
+    #    - type: thermostat
+    #      entity: climate.loungeroom_aircon
+    #    - type: thermostat
+    #      entity: climate.gym_aircon
+    #  - type: vertical-stack
+    #    cards:          
+    #    - type: thermostat
+    #      entity: climate.bedroom_aircon
+    #    - type: thermostat
+    #      entity: climate.office_aircon
+    - type: vertical-stack
       title: Climate Control
       cards:
-      - type: vertical-stack
-        cards:
-        - type: thermostat
-          entity: climate.loungeroom_aircon
-        - type: thermostat
-          entity: climate.gym_aircon
-      - type: vertical-stack
-        cards:          
-        - type: thermostat
-          entity: climate.bedroom_aircon
-        - type: thermostat
-          entity: climate.office_aircon
-    - type: custom:mini-climate
-      entity: climate.office_aircon
-      hvac_mode:
-        #style: "(value, entity) => ({ color: 'black' })"
-        source:
-          'off':
-            icon: mdi:power
-            name: 'off'
-          heat_cool:
-            icon: mdi:cached
-            name: auto
-          cool:
-            icon: mdi:snowflake
-            name: cool
-          heat:
-            icon: mdi:weather-sunny
-            name: heat            
-          dry:
-            icon: mdi:water
-            name: dry
-          fan_only:
-            icon: mdi:fan
-            name: fan
-        change_action: >
-          (selected, entity) => this.call_service('climate', 'set_hvac_mode', { entity_id: entity.entity_id, hvac_mode: selected })
-      buttons:
-        swing_mode:
-          type: dropdown
-          icon: mdi:approximately-equal
-          state:
-            attribute: swing_mode
-            mapper: >
-              (state,entity) => (state === 'VerticalOff' ? 'off': 'on')
-            #mapper: "(state,entity) => (state ? 'on': 'off')"
-          #style: >
-          #  (value) => (value = 'VerticalOff' ? { color: 'black'} : {})
-          active: state => state !== 'off'
+      - type: custom:mini-climate
+        entity: climate.office_aircon
+        hvac_mode:
+          #style: "(value, entity) => ({ color: 'black' })"
           source:
-            VerticalOff: 'Off'
-            VerticalSwing: 'Vertical Swing'
+            'off':
+              icon: mdi:power
+              name: 'off'
+            heat_cool:
+              icon: mdi:cached
+              name: auto
+            cool:
+              icon: mdi:snowflake
+              name: cool
+            heat:
+              icon: mdi:weather-sunny
+              name: heat            
+            dry:
+              icon: mdi:water
+              name: dry
+            fan_only:
+              icon: mdi:fan
+              name: fan
           change_action: >
-            (selected, state, entity) => this.call_service('climate', 'set_swing_mode', { entity_id: entity.entity_id, swing_mode: selected })
+            (selected, entity) => this.call_service('climate', 'set_hvac_mode', { entity_id: entity.entity_id, hvac_mode: selected })
+        buttons:
+          swing_mode:
+            type: dropdown
+            icon: mdi:approximately-equal
+            state:
+              attribute: swing_mode
+              mapper: >
+                (state,entity) => (state === 'VerticalOff' ? 'off': 'on')
+              #mapper: "(state,entity) => (state ? 'on': 'off')"
+            #style: >
+            #  (value) => (value = 'VerticalOff' ? { color: 'black'} : {})
+            active: state => state !== 'off'
+            source:
+              VerticalOff: 'Off'
+              VerticalSwing: 'Vertical Swing'
+            change_action: >
+              (selected, state, entity) => this.call_service('climate', 'set_swing_mode', { entity_id: entity.entity_id, swing_mode: selected })
+      - type: custom:mini-climate
+        entity: climate.bedroom_aircon
+        hvac_mode:
+          #style: "(value, entity) => ({ color: 'black' })"
+          source:
+            'off':
+              icon: mdi:power
+              name: 'off'
+            heat_cool:
+              icon: mdi:cached
+              name: auto
+            cool:
+              icon: mdi:snowflake
+              name: cool
+            heat:
+              icon: mdi:weather-sunny
+              name: heat            
+            dry:
+              icon: mdi:water
+              name: dry
+            fan_only:
+              icon: mdi:fan
+              name: fan
+          change_action: >
+            (selected, entity) => this.call_service('climate', 'set_hvac_mode', { entity_id: entity.entity_id, hvac_mode: selected })
+        buttons:
+          swing_mode:
+            type: dropdown
+            icon: mdi:approximately-equal
+            state:
+              attribute: swing_mode
+              mapper: >
+                (state,entity) => (state === 'VerticalOff' ? 'off': 'on')
+              #mapper: "(state,entity) => (state ? 'on': 'off')"
+            #style: >
+            #  (value) => (value = 'VerticalOff' ? { color: 'black'} : {})
+            active: state => state !== 'off'
+            source:
+              VerticalOff: 'Off'
+              VerticalSwing: 'Vertical Swing'
+            change_action: >
+              (selected, state, entity) => this.call_service('climate', 'set_swing_mode', { entity_id: entity.entity_id, swing_mode: selected })   
+      - type: custom:mini-climate
+        entity: climate.loungeroom_aircon
+        hvac_mode:
+          #style: "(value, entity) => ({ color: 'black' })"
+          source:
+            'off':
+              icon: mdi:power
+              name: 'off'
+            heat_cool:
+              icon: mdi:cached
+              name: auto
+            cool:
+              icon: mdi:snowflake
+              name: cool
+            heat:
+              icon: mdi:weather-sunny
+              name: heat            
+            dry:
+              icon: mdi:water
+              name: dry
+            fan_only:
+              icon: mdi:fan
+              name: fan
+          change_action: >
+            (selected, entity) => this.call_service('climate', 'set_hvac_mode', { entity_id: entity.entity_id, hvac_mode: selected })
+        buttons:
+          swing_mode:
+            type: dropdown
+            icon: mdi:approximately-equal
+            state:
+              attribute: swing_mode
+              mapper: >
+                (state,entity) => (state === 'VerticalOff' ? 'off': 'on')
+              #mapper: "(state,entity) => (state ? 'on': 'off')"
+            #style: >
+            #  (value) => (value = 'VerticalOff' ? { color: 'black'} : {})
+            active: state => state !== 'off'
+            source:
+              VerticalOff: 'Off'
+              VerticalSwing: 'Vertical Swing'
+            change_action: >
+              (selected, state, entity) => this.call_service('climate', 'set_swing_mode', { entity_id: entity.entity_id, swing_mode: selected })    
+      - type: custom:mini-climate
+        entity: climate.gym_aircon
+        hvac_mode:
+          #style: "(value, entity) => ({ color: 'black' })"
+          source:
+            'off':
+              icon: mdi:power
+              name: 'off'
+            heat_cool:
+              icon: mdi:cached
+              name: auto
+            cool:
+              icon: mdi:snowflake
+              name: cool
+            heat:
+              icon: mdi:weather-sunny
+              name: heat            
+            dry:
+              icon: mdi:water
+              name: dry
+            fan_only:
+              icon: mdi:fan
+              name: fan
+          change_action: >
+            (selected, entity) => this.call_service('climate', 'set_hvac_mode', { entity_id: entity.entity_id, hvac_mode: selected })
+        buttons:
+          swing_mode:
+            type: dropdown
+            icon: mdi:approximately-equal
+            state:
+              attribute: swing_mode
+              mapper: >
+                (state,entity) => (state === 'VerticalOff' ? 'off': 'on')
+              #mapper: "(state,entity) => (state ? 'on': 'off')"
+            #style: >
+            #  (value) => (value = 'VerticalOff' ? { color: 'black'} : {})
+            active: state => state !== 'off'
+            source:
+              VerticalOff: 'Off'
+              VerticalSwing: 'Vertical Swing'
+            change_action: >
+              (selected, state, entity) => this.call_service('climate', 'set_swing_mode', { entity_id: entity.entity_id, swing_mode: selected })                                         
     - type: custom:slider-button-card
       entity: fan.loungeroom_fan
         
@@ -307,7 +454,7 @@ views:
       - type: horizontal-stack
         cards:
         - type: picture-entity
-          entity: sensor.normal_bin_today
+          entity: sensor.green_bin_today
           #name: General Waste
           image: /local/pics/green_bin.jpg
           show_name: false
@@ -328,13 +475,14 @@ views:
         content: |
           {% if is_state('sensor.recycling_bin_today','Today') %}
           Today is recycle bin day
-          {% elif is_state('sensor.normal_bin_today','Today') %}
-          Today is waste bin day
-          Next recycle bin day is {{ states.sensor.recycling_bin.state }}
-          {% elif states.sensor.recycling_bin.attributes.days > states.sensor.normal_bin.attributes.days %}
-          Next up is normal bin {{ states.sensor.normal_bin.state }}
+          Next green bin day is in {{ states.sensor.green_bin_today.attributes.days | round(0) }} days
+          {% elif is_state('sensor.green_bin_today','Today') %}
+          Today is green bin day
+          Next recycle bin day is in {{ states.sensor.recycling_bin_today.attributes.days | round(0) }} days
+          {% elif states.sensor.recycling_bin_today.attributes.days > states.sensor.green_bin_today.attributes.days %}
+          Next up is green bin in {{ states.sensor.green_bin_today.attributes.days | round(0)  }} days
           {% else %}
-          Next up is recycling bin {{ states.sensor.recycling_bin.state }}
+          Next up is recycling bin in {{ states.sensor.recycling_bin_today.attributes.days | round(0) }} days
           {% endif %}
 
     - type: vertical-stack
@@ -487,6 +635,22 @@ views:
           show:
             labels: true
       - type: custom:mini-graph-card
+        name: Pool
+        entities:
+          - entity: sensor.pool_temperature
+        hours_to_show: 72
+        points_per_hour: 2
+        color_thresholds:
+          - value: 15
+            color: "#5DADE2"
+          - value: 24
+            color: "#9CCC65"
+          - value: 35
+            color: "#F44336"
+        show:
+          labels: true
+             
+      - type: custom:mini-graph-card
         name: Humidity
         entities:
           - entity: sensor.pantry_humidity
@@ -495,7 +659,7 @@ views:
           - entity: sensor.gym_humidity 
           - entity: sensor.bedroom_humidity
           - entity: sensor.weather_pws_humidity
-        hours_to_show: 72
+        hours_to_show: 144
         points_per_hour: 2
         #color_thresholds:
         #  - value: 100
@@ -650,12 +814,6 @@ views:
           - sensor.chicanepad_battery_state
           - sensor.duffel_battery_level
           - sensor.duffel_battery_state
-      - type: entities
-        title: Bins
-        show_header_toggle: false
-        entities:
-          - sensor.normal_bin
-          - sensor.recycling_bin
 
 #  - title: Lights
 #    icon: mdi:lightbulb
@@ -815,29 +973,37 @@ views:
             - entity_id: sensor.roborock_s6_pure_current_clean_duration_mins
               unit: minutes
               subtitle: Cleaning time
-      - type: custom:xiaomi-vacuum-map-card
-        entity: vacuum.roborock_s6_pure
-        map_source:
-          camera: camera.xiaomi_cloud_map_extractor
-        calibration_source:
-          camera: true
-        selection_type: PREDEFINED_RECTANGLE
-        predefined_selections:  
-        map_modes:
-           - template: vacuum_clean_zone_predefined
-             predefined_selections:
-               - zones: [[27150,26450,29050,29000],[27650,19750,29200,26650]]
-               - zones: [[23300,14800,29600,20100],[18200,10800,25900,16000]]
-               - zones: [[29450,10750,33850,20400]]
-               - zones: [[30650,18250,33500,20350]]
-               - zones: [[25050,24100,27800,26550]]
-               - zones: [[22600,19800,27800,23200],[25100,22800,27750,24150]]
-               - zones: [[21150,23150,25150,26600]]
-               - zones: [[21200,26400,27250,31100]]
-               - zones: [[33231,10990,36425,14641]]
-           - template: vacuum_clean_zone
-           - template: vacuum_goto
-
+      - type: vertical-stack
+        cards:
+        - type: custom:xiaomi-vacuum-map-card
+          entity: vacuum.roborock_s6_pure
+          map_source:
+            camera: camera.xiaomi_cloud_map_extractor
+          calibration_source:
+            camera: true
+          selection_type: PREDEFINED_RECTANGLE
+          predefined_selections:  
+          map_modes:
+             - template: vacuum_clean_zone_predefined
+               predefined_selections:
+                 - zones: [[27150,26450,29050,29000],[27650,19750,29200,26650]]
+                 - zones: [[23300,14800,29600,20100],[18200,10800,25900,16000]]
+                 - zones: [[29450,10750,33850,20400]]
+                 - zones: [[30650,18250,33500,20350]]
+                 - zones: [[25050,24100,27800,26550]]
+                 - zones: [[22600,19800,27800,23200],[25100,22800,27750,24150]]
+                 - zones: [[21150,23150,25150,26600]]
+                 - zones: [[21200,26400,27250,31100]]
+                 - zones: [[33231,10990,36425,14641]]
+             - template: vacuum_clean_zone
+             - template: vacuum_goto
+        - type: custom:button-card
+          name: Update Map
+          entity: script.roborock_update_map
+          tap_action:
+            action: toggle
+            
+       
 
   - title: 4 Week Graph
     icon: mdi:chart-areaspline-variant
@@ -929,61 +1095,207 @@ views:
           - entity: sensor.garage_mould
             name: Garage
 
-  - title: Remote
-    icon: mdi:remote
-    cards:
-      #- type: entities
-      #  title: Living Room
-      #  show_header_toggle: false
-      #  entities:
-      #    - remote.living_room
-      #    - switch.living_room_harmony_watch_tv
-      #    - switch.living_room_harmony_watch_apple_tv
-      #    - switch.living_room_harmony_watch_smart_tv
-      #    - script.harm_living_channel_13
-      #    - script.harm_living_channel_90
-      #    - script.harm_living_channel_70
-      #    - script.harm_living_channel_24
-      #- type: media-control
-      #  entity: media_player.fire_tv
-      #- type: iframe
-     #   title: "Cams"
-      #  url: "http://10.0.1.3:38090"
-      - type: picture-glance
-        title: Test Cam
-        entities: []
-        camera_image: camera.iphone
-        camera_view: live
-      #- type: media-control
-      #  entity: media_player.loungeroom
+  #- title: Remote
+  #  icon: mdi:remote
+  #  cards:
+  #    #- type: entities
+  #    #  title: Living Room
+  #    #  show_header_toggle: false
+  #    #  entities:
+  #    #    - remote.living_room
+  #    #    - switch.living_room_harmony_watch_tv
+  #    #    - switch.living_room_harmony_watch_apple_tv
+  #    #    - switch.living_room_harmony_watch_smart_tv
+  #    #    - script.harm_living_channel_13
+  #    #    - script.harm_living_channel_90
+  #    #    - script.harm_living_channel_70
+  #    #    - script.harm_living_channel_24
+  #    #- type: media-control
+  #    #  entity: media_player.fire_tv
+  #    #- type: iframe
+  #   #   title: "Cams"
+  #    #  url: "http://10.0.1.3:38090"
+  #    - type: picture-glance
+  #      title: Test Cam
+  #      entities: []
+  #      camera_image: camera.iphone
+  #      camera_view: live
+  #    #- type: media-control
+  #    #  entity: media_player.loungeroom
 
   - title: Stats
     icon: mdi:counter
     cards:
-      - type: entities
-        title: Server
-        show_header_toggle: false
-        entities:
-          - sensor.server_lastboot
-          - sensor.server_ram_free
-          - sensor.server_raid_capacity
-          - sensor.server_raid_free
-          - sensor.server_torrents_capacity
-          - sensor.server_torrents_free
+      - type: vertical-stack
+        cards:  
+        - type: entities
+          title: Server
+          show_header_toggle: false
+          entities:
+            - sensor.server_lastboot
+            - sensor.server_ram_free
+            - sensor.server_raid_capacity
+            - sensor.server_raid_free
+            - sensor.server_torrents_capacity
+            - sensor.server_torrents_free
 
-      - type: history-graph
-        entities:
-          - entity: sensor.server_cpu
-            name: Server CPU Used
-#          - sensor.server_cpu_2
-#          - sensor.server_cpu_3
-#          - sensor.server_cpu_4
-#          - sensor.server_cpu_avg
+       # - type: history-graph
+       #   entities:
+       #     - entity: sensor.server_cpu
+       #       name: Server CPU Used
+        - type: custom:mini-graph-card
+          name: Server CPU Used
+          hours_to_show: 72
+          points_per_hour: 25
+          entities:
+            - entity: sensor.server_cpu
+          color_thresholds:
+            - value: 0
+              color: "#5DADE2"
+            - value: 25
+              color: "#9CCC65"
+            - value: 50
+              color: "#f39c12"
+            - value: 100
+              color: "#F44336"    
+         #upper_bound: 100     
+          smoothing: true  
+          height: 300       
+#            - sensor.server_cpu_2
+#            - sensor.server_cpu_3
+#            - sensor.server_cpu_4
+#            - sensor.server_cpu_avg
+        - type: custom:mini-graph-card
+          name: Server RAM Used
+          hours_to_show: 72
+          points_per_hour: 25
+          entities:
+            - entity: sensor.server_ram
+          color_thresholds:
+            - value: 0
+              color: "#5DADE2"
+            - value: 25
+              color: "#5DADE2"
+            - value: 50
+              color: "#9CCC65"
+            - value: 75
+              color: "#f39c12"
+            - value: 100
+              color: "#F44336"
+          #upper_bound: 100  
+          smoothing: true    
+          height: 300
+        #- type: history-graph
+        #  entities:
+        #    - entity: sensor.server_ram
+        #      name: Server RAM Used
+      
+      - type: vertical-stack
+        cards:
+        - type: entities
+          title: Port Forwards  
+          entities: 
+            - entity: switch.port_forward_assetto_corsa
+              name: Assetto Corsa Server on Server
+              icon: mdi:network
+            - type: divider 
+            - entity: switch.pfsense_home_nat_port_forward_rule_1295623011_chic_rdp
+              name: Chicane RDP
+            - entity: switch.pfsense_home_nat_port_forward_rule_1295623072_vm_ssh
+              name: UbuntuVM SSH
+            - entity: switch.pfsense_home_nat_port_forward_rule_1295623100_airvideo
+              name: Air Video
+            - entity: switch.port_forward_ftp
+              name: Server FTP
+              icon: mdi:network
+            - entity: switch.pfsense_home_nat_port_forward_rule_1295623183_ser_qbit_web
+              name: Qbittorrent Web Interface
+            - entity: switch.port_forward_rfactor
+              name: RFactor Server on Server
+              icon: mdi:network
+            - entity: switch.port_forward_sunshine
+              name: Sunshine/Moonlight
+              icon: mdi:network
+        - type: custom:mini-graph-card
+          name: WAN Inbound Bandwidth
+          entities:
+            - entity: sensor.pfsense_home_interface_wan_inbytes_kilobytes_per_second
+          hours_to_show: 72
+          points_per_hour: 20
+          #color_thresholds:
+          #  - value: 0
+          #    color: "#5DADE2"
+          #  - value: 15
+          #    color: "#5DADE2"
+          #  - value: 24
+          #    color: "#9CCC65"
+          #  - value: 30
+          #    color: "#F44336"
+          show:
+            labels: true      
+        - type: custom:mini-graph-card
+          name: WAN Outbound Bandwidth
+          entities:
+            - entity: sensor.pfsense_home_interface_wan_outbytes_kilobytes_per_second
+          hours_to_show: 72
+          points_per_hour: 20
+          #color_thresholds:
+          #  - value: 0
+          #    color: "#5DADE2"
+          #  - value: 15
+          #    color: "#5DADE2"
+          #  - value: 24
+          #    color: "#9CCC65"
+          #  - value: 30
+          #    color: "#F44336"
+          show:
+            labels: true                  
+      - type: vertical-stack
+        cards:
+        - type: custom:mini-graph-card
+          name: Router CPU
+          hours_to_show: 24
+          points_per_hour: 25
+          entities:
+            - entity: sensor.pfsense_home_cpu_usage
+          color_thresholds:
+            - value: 0
+              color: "#5DADE2"
+            - value: 25
+              color: "#5DADE2"
+            - value: 50
+              color: "#9CCC65"
+            - value: 100
+              color: "#F44336"    
+          show:
+            labels: true    
+          height: 300            
+        - type: custom:mini-graph-card
+          name: Router CPU
+          hours_to_show: 24
+          points_per_hour: 25
+          entities:
+            - entity: sensor.pfsense_home_system_load_average_one_minute
+              color: "#5dade2"
+            - entity: sensor.pfsense_home_system_load_average_five_minute
+              color: "#f9e79f"
+            - entity: sensor.pfsense_home_system_load_average_fifteen_minute
+              color: "#ec7063"
+          show:
+            labels: true          
+          height: 300      
 
-      - type: history-graph
-        entities:
-          - entity: sensor.server_ram
-            name: Server RAM Used
+ 
+          #color_thresholds:
+          #  - value: 0
+          #    color: "#5DADE2"
+          #  - value: 1
+          #    color: "#5DADE2"
+          #  - value: 2
+          #    color: "#9CCC65"
+          #  - value: 3
+          #    color: "#F44336"     
+            
 
   - title: Presence
     icon: mdi:account-multiple-check

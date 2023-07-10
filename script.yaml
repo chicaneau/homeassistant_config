@@ -311,4 +311,105 @@ roborock_dock:
     - service: vacuum.return_to_base 
       entity_id: vacuum.roborock_s6_pure
         
-        
+port_forward_ftp_turn_on:
+  alias: Port Forward FTP Turn On
+  sequence:
+    - service: switch.turn_on
+      entity_id: switch.pfsense_home_nat_port_forward_rule_1295623160_ftp
+    - delay: 00:00:01
+    - service: switch.turn_on
+      entity_id: switch.pfsense_home_nat_port_forward_rule_1562559015_ftp_pasv_ports 
+
+port_forward_ftp_turn_off:
+  alias: Port Forward FTP Turn Off
+  sequence:
+    - service: switch.turn_off
+      entity_id: switch.pfsense_home_nat_port_forward_rule_1295623160_ftp
+    - delay: 00:00:01
+    - service: switch.turn_off
+      entity_id: switch.pfsense_home_nat_port_forward_rule_1562559015_ftp_pasv_ports       
+
+port_forward_rfactor_turn_on:
+  alias: Port Forward rFactor Server Turn On
+  sequence:
+    - service: switch.turn_on
+      entity_id: switch.pfsense_home_nat_port_forward_rule_1658297923_rfactor_racing_rig_1
+    - delay: 00:00:01
+    - service: switch.turn_on
+      entity_id: switch.pfsense_home_nat_port_forward_rule_1658297951_rfactor_racing_rig_2
+    - delay: 00:00:01   
+    - service: switch.turn_on
+      entity_id: switch.pfsense_home_nat_port_forward_rule_1658297969_rfactor_racing_rig_3
+
+port_forward_rfactor_turn_off:
+  alias: Port Forward rFactor Server Turn Off
+  sequence:
+    - service: switch.turn_off
+      entity_id: switch.pfsense_home_nat_port_forward_rule_1658297923_rfactor_racing_rig_1
+    - delay: 00:00:01
+    - service: switch.turn_off
+      entity_id: switch.pfsense_home_nat_port_forward_rule_1658297951_rfactor_racing_rig_2
+    - delay: 00:00:01   
+    - service: switch.turn_off
+      entity_id: switch.pfsense_home_nat_port_forward_rule_1658297969_rfactor_racing_rig_3
+
+port_forward_sunshine_turn_on:      
+  alias: Port Forward Sunshine/Moonlight Turn On
+  sequence:
+    - service: switch.turn_on
+      entity_id: switch.pfsense_home_nat_port_forward_rule_1669849028_gamestream_tcp_1
+    - delay: 00:00:01
+    - service: switch.turn_on
+      entity_id: switch.pfsense_home_nat_port_forward_rule_1669849059_gamestream_tcp_2
+    - delay: 00:00:01
+    - service: switch.turn_on
+      entity_id: switch.pfsense_home_nat_port_forward_rule_1669849081_gamestream_tcp_3
+    - delay: 00:00:01
+    - service: switch.turn_on
+      entity_id: switch.pfsense_home_nat_port_forward_rule_1669849146_gamestream_udp_1
+    - delay: 00:00:01
+    - service: switch.turn_on
+      entity_id: switch.pfsense_home_nat_port_forward_rule_1669849163_gamestream_udp_2
+
+port_forward_sunshine_turn_off:      
+  alias: Port Forward Sunshine/Moonlight Turn Off
+  sequence:
+    - service: switch.turn_off
+      entity_id: switch.pfsense_home_nat_port_forward_rule_1669849028_gamestream_tcp_1
+    - delay: 00:00:01
+    - service: switch.turn_off
+      entity_id: switch.pfsense_home_nat_port_forward_rule_1669849059_gamestream_tcp_2
+    - delay: 00:00:01
+    - service: switch.turn_off
+      entity_id: switch.pfsense_home_nat_port_forward_rule_1669849081_gamestream_tcp_3
+    - delay: 00:00:01
+    - service: switch.turn_off
+      entity_id: switch.pfsense_home_nat_port_forward_rule_1669849146_gamestream_udp_1
+    - delay: 00:00:01
+    - service: switch.turn_off
+      entity_id: switch.pfsense_home_nat_port_forward_rule_1669849163_gamestream_udp_2      
+
+port_forward_assetto_corsa_turn_on:
+  alias: Port Forward Assetto Corsa Turn On
+  sequence:
+    - service: switch.turn_on
+      entity_id: switch.pfsense_home_nat_port_forward_rule_1641534405_assetto_on_server_http
+    - delay: 00:00:01    
+    - service: switch.turn_on
+      entity_id: switch.pfsense_home_nat_port_forward_rule_1641534374_assetto_on_server
+
+port_forward_assetto_corsa_turn_off:
+  alias: Port Forward Assetto Corsa Turn Off
+  sequence:
+    - service: switch.turn_off
+      entity_id: switch.pfsense_home_nat_port_forward_rule_1641534405_assetto_on_server_http
+    - delay: 00:00:01    
+    - service: switch.turn_off
+      entity_id: switch.pfsense_home_nat_port_forward_rule_1641534374_assetto_on_server      
+
+roborock_update_map:
+  alias: Roborock Update Map
+  sequence:
+    - service: homeassistant.update_entity
+      target:
+        entity_id: camera.xiaomi_cloud_map_extractor

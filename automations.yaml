@@ -1,0 +1,32 @@
+- id: '1685927184141'
+  alias: Update Map Extractor camera
+  description: ''
+  use_blueprint:
+    path: PiotrMachowski/update_map_extractor.yaml
+    input:
+      vacuum: vacuum.roborock_s6_pure
+      camera: camera.xiaomi_cloud_map_extractor
+      mode_to_handle: two_intervals
+      interval_cleaning: 15
+      interval_docked: 3600
+- id: '1685927341517'
+  alias: Update Map Extractor camera
+  description: ''
+  use_blueprint:
+    path: PiotrMachowski/update_map_extractor.yaml
+    input:
+      vacuum: vacuum.roborock_s6_pure
+      camera: camera.xiaomi_cloud_map_extractor
+      mode_to_handle: two_intervals
+      interval_docked: 3600
+      interval_cleaning: 15
+- id: '1686468739793'
+  alias: Update Map Extractor camera
+  description: ''
+  use_blueprint:
+    path: PiotrMachowski/update_map_extractor.yaml
+    input:
+      mode_to_handle: turn_off_when_docked
+      vacuum: vacuum.roborock_s6_pure
+      camera: camera.xiaomi_cloud_map_extractor
+      update_once_after_docking: false
