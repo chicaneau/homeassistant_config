@@ -9,5 +9,5 @@ The public is welcome to use any part of the config :)
 - Garage Build
 - Circadian Lighting
 - Bedroom lights converted to "lamps"
-- SNMP Windows 10 Sensors
+- SNMP Windows 10 Sensors (depracated for hass agent)
 - Rubbish Bins
