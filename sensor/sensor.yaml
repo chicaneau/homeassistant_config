@@ -316,14 +316,16 @@
     weather_pws_precip_month:
       friendly_name: Rain This Month
       value_template: >-
-         {% if states('sensor.weather_pws_precip_month') == 'unknown' or states('sensor.weather_pws_precip_12am') == 'unknown' %}
-          unknown
-         {% elif is_state('sensor.weather_pws_precip_month','unavailable') or is_state('sensor.weather_pws_precip_12am','unavailable') %}
-          unknown
-         {% else %}
-          {{ states.input_number.weather_pws_precip_month.state | float + states.sensor.weather_pws_precip_12am.state | float }}
-         {% endif %}
-
+       {{ states('input_number.weather_pws_precip_month') | float + states('sensor.weather_pws_precip_12am') | float }}
+  
+ #        {% if states('sensor.weather_pws_precip_month') == 'unknown' or states('sensor.weather_pws_precip_12am') == 'unknown' %}
+ #         unknown
+ #        {% elif is_state('sensor.weather_pws_precip_month','unavailable') or is_state('sensor.weather_pws_precip_12am','unavailable') %}
+ #         unknown
+ #        {% else %}
+ #        
+ #        {% endif %}
+#
 #        {%- if now().strftime('%T') < strptime('23:59:58', '%T') and now().strftime('%T') >= strptime('00:00:00', '%T') -%}
 #        {{ states.input_number.weather_pws_precip_month.state | float + states.sensor.weather_pws_precip_12am.state | float }}
 #        {%- else -%}
@@ -357,11 +359,6 @@
         {% set direction = ['N','NNE','NE','ENE','E','ESE','SE','SSE','S','SSW','SW','WSW','W','WNW','NW','NNW','N'] %}
         {% set degree = states.sensor.caloundra_west_pws.attributes["observations"][0]["winddir"]|float %}
         {{ direction[((degree+11.25)/22.5)|int] }}
-
-    weather_pws_wind:
-      friendly_name: Wind
-      value_template: '{{ states.sensor.weather_pws_wind_speed.state + " " +  states.sensor.weather_pws_wind_dir.state }}'
-      unit_of_measurement: "km/h" 
 
     weather_pws_temperature:
       friendly_name: Outside Temperature
