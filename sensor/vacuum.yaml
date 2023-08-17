@@ -51,14 +51,14 @@
           {% endif %}
         unit_of_measurement: "m"
 
-      roborock_s6_error:
-        friendly_name: Roborock S6 Error
-        value_template: >-
-            {% if states.vacuum.roborock_s6_pure.attributes.error is defined %}
-              {{states.vacuum.roborock_s6_pure.attributes.error}}
-            {% else %}
-              No Error
-            {% endif %}
+#      roborock_s6_error:
+#        friendly_name: Roborock S6 Error
+#        value_template: >-
+#            {% if states.vacuum.roborock_s6_pure.attributes.error is defined %}
+#              {{states.vacuum.roborock_s6_pure.attributes.error}}
+#            {% else %}
+#              No Error
+#            {% endif %}
 
       roborock_s6_status:
         friendly_name: Roborock S6 Status

@@ -694,7 +694,10 @@ views:
               show_state: false
             - entity: binary_sensor.motion_sensor_wardrobe
               name: Wardrobe Motion
-              show_state: false    
+              show_state: false  
+            - entity: binary_sensor.motion_sensor_office
+              name: Office Motion
+              show_state: false                    
 
     - type: grid
       title: "Certificates"          
@@ -950,58 +953,225 @@ views:
       #   - camera.xiaomi_cloud_map_extractor
       #  title: Roborock Map
       #  camera_image: camera.xiaomi_cloud_map_extractor
-      - type: 'custom:vacuum-card'
-        entity: vacuum.roborock_s6_pure
-        stats:
-          default:
-            - entity_id: sensor.roborock_s6_pure_filter_left_hours
-              unit: hours
-              subtitle: Filter
-            - entity_id: sensor.roborock_s6_pure_side_brush_left_hours
-              unit: hours
-              subtitle: Side brush
-            - entity_id: sensor.roborock_s6_pure_main_brush_left_hours
-              unit: hours
-              subtitle: Main brush
-            - entity_id: sensor.roborock_s6_pure_sensor_dirty_left_hours
-              unit: hours
-              subtitle: Sensors
-          cleaning:
-            - entity_id: sensor.roborock_s6_pure_current_clean_area
-              unit: m2
-              subtitle: Cleaning area
-            - entity_id: sensor.roborock_s6_pure_current_clean_duration_mins
-              unit: minutes
-              subtitle: Cleaning time
+#      - type: 'custom:vacuum-card'
+#        entity: vacuum.roborock_s6_pure
+#        stats:
+#          default:
+#            - entity_id: sensor.roborock_s6_pure_filter_left_hours
+#              unit: hours
+#              subtitle: Filter
+#            - entity_id: sensor.roborock_s6_pure_side_brush_left_hours
+#              unit: hours
+#              subtitle: Side brush
+#            - entity_id: sensor.roborock_s6_pure_main_brush_left_hours
+#              unit: hours
+#              subtitle: Main brush
+#            - entity_id: sensor.roborock_s6_pure_sensor_dirty_left_hours
+#              unit: hours
+#              subtitle: Sensors
+#          cleaning:
+#            - entity_id: sensor.roborock_s6_pure_current_clean_area
+#              unit: m2
+#              subtitle: Cleaning area
+#            - entity_id: sensor.roborock_s6_pure_current_clean_duration_mins
+#              unit: minutes
+#              subtitle: Cleaning time
+
       - type: vertical-stack
         cards:
         - type: custom:xiaomi-vacuum-map-card
           entity: vacuum.roborock_s6_pure
+          vacuum_platform: humbertogontijo/homeassistant-roborock
           map_source:
-            camera: camera.xiaomi_cloud_map_extractor
+            camera: camera.roborock_s6_pure_map   
           calibration_source:
-            camera: true
-          selection_type: PREDEFINED_RECTANGLE
-          predefined_selections:  
+            camera: true      
           map_modes:
-             - template: vacuum_clean_zone_predefined
-               predefined_selections:
-                 - zones: [[27150,26450,29050,29000],[27650,19750,29200,26650]]
-                 - zones: [[23300,14800,29600,20100],[18200,10800,25900,16000]]
-                 - zones: [[29450,10750,33850,20400]]
-                 - zones: [[30650,18250,33500,20350]]
-                 - zones: [[25050,24100,27800,26550]]
-                 - zones: [[22600,19800,27800,23200],[25100,22800,27750,24150]]
-                 - zones: [[21150,23150,25150,26600]]
-                 - zones: [[21200,26400,27250,31100]]
-                 - zones: [[33231,10990,36425,14641]]
-             - template: vacuum_clean_zone
-             - template: vacuum_goto
-        - type: custom:button-card
-          name: Update Map
-          entity: script.roborock_update_map
-          tap_action:
-            action: toggle
+            - template: vacuum_clean_zone
+            - template: vacuum_goto
+            - template: vacuum_clean_segment
+              predefined_selections:
+                - id: '16'
+                  icon:
+                    name: mdi:broom
+                    x: 37200
+                    'y': 35025
+                  label:
+                    text: Ensuite
+                    x: 37200
+                    'y': 35025
+                    offset_y: 35
+                  outline:
+                    - - 35600
+                      - 33250
+                    - - 38800
+                      - 33250
+                    - - 38800
+                      - 36800
+                    - - 35600
+                      - 36800
+                - id: '17'
+                  icon:
+                    name: mdi:broom
+                    x: 25950
+                    'y': 37500
+                  label:
+                    text: Loungeroom
+                    x: 25950
+                    'y': 37500
+                    offset_y: 35
+                  outline:
+                    - - 23550
+                      - 35200
+                    - - 28350
+                      - 35200
+                    - - 28350
+                      - 39800
+                    - - 23550
+                      - 39800
+                - id: '18'
+                  icon:
+                    name: mdi:broom
+                    x: 34250
+                    'y': 32200
+                  label:
+                    text: Dining Room
+                    x: 34250
+                    'y': 32200
+                    offset_y: 35
+                  outline:
+                    - - 27300
+                      - 24650
+                    - - 41200
+                      - 24650
+                    - - 41200
+                      - 39750
+                    - - 27300
+                      - 39750
+                - id: '19'
+                  icon:
+                    name: mdi:broom
+                    x: 25400
+                    'y': 23575
+                  label:
+                    text: Office
+                    x: 25400
+                    'y': 23575
+                    offset_y: 35
+                  outline:
+                    - - 23550
+                      - 21950
+                    - - 27250
+                      - 21950
+                    - - 27250
+                      - 25200
+                    - - 23550
+                      - 25200
+                - id: '20'
+                  icon:
+                    name: mdi:broom
+                    x: 31300
+                    'y': 24675
+                  label:
+                    text: Laundry
+                    x: 31300
+                    'y': 24675
+                    offset_y: 35
+                  outline:
+                    - - 29950
+                      - 21650
+                    - - 32650
+                      - 21650
+                    - - 32650
+                      - 27700
+                    - - 29950
+                      - 27700
+                - id: '21'
+                  icon:
+                    name: mdi:broom
+                    x: 26325
+                    'y': 32225
+                  label:
+                    text: Kitchen
+                    x: 26325
+                    'y': 32225
+                    offset_y: 35
+                  outline:
+                    - - 24100
+                      - 29300
+                    - - 28550
+                      - 29300
+                    - - 28550
+                      - 35150
+                    - - 24100
+                      - 35150
+                - id: '22'
+                  icon:
+                    name: mdi:broom
+                    x: 23550
+                    'y': 26600
+                  label:
+                    text: Gym
+                    x: 23550
+                    'y': 26600
+                    offset_y: 35
+                  outline:
+                    - - 19650
+                      - 23700
+                    - - 27450
+                      - 23700
+                    - - 27450
+                      - 29500
+                    - - 19650
+                      - 29500
+                - id: '23'
+                  icon:
+                    name: mdi:broom
+                    x: 41050
+                    'y': 34000
+                  label:
+                    text: Master Bedroom
+                    x: 41050
+                    'y': 34000
+                    offset_y: 35
+                  outline:
+                    - - 38850
+                      - 31100
+                    - - 43250
+                      - 31100
+                    - - 43250
+                      - 36900
+                    - - 38850
+                      - 36900
+                   
+          #stats:
+#        - type: custom:xiaomi-vacuum-map-card
+#          entity: vacuum.roborock_s6_pure
+#          map_source:
+#            camera: camera.xiaomi_cloud_map_extractor
+#          calibration_source:
+#            camera: true
+#          selection_type: PREDEFINED_RECTANGLE
+#          predefined_selections:  
+#          map_modes:
+#             - template: vacuum_clean_zone_predefined
+#               predefined_selections:
+#                 - zones: [[27150,26450,29050,29000],[27650,19750,29200,26650]]
+#                 - zones: [[23300,14800,29600,20100],[18200,10800,25900,16000]]
+#                 - zones: [[29450,10750,33850,20400]]
+#                 - zones: [[30650,18250,33500,20350]]
+#                 - zones: [[25050,24100,27800,26550]]
+#                 - zones: [[22600,19800,27800,23200],[25100,22800,27750,24150]]
+#                 - zones: [[21150,23150,25150,26600]]
+#                 - zones: [[21200,26400,27250,31100]]
+#                 - zones: [[33231,10990,36425,14641]]
+#             - template: vacuum_clean_zone
+#             - template: vacuum_goto
+#        - type: custom:button-card
+#          name: Update Map
+#          entity: script.roborock_update_map
+#          tap_action:
+#            action: toggle
             
        
 

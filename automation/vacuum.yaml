@@ -2,29 +2,31 @@
     id: roborock_s6_error
     trigger:
       - platform: state
-        entity_id: sensor.roborock_s6_status
-        to: 'Error'
-      - platform: state
-        entity_id: sensor.roborock_s6_status
-        to: 'In Error'
-      - platform: state
-        entity_id: sensor.roborock_s6_status
-        to: 'Charging Error'
+        entity_id: sensor.roborock_s6_pure_current_error
+        from: 'none'
+#      - platform: state
+ #       entity_id: sensor.roborock_s6_pure_current_error
+ ##       to: 'In Error'
+ #     - platform: state
+ #       entity_id: sensor.roborock_s6_pure_current_error
+ #       to: 'Charging Error'
+    condition:
+      condition: not
+      conditions:
+        - condition: state
+          entity_id: sensor.roborock_s6_pure_current_error
+          state: unavailable
     action:
       - service: camera.snapshot
         target:
-          entity_id: camera.xiaomi_cloud_map_extractor
+          entity_id: camera.roborock_s6_pure_map
         data:
           filename: '/tmp/vacuum_map.jpg'
       - service: notify.mobile_app_ichicane
         data:
           title: 'Roborock Error'
           message: >-
-            {% if is_state('sensor.roborock_s6_error', 'No Error')  %}
-              {{states.sensor.roborock_s6_status.state}}
-            {% else %}
-              {{states.sensor.roborock_s6_error.state}}
-            {% endif %}
+            {{ct_state_translated('sensor.roborock_s6_pure_current_error', 'en')}}
           data:
             actions:
              - action: 'LOCATE_ROBOROCK'
@@ -34,11 +36,7 @@
         data:
           title: 'Roborock Error'
           message: >-
-            {% if is_state('sensor.roborock_s6_error', 'No Error')  %}
-              {{states.sensor.roborock_s6_status.state}}
-            {% else %}
-              {{states.sensor.roborock_s6_error.state}}
-            {% endif %}
+            {{ct_state_translated('sensor.roborock_s6_pure_current_error', 'en')}}
           data:
             actions:
              - action: 'LOCATE_ROBOROCK'
@@ -57,12 +55,12 @@
         entity_id: vacuum.roborock_s6_pure
 
 
-  - alias: 'Run Vacuum Monday and Wednesday AM'
+  - alias: 'Run Vacuum Monday and Friday AM'
     #id: turnoncoffeemachinewkday
     #initial_state: True
     trigger:
       platform: time
-      at: '09:30:00'
+      at: '09:00:00'
     condition:
       condition: and
       conditions:
@@ -70,9 +68,9 @@
           weekday:
             - mon
         #   - tue
-            - wed
+        #    - wed
         #    - thu
-        #    - fri
+            - fri
         - condition: state
           entity_id: device_tracker.ichicane
           #group.at_home

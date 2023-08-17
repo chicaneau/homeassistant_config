@@ -178,20 +178,22 @@ zha:
   # gateways:
     # - key: !secret xiaomi_key
       # host: !secret xiaomi_ip
-
-camera:
-  - platform: xiaomi_cloud_map_extractor
-    host: !secret xiaomi_vacuum_host
-    token: !secret xiaomi_vacuum_token
-    username: !secret xiaomi_cloud_username
-    password: !secret xiaomi_cloud_password
-    draw: ['all']
-    auto_update: false
-    scan_interval: 60
-    attributes:
-      - calibration_points   
-    colors: 
-      color_path: [255, 255, 255]    
+custom_templates:
+  preload_translations:
+    - en
+  #camera:
+#  - platform: xiaomi_cloud_map_extractor
+#    host: !secret xiaomi_vacuum_host
+#    token: !secret xiaomi_vacuum_token
+#    username: !secret xiaomi_cloud_username
+#    password: !secret xiaomi_cloud_password
+#    draw: ['all']
+#    auto_update: false
+#    scan_interval: 60
+#    attributes:
+#      - calibration_points   
+#    colors: 
+#      color_path: [255, 255, 255]    
 
 # Text to speech
 tts:
@@ -310,10 +312,10 @@ adaptive_lighting:
   #  name: 'BOM Radar'
   # location: Brisbane
 
-tplink:
-  switch:
-    - host: !secret tplink_1
-    - host: !secret tplink_2
+#tplink:
+#  switch:
+#    - host: !secret tplink_1
+#    - host: !secret tplink_2
 
 smartir:
 
@@ -587,7 +589,7 @@ homekit:
       - switch.adaptive_lighting_sleep_mode_kitchen
       - switch.adaptive_lighting_sleep_mode_loungeroom
       - input_boolean.outside_triggered
-      - camera.xiaomi_cloud_map_extractor
+     # - camera.xiaomi_cloud_map_extractor
       - scene.lights_off
       - button.server_publishallsensors
       #- script.roborock_clean_east_wing

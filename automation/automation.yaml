@@ -324,6 +324,26 @@
     service: switch.turn_on
     entity_id: switch.coffee_machine
 
+- alias: 'Turn on coffee machine wednesday morning'
+  #id: turnoncoffeemachinewkday
+  #initial_state: True
+  trigger:
+    platform: time
+    at: '06:10:00'
+  condition:
+    condition: and
+    conditions:
+      - condition: time
+        weekday:
+          - wed
+      - condition: state
+        entity_id: device_tracker.ichicane
+        #group.at_home
+        state: 'home'
+  action:
+    service: switch.turn_on
+    entity_id: switch.coffee_machine    
+
 - alias: 'Turn on coffee machine holidays weekday morning'
   #id: turnoncoffeemachinewkday
   #initial_state: True
@@ -1232,50 +1252,13 @@
 #      entity_id: switch.circadian_lighting_loungeroom
 
 
-#-----Danny PC-------
-- alias: Turn On Dannys PC
-  trigger:
-    platform: state
-    entity_id: switch.danny_s_pc
-    from: 'off'
-    to: 'on'
-  condition:
-    condition: and
-    conditions:
-      - condition: sun
-        after: sunset
-        after_offset: "-00:45:00"
-      - condition: state
-        entity_id: group.at_home
-        state: 'home'
-  action:
-    - service: light.turn_on
-      entity_id: light.office
-
-- alias: Turn Off Dannys PC
-  trigger:
-    platform: state
-    entity_id: switch.danny_s_pc
-    from: 'on'
-    to: 'off'
-    for: 
-      minutes: 2
-  condition:
-    condition: and
-    conditions:
-      - condition: sun
-        after: sunset
-        after_offset: "-00:45:00"
-  action:
-    - service: light.turn_off
-      entity_id: light.office
 
 ##OFFICE LIGHTS##
 - alias: 'Turn On Office Lights with Danny PC'
   #initial_state: True
   trigger:
     - platform: state
-      entity_id: switch.danny_s_pc
+      entity_id: group.office_active #switch.danny_s_pc
       from: 'off'
       to: 'on'
   
@@ -1297,7 +1280,7 @@
   #initial_state: True
   trigger:
     - platform: state
-      entity_id: switch.danny_s_pc
+      entity_id: group.office_active #switch.danny_s_pc
       from: 'on'
       to: 'off'
       for: '00:15:00'
