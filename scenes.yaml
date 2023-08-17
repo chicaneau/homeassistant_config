@@ -670,19 +670,19 @@
       max_mireds: 454
       supported_color_modes:
       - color_temp
-      color_mode: color_temp
-      brightness: 254
-      color_temp: 184
-      hs_color:
-      - 27.746
-      - 13.648
-      rgb_color:
-      - 255
-      - 236
-      - 220
-      xy_color:
-      - 0.356
-      - 0.344
+#      color_mode: color_temp
+#      brightness: 254
+#      color_temp: 184
+#      hs_color:
+#      - 27.746
+#      - 13.648
+#      rgb_color:
+#      - 255
+#      - 236
+#      - 220
+#      xy_color:
+#      - 0.356
+#      - 0.344
       off_brightness:
       friendly_name: Hallway Lights
       supported_features: 43
@@ -697,19 +697,19 @@
       supported_color_modes:
       - color_temp
       - hs
-      color_mode: color_temp
-      brightness: 255
-      color_temp: 184
-      hs_color:
-      - 27.746
-      - 13.648
-      rgb_color:
-      - 255
-      - 236
-      - 220
-      xy_color:
-      - 0.356
-      - 0.344
+#      color_mode: color_temp
+#      brightness: 255
+#      color_temp: 184
+#      hs_color:
+#      - 27.746
+#      - 13.648
+#      rgb_color:
+#      - 255
+#      - 236
+#      - 220
+#      xy_color:
+#      - 0.356
+#      - 0.344
       entity_id:
       - light.kitchen_1
       - light.kitchen_2
@@ -727,19 +727,19 @@
       supported_color_modes:
       - color_temp
       - hs
-      color_mode: color_temp
-      brightness: 255
-      color_temp: 184
-      hs_color:
-      - 27.746
-      - 13.648
-      rgb_color:
-      - 255
-      - 236
-      - 220
-      xy_color:
-      - 0.356
-      - 0.344
+#      color_mode: color_temp
+#      brightness: 255
+#      color_temp: 184
+#      hs_color:
+#      - 27.746
+#      - 13.648
+#      rgb_color:
+#      - 255
+#      - 236
+#      - 220
+#      xy_color:
+#      - 0.356
+#      - 0.344
       entity_id:
       - light.loungeroom_1
       - light.loungeroom_2

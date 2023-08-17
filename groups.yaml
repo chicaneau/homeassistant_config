@@ -19,6 +19,12 @@ Garage Door:
     - cover.garage_door
   #all: true
   icon: mdi:door
+
+Office Active:
+  entities: 
+    - binary_sensor.motion_sensor_office
+    - switch.danny_s_pc
+
 Port Forward FTP:
   entities:
     - switch.pfsense_home_nat_port_forward_rule_1295623160_ftp
