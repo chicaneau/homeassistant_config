@@ -211,93 +211,126 @@ loungeroom_circadian:
 roborock_clean_master:
   alias: 'Vacuum Master Bedroom'
   sequence:
-    - service: xiaomi_miio.vacuum_clean_zone
+    - service: vacuum.send_command
+      entity_id: vacuum.roborock_s6_pure
       data:
-        entity_id: vacuum.roborock_s6_pure
-        zone: [[21200,26400,27250,31100]]
-        repeats: 1
+        command: app_segment_clean
+        params:
+          - 23
       
-roborock_clean_ensuite:
-  alias: 'Vacuum Ensuite'
+roborock_clean_office:
+  alias: 'Vacuum Office'
   sequence:
-    - service: xiaomi_miio.vacuum_clean_zone
+    - service: vacuum.send_command
+      entity_id: vacuum.roborock_s6_pure
       data:
-        entity_id: vacuum.roborock_s6_pure
-        zone: [[21150,23150,25150,26600]]
-        repeats: 1
+        command: app_segment_clean
+        params:
+          - 19
 
-        
 roborock_clean_gym:
   alias: 'Vacuum Gym'
   sequence:
-    - service: xiaomi_miio.vacuum_clean_zone
+    - service: vacuum.send_command
+      entity_id: vacuum.roborock_s6_pure
       data:
-        entity_id: vacuum.roborock_s6_pure
-        zone: [[22600,19800,27800,23200],[25100,22800,27750,24150]]
-        repeats: 1        
+        command: app_segment_clean
+        params:
+          - 22
 
-roborock_clean_server_room:
-  alias: 'Vacuum Server Room'
+roborock_clean_ensuite:
+  alias: 'Vacuum Ensuite'  
   sequence:
-    - service: xiaomi_miio.vacuum_clean_zone
+    - service: vacuum.send_command
+      entity_id: vacuum.roborock_s6_pure
       data:
-        entity_id: vacuum.roborock_s6_pure
-        zone: [[25050,24100,27800,26550]]
-        repeats: 1    
-        
+        command: app_segment_clean
+        params:
+          - 16
+
 roborock_clean_laundry:
   alias: 'Vacuum Laundry'
   sequence:
-    - service: xiaomi_miio.vacuum_clean_zone
+    - service: vacuum.send_command
+      entity_id: vacuum.roborock_s6_pure
       data:
-        entity_id: vacuum.roborock_s6_pure
-        zone: [[30650,18250,33500,20350]]
-        repeats: 1    
-
-roborock_clean_west_wing:
-  alias: 'Vacuum West Wing'
-  sequence:
-    - service: xiaomi_miio.vacuum_clean_zone
-      data:
-        entity_id: vacuum.roborock_s6_pure
-        zone: [[29450,10750,33850,20400]]
-        repeats: 1  
-
-roborock_clean_east_wing:
-  alias: 'Vacuum East Wing'
-  sequence:
-    - service: xiaomi_miio.vacuum_clean_zone
-      data:
-        entity_id: vacuum.roborock_s6_pure
-        zone: [[23300,14800,29600,20100],[18200,10800,25900,16000]]
-        repeats: 1  
+        command: app_segment_clean
+        params:
+          - 20
 
 roborock_clean_kitchen:
   alias: 'Vacuum Kitchen'
   sequence:
-    - service: xiaomi_miio.vacuum_clean_zone
+    - service: vacuum.send_command
+      entity_id: vacuum.roborock_s6_pure
       data:
-        entity_id: vacuum.roborock_s6_pure
-        zone: [[23200,11400,25950,14800]]
-        repeats: 1          
+        command: app_segment_clean
+        params:
+          - 21
 
-roborock_clean_hallway:
-  alias: 'Vacuum Hallway'
-  sequence:
-    - service: xiaomi_miio.vacuum_clean_zone
-      data:
-        entity_id: vacuum.roborock_s6_pure
-        zone: [[27150,26450,29050,29000],[27650,19750,29200,26650]]
-        repeats: 1    
-        
-roborock_clean_office:
-  alias: 'Vacuum Office'
-  sequence:
-    - service: xiaomi_miio.vacuum_clean_zone
-      data:
-        entity_id: vacuum.roborock_s6_pure
-        zone: [[33231,10990,36425,14641]]
-        repeats: 1    
+#roborock_clean_master:
+#  alias: 'Vacuum Master Bedroom'
+#  sequence:
+#    - service: xiaomi_miio.vacuum_clean_zone
+#      data:
+#        entity_id: vacuum.roborock_s6_pure
+#        zone: [[21200,26400,27250,31100]]
+#        repeats: 1
+#      
+#roborock_clean_ensuite:
+#  alias: 'Vacuum Ensuite'
+#  sequence:
+#    - service: xiaomi_miio.vacuum_clean_zone
+#      data:
+#        entity_id: vacuum.roborock_s6_pure
+#        zone: [[21150,23150,25150,26600]]
+#        repeats: 1
+#
+#        
+#roborock_clean_gym:
+#  alias: 'Vacuum Gym'
+#  sequence:
+#    - service: xiaomi_miio.vacuum_clean_zone
+#      data:
+#        entity_id: vacuum.roborock_s6_pure
+#        zone: [[22600,19800,27800,23200],[25100,22800,27750,24150]]
+#        repeats: 1        
+#
+#roborock_clean_server_room:
+#  alias: 'Vacuum Server Room'
+#  sequence:
+#    - service: xiaomi_miio.vacuum_clean_zone
+#      data:
+#        entity_id: vacuum.roborock_s6_pure
+#        zone: [[25050,24100,27800,26550]]
+#        repeats: 1    
+#        
+#roborock_clean_laundry:
+#  alias: 'Vacuum Laundry'
+#  sequence:
+#    - service: xiaomi_miio.vacuum_clean_zone
+#      data:
+#        entity_id: vacuum.roborock_s6_pure
+#        zone: [[30650,18250,33500,20350]]
+#        repeats: 1    
+#
+#roborock_clean_kitchen:
+#  alias: 'Vacuum Kitchen'
+#  sequence:
+#    - service: xiaomi_miio.vacuum_clean_zone
+#      data:
+#        entity_id: vacuum.roborock_s6_pure
+#        zone: [[23200,11400,25950,14800]]
+#        repeats: 1          
+#  
+#roborock_clean_office:
+#  alias: 'Vacuum Office'
+#  sequence:
+#    - service: xiaomi_miio.vacuum_clean_zone
+#      data:
+#        entity_id: vacuum.roborock_s6_pure
+#        zone: [[33231,10990,36425,14641]]
+#        repeats: 1    
 
 roborock_clean_house:
   alias: 'Vacuum House'
