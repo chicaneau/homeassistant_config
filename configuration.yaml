@@ -8,6 +8,7 @@ homeassistant:
   elevation: 21
   # metric for Metric, imperial for Imperial
   unit_system: metric
+  currency: AUD
   # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
   time_zone: Australia/Brisbane
   country: AU
@@ -100,6 +101,10 @@ lovelace:
       type: module     
     - url: /hacsfiles/lovelace-layout-card/layout-card.js
       type: module
+    - url: /hacsfiles/power-flow-card/power-flow-card.js
+      type: module
+    - url: /hacsfiles/apexcharts-card/apexcharts-card.js
+      type: module      
                        
   
 # Checks for available updates
@@ -131,8 +136,8 @@ logbook:
 # Track the sun
 sun:
 
-hacs:
-  token: !secret hacs_token
+#hacs:
+#  token: !secret hacs_token
 
 recorder:
   db_url: !secret db_url
@@ -141,6 +146,8 @@ recorder:
 mobile_app:
 
 ios:
+
+energy:
 
 system_health:
 
@@ -235,6 +242,8 @@ logger:
 
 mqtt: !include mqtt.yaml
 
+utility_meter: !include utility_meter.yaml
+
 sensor: !include_dir_merge_list sensor/
 
 #remote:
@@ -274,8 +283,9 @@ group: !include groups.yaml
 
 fan: !include fan.yaml
 
-template:
-  sensor: !include_dir_merge_list sensor_template/
+template: !include_dir_merge_list template/
+  #sensor: !include_dir_merge_list template_sensor/
+  
 
 
 
@@ -307,17 +317,21 @@ adaptive_lighting:
     min_brightness: 20   
     detect_non_ha_changes: true
 
-#camera:
-  #- platform: bom
-  #  name: 'BOM Radar'
-  # location: Brisbane
-
-#tplink:
-#  switch:
-#    - host: !secret tplink_1
-#    - host: !secret tplink_2
-
 smartir:
+
+proximity:
+  danny_home_proximity:
+    zone: home
+    devices:
+      - device_tracker.ichicane
+    tolerance: 50
+    unit_of_measurement: km
+  liz_home_proximity:
+    zone: home
+    devices:
+      - device_tracker.duffel
+    tolerance: 50
+    unit_of_measurement: km    
 
 #garbage_collection:
 #  sensors:
@@ -368,6 +382,9 @@ input_boolean:
 
   outside_triggered:
     name: Outside Triggered
+
+  office_aircon_disabled_day:
+    name: Office Aircon Disabled for Day
 
 input_number:
   heater_on_below_temp:

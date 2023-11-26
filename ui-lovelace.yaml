@@ -327,7 +327,7 @@ views:
             'off':
               icon: mdi:power
               name: 'off'
-            heat_cool:
+            auto:
               icon: mdi:cached
               name: auto
             cool:
@@ -411,7 +411,7 @@ views:
             'off':
               icon: mdi:power
               name: 'off'
-            heat_cool:
+            auto:
               icon: mdi:cached
               name: auto
             cool:
@@ -711,6 +711,118 @@ views:
         - type: gauge
           entity: sensor.whitehavendesignhouse_com_au
           max: 90 
+
+  - title: Energy
+    icon: mdi:solar-power-variant
+    badges:
+      - entity: sensor.caloundra_west_temp_max_0
+        name: Todays High     
+      - entity: sensor.weather_pws_temperature
+        name: Outside Temp
+      - entity: sensor.loungeroom_temperature
+        name: Lounge Temp   
+      - entity: sensor.office_temperature
+        name: Office Temp      
+      - entity: sensor.solar_export_hourly_snapshot
+        name: Export Last Hour    
+
+    cards:
+      - type: vertical-stack
+        title: Live
+        cards:
+        - type: custom:power-flow-card
+          entities:
+            grid: 
+              consumption: sensor.energy_grid_import
+              production: sensor.energy_grid_export
+            solar: sensor.inverter_generation
+          kw_decimals: 2
+          w_decimals: 0
+        - type: custom:apexcharts-card
+          experimental:
+            #color_threshold: true
+            brush: true # This is required
+          graph_span: 30h
+          #span:
+          #  start: day
+          #  end: +1h
+          header:
+            title: Live Solar Generation
+            show: true
+            show_states: true
+            colorize_states: true
+          brush:
+            # selection_span: optional
+            # defines the default selected span in the brush
+            # Defaults to 1/4 of the `graph_span`
+            selection_span: 6h
+            apex_config:
+          series:
+          - entity: sensor.inverter_generation #sensor.inverter_5010kmst233w0080 
+            stroke_width: 2
+            type: area
+            show:
+              # in_brush: set it to true and the serie will show up in the brush
+              in_brush: true
+          - entity: sensor.energy_grid_export
+            stroke_width: 2
+          - entity: sensor.energy_grid_import
+            color: orange
+            stroke_width: 2
+            invert: true
+            #curve: straight
+          - entity: sensor.homekit_91000hku21b00500
+            stroke_width: 2
+            invert: true
+            type: area     
+      - type: energy-date-selection
+      - type: energy-usage-graph
+      - type: energy-solar-graph
+      - type: vertical-stack
+        title: Today
+        cards:
+        - type: energy-distribution
+          # link_dashboard: true
+        - type: horizontal-stack
+          cards:
+          - type: energy-self-sufficiency-gauge  
+          - type: energy-solar-consumed-gauge  
+      - type: custom:apexcharts-card
+        experimental:
+          #color_threshold: true
+          brush: true # This is required
+        graph_span: 12h
+        #span:
+        #  start: day
+        #  end: +1h
+        header:
+          title: Inverter Generation
+          show: true
+          show_states: true
+          colorize_states: true
+        brush:
+          # selection_span: optional
+          # defines the default selected span in the brush
+          # Defaults to 1/4 of the `graph_span`
+          selection_span: 6h
+          apex_config:
+        series:
+        #- entity: sensor.inverter_5010kmst233w0080 
+        #  stroke_width: 2
+        #  show:
+        #    # in_brush: set it to true and the serie will show up in the brush
+        #    in_brush: true
+        - entity: sensor.inverter_generation
+          stroke_width: 2
+          show:
+            # in_brush: set it to true and the serie will show up in the brush
+            in_brush: true
+       
+
+
+
+
+
 
   - title: Secondary
     icon: mdi:home-analytics

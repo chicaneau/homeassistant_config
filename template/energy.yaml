@@ -1,0 +1,139 @@
+- sensor:
+ 
+  - name: Inverter Generation
+    unique_id: energy_inverter_generation
+    state: "{{ state_attr('sensor.homekit_91000hku21b00500','pv') }}"
+    unit_of_measurement: 'W'
+    device_class: energy
+
+  - name: Energy Grid Import
+    unique_id: energy_grid_import_w
+    state: >
+          {% set house_cons = states('sensor.homekit_91000hku21b00500') | float(0) %}
+          {% set inv_gen = state_attr('sensor.homekit_91000hku21b00500','pv') | float(0) %}
+          {% if house_cons - inv_gen > 0 %}
+            {{ house_cons - inv_gen | float(0) }}
+          {% else %}
+            0
+          {% endif %}  
+    unit_of_measurement: 'W'
+    device_class: energy
+
+  - name: Energy Grid Export
+    unique_id: energy_grid_export_w
+    state: >
+          {% set house_cons = states('sensor.homekit_91000hku21b00500') | float(0) %}
+          {% set inv_gen = state_attr('sensor.homekit_91000hku21b00500','pv') | float(0) %}
+          {% if inv_gen - house_cons > 0 %}
+            {{ inv_gen - house_cons | float(0) }}
+          {% else %}
+            0
+          {% endif %}  
+    unit_of_measurement: 'W'
+    device_class: energy    
+
+  - name: Inverter Status
+    unique_id: inverter_status
+    state:  "{{ state_attr('sensor.inverter_5010kmst233w0080','status') }}"
+  - name: Energy Export Rate
+    unique_id: energy_export_rate
+    state: "{{ 1 | multiply(0.08) }}"
+    unit_of_measurement: 'AUD/kWh'
+  - name: Energy Import Rate
+    unique_id: energy_import_rate
+    state: "{{ 1 | multiply(0.3059) }}"
+    unit_of_measurement: 'AUD/kWh'   
+#
+#
+#    platform: template
+#    sensors:
+#    homekit_loadstatus:
+#    value_template: ‘{{ states.sensor.homekit_XXXXXXXXXXXXXX.attributes.loadStatus }}’
+#
+#    platform: template
+#    sensors:
+#    homekit_gridstatus:
+#    value_template: ‘{{ states.sensor.homekit_XXXXXXXXXXXXXX.attributes.gridStatus }}’
+#
+#    platform: template
+#    sensors:
+#    homekit_gridusage:
+#    value_template: ‘{{ states.sensor.homekit_XXXXXXXXXXXXXX.attributes.grid }}’
+#    unit_of_measurement: ‘W’
+#    device_class: energy
+#
+#    platform: template
+#    sensors:
+#    homekit_load:
+#    value_template: ‘{{ states.sensor.homekit_XXXXXXXXXXXXXX.attributes.load }}’
+#    unit_of_measurement: ‘W’
+#    device_class: energy
+#
+#    platform: template
+#    sensors:
+#    homekit_powerflowdirection:
+#    value_template: ‘{{ states.sensor.homekit_XXXXXXXXXXXXXX.attributes.PowerFlowDirection }}’
+#    unit_of_measurement: ‘W’
+#    device_class: power
+#
+
+#
+#    platform: template
+#    sensors:
+#    homekit_buytoday:
+#    value_template: ‘{{ states.sensor.homekit_XXXXXXXXXXXXXX.attributes.Charts_buy }}’
+#    unit_of_measurement: ‘kWh’
+#    device_class: energy
+#
+#    platform: template
+#    sensors:
+#    homekit_selltoday:
+#    value_template: ‘{{ states.sensor.homekit_XXXXXXXXXXXXXX.attributes.Charts_sell }}’
+#    unit_of_measurement: ‘kWh’
+#    device_class: energy
+#
+#    platform: template
+#    sensors:
+#    homekit_buytodaypercent:
+#    value_template: ‘{{ states.sensor.homekit_XXXXXXXXXXXXXX.attributes.Charts_buyPercent }}’
+#    unit_of_measurement: ‘%’
+#
+#    platform: template
+#    sensors:
+#    homekit_selltodaypercent:
+#    value_template: ‘{{ states.sensor.homekit_XXXXXXXXXXXXXX.attributes.Charts_sellPercent }}’
+#    unit_of_measurement: ‘%’
+
+#"{{ states('states.sensor.homekit_XXXXXXXXXXXXXX.attributes.loadStatus') | float(0) | multiply(-1) * states('sensor.homekit_gridusage') | float(0) }}"    
+#
+#    platform: template
+#    sensors:
+#    energy_buy_cost:
+#    value_template: “{{ states(‘sensor.homekit_buytoday’) | multiply(0.3094) }}”
+#    unit_of_measurement: ‘$’
+#
+#    platform: template
+#    sensors:
+#    energy_sell_profit:
+#    value_template: “{{ states(‘sensor.homekit_selltoday’) | multiply(0.052) }}”
+#    unit_of_measurement: ‘$’
+#
+
+#
+#    platform: template
+#    sensors:
+#    homekit_grid_actual:
+#    device_class: energy
+#    unit_of_measurement: ‘kWh’
+#    value_template: “{{ (states(‘sensor.homekit_pv’) | float(0) - states(‘sensor.homekit_load’) | float(0)) | multiply(-1) }}”
+#
+- trigger:
+    - platform: time_pattern
+      hours: "/1"
+      minutes: "59"
+      seconds: "59"
+  sensor:
+    - name: "Solar Export Hourly Snapshot"
+      unique_id: solar_energy_hourly_snapshot
+      state: >-
+        {{ (states('sensor.hourly_solar_export') | float) }}

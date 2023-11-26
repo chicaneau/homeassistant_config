@@ -1,0 +1,3 @@
+  hourly_solar_export:
+    source: sensor.homekit_91000hku21b00500_export
+    cycle: hourly

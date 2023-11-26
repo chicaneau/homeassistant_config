@@ -1,9 +1,3 @@
-#Bedroom: sensor.bedroom_temperature, sensor.bedroom_temp_feels_like, sensor.bedroom_humidity, sensor.bedroom_pressure, light.bedroom, light.bedroom_3, light.bedroom_1, light.bedroom_4, light.bedroom_2
-#Office: sensor.office_temperature, sensor.office_temp_feels_like, sensor.office_humidity, sensor.office_pressure, climate.office_aircon, switch.danny_s_pc, sensor.homechicaneme
-#Loungeroom: sensor.loungeroom_temperature, sensor.loungeroom_temp_feels_like, sensor.loungeroom_humidity, sensor.loungeroom_pressure, climate.loungeroom_aircon
-#Garage: sensor.garage_temperature, sensor.garage_temp_feels_like, sensor.garage_humidity, sensor.garage_pressure, cover.garage_door
-#Kitchen: switch.coffee_machine, light.kitchen, switch.mozzie_zapper
-#Hallway: light.hallway, light.hallway_1, light.hallway_2
 At Home HomeKit: input_boolean.dannyhome, input_boolean.lizhome
 At Home: person.danny, person.liz
 Google Homes: media_player.kitchen_speaker, media_player.bedroom_speaker, media_player.outside_speaker, media_player.bedroom_speaker, media_player.office_speaker

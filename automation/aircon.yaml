@@ -1,0 +1,319 @@
+- alias: 'Aircon Solar Temp High Turn On'
+  id: aircon_solar_temp_high_turn_on
+  trigger:
+    platform: numeric_state
+    entity_id: sensor.loungeroom_temperature
+    above: 25
+  condition:
+    - condition: and
+      conditions: 
+        - condition: numeric_state
+          entity_id: sensor.caloundra_west_temp_max_0
+          above: 26
+        - condition: numeric_state
+          entity_id: sensor.solar_export_hourly_snapshot
+          above: 1.5
+        - condition: or
+          conditions: 
+            - condition: numeric_state
+              entity_id: proximity.danny_home_proximity
+              below: 20             
+            - condition: numeric_state
+              entity_id: proximity.liz_home_proximity
+              below: 20   
+  action:
+    - service: climate.set_temperature
+      target:
+        entity_id: climate.bedroom_aircon
+      data:
+        hvac_mode: auto
+        temperature: 23
+    - service: climate.set_temperature
+      target:
+        entity_id: climate.loungeroom_aircon
+      data:
+        hvac_mode: heat_cool
+        temperature: 22
+    - service: climate.set_temperature
+      target:
+        entity_id: climate.gym_aircon
+      data:
+        hvac_mode: auto
+        temperature: 24
+    - service: notify.mobile_app_ichicane
+      data:
+        message: 'Detected Solar Export over 1.5KW'
+        title: 'Loungeroom Hot, Aircon Turning On!'      
+    - service: notify.mobile_app_duffel
+      data:
+        message: 'Detected Solar Export over 1.5KW'
+        title: 'Loungeroom Hot, Aircon Turning On!'              
+#    - condition: state
+#      entity_id: climate.office_aircon
+#      state: "off"
+#    - service: climate.set_temperature
+#      target:
+#        entity_id: climate.office_aircon
+#      data:
+#        hvac_mode: heat_cool
+#        temperature: 24  
+
+- alias: 'Aircon Solar Export High Turn On'
+  id: aircon_solar_export_high_turn_on
+  trigger:
+    platform: numeric_state
+    entity_id: sensor.solar_export_hourly_snapshot
+    above: 1.5
+  condition:
+    - condition: and
+      conditions: 
+        - condition: numeric_state
+          entity_id: sensor.caloundra_west_temp_max_0
+          above: 26
+        - condition: numeric_state
+          entity_id: sensor.loungeroom_temperature
+          above: 25
+        - condition: or
+          conditions: 
+            - condition: numeric_state
+              entity_id: proximity.danny_home_proximity
+              below: 20             
+            - condition: numeric_state
+              entity_id: proximity.liz_home_proximity
+              below: 20   
+  action:
+    - service: climate.set_temperature
+      target:
+        entity_id: climate.bedroom_aircon
+      data:
+        hvac_mode: auto
+        temperature: 23
+    - service: climate.set_temperature
+      target:
+        entity_id: climate.loungeroom_aircon
+      data:
+        hvac_mode: heat_cool
+        temperature: 22
+    - service: climate.set_temperature
+      target:
+        entity_id: climate.gym_aircon
+      data:
+        hvac_mode: auto
+        temperature: 24
+    - service: notify.mobile_app_ichicane
+      data:
+        message: 'Loungeroom Hot, Aircon Turning On!'
+        title: 'Detected Solar Export over 1.5KW'
+    - service: notify.mobile_app_duffel
+      data:
+        message: 'Loungeroom Hot, Aircon Turning On!'     
+        title: 'Detected Solar Export over 1.5KW'         
+#    - condition: state
+#      entity_id: climate.office_aircon
+#      state: "off"
+#    - service: climate.set_temperature
+#      target:
+#        entity_id: climate.office_aircon
+#      data:
+#        hvac_mode: heat_cool
+#        temperature: 24  
+
+
+- alias: 'Aircon Solar Turn Off'
+  id: aircon_solar_turn_off
+  trigger:
+    platform: numeric_state
+    entity_id: sensor.solar_export_hourly_snapshot
+    below: 0.8
+  #condition:
+  #  - condition: and
+  #    conditions: 
+  #      - condition: numeric_state
+  #        entity_id: sensor.loungeroom_temperature
+  #        below: 26
+  action:
+    - service: notify.mobile_app_ichicane
+      data:
+        message: "Loungeroom is {{ states('sensor.loungeroom_temperature')|round(1) }} degrees. Outside is {{ states('sensor.weather_pws_temperature')|round(1) }} degrees."
+        title: 'Solar Export under 0.8KW, Turn Aircon off?' 
+        data:
+          actions:
+           - action: 'AIRCON_ALL_OFF'
+             title: 'Turn Off All Aircon'
+             destructive: true           
+           - action: 'DO_NOTHING'
+             title: 'Do nothing'                 
+    - service: notify.mobile_app_duffel
+      data:
+        message:  "Loungeroom is {{ states('sensor.loungeroom_temperature')|round(1) }} degrees. Outside is {{ states('sensor.weather_pws_temperature')|round(1) }} degrees."
+        title: 'Solar Export under 0.8KW, Turn Aircon off?' 
+        data:
+          actions:
+           - action: 'AIRCON_ALL_OFF'
+             title: 'Turn Off All Aircon'
+             destructive: true           
+           - action: 'DO_NOTHING'
+             title: 'Do nothing'             
+#--------------------------------------#
+
+- alias: 'Aircon Office Solar Turn Off'
+  id: aircon_office_solar_turn_off
+  trigger:
+    platform: numeric_state
+    entity_id: sensor.solar_export_hourly_snapshot
+    below: 0.0
+  #condition:
+  #  - condition: and
+  #    conditions: 
+  #      - condition: numeric_state
+  #        entity_id: sensor.loungeroom_temperature
+  #        below: 26
+  action:
+    - service: notify.mobile_app_ichicane
+      data:
+        message: "Office is {{ states('sensor.office_temperature')|round(1) }} degrees. Outside is {{ states('sensor.weather_pws_temperature')|round(1) }} degrees."
+        title: 'Solar Export is 0, Turn Office Aircon off?' 
+        data:
+          actions:
+           - action: 'AIRCON_OFFICE_OFF'
+             title: 'Turn Off Office Aircon'
+             destructive: true           
+           - action: 'DO_NOTHING'
+             title: 'Do nothing'                             
+#--------------------------------------#
+
+
+- alias: iOS Push - Aircon Turn Off
+  id: ios_push_aircon_turn_off
+  trigger:
+    platform: event
+    event_type: mobile_app_notification_action
+    event_data:
+      action: AIRCON_ALL_OFF
+  action:
+    - service: climate.turn_off
+      target:
+        entity_id: climate.bedroom_aircon
+    - service: climate.turn_off
+      target:
+        entity_id: climate.loungeroom_aircon
+    - service: climate.turn_off
+      target:
+        entity_id: climate.gym_aircon         
+#    - condition: numeric_state
+#      entity_id: sensor.office_temperature
+#      below: 25
+#    - service: climate.turn_off
+#      target:
+#        entity_id: climate.office_aircon
+
+- alias: iOS Push - Aircon Office Turn Off
+  id: ios_push_aircon_office_turn_off
+  trigger:
+    platform: event
+    event_type: mobile_app_notification_action
+    event_data:
+      action: AIRCON_OFFICE_OFF
+  action:
+    - service: climate.turn_off
+      target:
+        entity_id: climate.office_aircon
+
+- alias: iOS Push - Aircon Office Disabled for day
+  id: ios_push_aircon_office_disable_for_day
+  trigger:
+    platform: event
+    event_type: mobile_app_notification_action
+    event_data:
+      action: AIRCON_OFFICE_DISABLE_DAY
+  action:
+    - service: input_boolean.turn_on
+      entity_id: input_boolean.office_aircon_disabled_day         
+    - service: climate.turn_off
+      target:
+        entity_id: climate.office_aircon
+ 
+#--------------------------------------#
+- alias: 'Aircon Office Turn On'
+  id: aircon_office_turn_on
+  trigger:
+    platform: numeric_state
+    entity_id: sensor.office_temperature
+    above: 25
+  condition:
+    - condition: and
+      conditions: 
+        - condition: numeric_state
+          entity_id: sensor.solar_export_hourly_snapshot
+          above: 1.5
+        - condition: numeric_state
+          entity_id: proximity.danny_home_proximity
+          below: 8     
+        - condition: state
+          entity_id: input_boolean.office_aircon_disabled_day  
+          below: off             
+        - condition: not
+          conditions:
+            - condition: state
+              entity_id: person.danny
+              state: 'SCUH'
+  action:
+    - service: climate.set_temperature
+      target:
+        entity_id: climate.office_aircon
+      data:
+        hvac_mode: heat_cool
+        temperature: 23
+    - service: notify.mobile_app_ichicane
+      data:
+        message: 'Detected Solar Export over 1.5KW'
+        title: 'Office over 25, Office Aircon Turning On!'             
+        data:
+          actions:
+           - action: 'AIRCON_OFFICE_DISABLE_DAY'
+             title: 'Turn Off Office Aircon and Disable for the day'
+             destructive: true           
+           - action: 'DO_NOTHING'
+             title: 'Do nothing'    
+#--------------------------------------#
+- alias: 'Aircon Office Turn On when Solar over 1.5'
+  id: aircon_office_turn_on_solar_over
+  trigger:
+    platform: numeric_state
+    entity_id: sensor.solar_export_hourly_snapshot
+    above: 1.5
+  condition:
+    - condition: and
+      conditions: 
+        - condition: numeric_state
+          entity_id: sensor.office_temperature
+          above: 25          
+        - condition: numeric_state
+          entity_id: proximity.danny_home_proximity
+          below: 8     
+        - condition: state
+          entity_id: input_boolean.office_aircon_disabled_day  
+          below: off                 
+        - condition: not
+          conditions:
+            - condition: state
+              entity_id: person.danny
+              state: 'SCUH'
+  action:
+    - service: climate.set_temperature
+      target:
+        entity_id: climate.office_aircon
+      data:
+        hvac_mode: heat_cool
+        temperature: 23
+    - service: notify.mobile_app_ichicane
+      data:
+        message: 'Detected Solar Export over 1.5KW'
+        title: 'Office over 25, Office Aircon Turning On!'              
+        data:
+          actions:
+           - action: 'AIRCON_OFFICE_DISABLE_DAY'
+             title: 'Turn Off Office Aircon and Disable for the day'
+             destructive: true           
+           - action: 'DO_NOTHING'
+             title: 'Do nothing'    

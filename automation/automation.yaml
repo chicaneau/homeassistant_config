@@ -165,6 +165,7 @@
 ###IOS GARAGE PUSH BUTTON###
 
 - alias: iOS Push - Close the Garage
+  id: ios_push_close_garage
   trigger:
     platform: event
     event_type: mobile_app_notification_action
@@ -1399,6 +1400,8 @@
   action:
     - service: input_boolean.turn_off
       entity_id: input_boolean.bedtime_triggered
+    - service: input_boolean.turn_off
+      entity_id: input_boolean.office_aircon_disabled_day      
     - service: switch.turn_on
       entity_id:
         - switch.adaptive_lighting_kitchen
@@ -1427,12 +1430,12 @@
   trigger:
     - platform: state
       entity_id: sensor.current_hass_release
-  condition:
-    condition: not
-    conditions:
-      - condition: state
-        entity_id: sensor.current_hass_release
-        state: 'Unavailable'
+      not_from:
+        - "unknown"
+        - "unavailable"
+      not_to:
+        - "unknown"
+        - "unavailable"        
   action:
     - delay: 00:00:03
     - service: notify.mobile_app_ichicane
@@ -1641,3 +1644,14 @@
       mode_to_handle: turn_off_when_docked
       vacuum: vacuum.roborock_s6_pure
       camera: camera.xiaomi_cloud_map_extractor
+
+- alias: 'Turn off Power Monitor'
+  trigger:
+    platform: state
+    entity_id: switch.power_monitoring_switch
+    to: 'off'      
+  action:
+    - service: notify.mobile_app_ichicane
+      data:
+        message: 'Yikes'
+        title: Power Monitor switch turned off!
