@@ -1,0 +1,43 @@
+- sensor:
+  - name: Rain This Month
+    unique_id: weather_pws_precip_month
+    state: " {{ states('input_number.weather_pws_precip_month') | float + states('sensor.weather_pws_precip_12am') | float }} "
+    availability: " {{ not(states('sensor.weather_pws_precip_month') == 'unknown' or states('sensor.weather_pws_precip_12am') == 'unknown' or states('sensor.weather_pws_precip_12am') == 'unavailable' or states('sensor.weather_pws_precip_12am') == 'unavailable')}} "
+
+  - name: Rain Since 12AM
+    unique_id: weather_pws_precip_12am
+    state: "{{ state_attr('sensor.caloundra_west_pws', 'observations')[0]['metric']['precipTotal'] }}"
+    unit_of_measurement: "mm"
+    
+  - name: Rain Rate
+    unique_id: weather_pws_precip_rate
+    state: "{{ state_attr('sensor.caloundra_west_pws', 'observations')[0]['metric']['precipRate'] }}"
+    unit_of_measurement: "mm/hr"  
+
+  - name: Wind Speed
+    unique_id: weather_pws_wind_speed
+    state: "{{ state_attr('sensor.caloundra_west_pws', 'observations')[0]['metric']['windSpeed'] }}"
+    unit_of_measurement: "km/h"  
+
+  - name: Wind Gust
+    unique_id: weather_pws_wind_gust
+    state: "{{ state_attr('sensor.caloundra_west_pws', 'observations')[0]['metric']['windGust'] }}"
+    unit_of_measurement: "km/h"        
+
+  - name: Wind Direction
+    unique_id: weather_pws_wind_dir
+    state: >
+      {% set direction = ['N','NNE','NE','ENE','E','ESE','SE','SSE','S','SSW','SW','WSW','W','WNW','NW','NNW','N'] %}
+      {% set degree = state_attr('sensor.caloundra_west_pws', 'observations')[0]['winddir']|float %}
+      {{ direction[((degree+11.25)/22.5)|int] }}
+    availability:   " {{ not(state_attr('sensor.caloundra_west_pws', 'observations')[0]['winddir'] == 'unknown') }} "
+    
+  - name: Outside Temperature
+    unique_id: weather_pws_temperature
+    state: "{{ state_attr('sensor.caloundra_west_pws', 'observations')[0]['metric']['temp'] }}"
+    unit_of_measurement: "°C" 
+   
+  - name: Outside Humidity
+    unique_id: weather_pws_humidity
+    state: "{{ state_attr('sensor.caloundra_west_pws', 'observations')[0]['humidity'] }}"
+    unit_of_measurement: "%"     

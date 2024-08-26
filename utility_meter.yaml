@@ -1,3 +1,15 @@
   hourly_solar_export:
     source: sensor.homekit_91000hku21b00500_export
     cycle: hourly
+
+  energy_grid_export_daily:
+    source: sensor.energy_grid_export_total
+    cycle: daily
+    unique_id: energy_grid_export_daily
+    name: Grid Export Daily
+
+  energy_grid_import_daily:
+    source: sensor.energy_grid_import_total
+    cycle: daily
+    unique_id: energy_grid_import_daily
+    name: Grid Import Daily    

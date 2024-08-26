@@ -170,10 +170,10 @@
       friendly_name: Niche
       supported_features: 0
       state: 'off'
-    light.gym:
+    light.theatre:
       supported_color_modes:
       - onoff
-      friendly_name: Gym
+      friendly_name: Theatre
       supported_features: 0
       state: 'off'
     light.wardrobe:
@@ -410,10 +410,10 @@
       friendly_name: Niche
       supported_features: 0
       state: 'off'
-    light.gym:
+    light.theatre:
       supported_color_modes:
       - onoff
-      friendly_name: Gym
+      friendly_name: Theatre
       supported_features: 0
       state: 'off'
     light.wardrobe:
@@ -619,8 +619,8 @@
       friendly_name: Niche
       supported_features: 0
       state: 'off'
-    light.gym:
-      friendly_name: Gym
+    light.theatre:
+      friendly_name: Theatre
       supported_features: 0
       state: 'off'
     light.wardrobe:
@@ -749,10 +749,10 @@
       friendly_name: Loungeroom
       supported_features: 36
       state: 'on'
-    switch.christmas_tree:
-      icon: mdi:tree
-      friendly_name: Christmas Tree
-      state: 'on'
+    #switch.christmas_tree:
+    #  icon: mdi:tree
+    #  friendly_name: Christmas Tree
+    #  state: 'on'
 - id: '1591749480739'
   name: Lights Off
   entities:
@@ -762,7 +762,7 @@
       state: 'off'
     light.bedroom:
       state: 'off'
-    light.gym:
+    light.theatre:
       state: 'off'
     light.dining:
       state: 'off'
@@ -774,8 +774,8 @@
       state: 'off'
     switch.coffee_machine:
       state: 'off'
-    switch.bedroom_heater:
-      state: 'off'
+    #switch.bedroom_heater:
+    #  state: 'off'
     switch.cooking_light:
       state: 'off'
 - id: '1593653725707'

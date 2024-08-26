@@ -1,0 +1,55 @@
+- sensor:
+    #bedroom_temp_feels_like:
+  - name: 'Bedroom Temp Feels Like'
+    state: >-
+      {% if (states('sensor.bedroom_temperature')|float > 27 and states('sensor.bedroom_humidity')|float > 40) %}
+      {{ (((-42.379 + (2.04901523 * (states('sensor.bedroom_temperature')|float * 1.8 + 32)|float) + (10.14333127 * (states('sensor.bedroom_humidity'))|float) + (-0.22475541 * (states('sensor.bedroom_temperature')|float * 1.8 + 32)|float * (states('sensor.bedroom_humidity'))|float) + ((-6.83783*(10**-3)) * ((states('sensor.bedroom_temperature')|float * 1.8 + 32)|float**2)) + ((-5.481717*(10**-2)) * ((states('sensor.bedroom_humidity'))|float**2)) + ((1.22874*(10**-3)) * ((states('sensor.bedroom_temperature')|float * 1.8 + 32)|float**2) * (states('sensor.bedroom_humidity'))|float) + ((8.5282*(10**-4)) * (states('sensor.bedroom_temperature')|float * 1.8 + 32)|float * ((states('sensor.bedroom_humidity'))|float**2)) + ((-1.99*(10**-6)) * ((states('sensor.bedroom_temperature')|float * 1.8 + 32)|float**2) * ((states('sensor.bedroom_humidity'))|float**2)))|float - 32) * 5 / 9)|round(2) }}
+      {% else %}
+      {{ states('sensor.bedroom_temperature')|round(2) }}
+      {% endif %}
+    unit_of_measurement: "°C"
+    availability: "{{ is_number(states('sensor.bedroom_temperature')) and is_number(states('sensor.bedroom_humidity')) }}"
+
+    #theatre_temp_feels_like:
+  - name: 'Theatre Temp Feels Like'
+    state: >-         
+      {% if (states('sensor.theatre_temperature')|float > 27 and states('sensor.theatre_humidity')|float > 40) %}
+      {{ (((-42.379 + (2.04901523 * (states('sensor.theatre_temperature')|float * 1.8 + 32)|float) + (10.14333127 * (states('sensor.theatre_humidity'))|float) + (-0.22475541 * (states('sensor.theatre_temperature')|float * 1.8 + 32)|float * (states('sensor.theatre_humidity'))|float) + ((-6.83783*(10**-3)) * ((states('sensor.theatre_temperature')|float * 1.8 + 32)|float**2)) + ((-5.481717*(10**-2)) * ((states('sensor.theatre_humidity'))|float**2)) + ((1.22874*(10**-3)) * ((states('sensor.theatre_temperature')|float * 1.8 + 32)|float**2) * (states('sensor.theatre_humidity'))|float) + ((8.5282*(10**-4)) * (states('sensor.theatre_temperature')|float * 1.8 + 32)|float * ((states('sensor.theatre_humidity'))|float**2)) + ((-1.99*(10**-6)) * ((states('sensor.theatre_temperature')|float * 1.8 + 32)|float**2) * ((states('sensor.theatre_humidity'))|float**2)))|float - 32) * 5 / 9)|round(2) }}
+      {% else %}
+      {{ states('sensor.theatre_temperature')|round(2) }}
+      {% endif %}
+    unit_of_measurement: "°C"
+    availability: "{{ is_number(states('sensor.theatre_temperature')) and is_number(states('sensor.theatre_humidity')) }}"
+
+    #loungeroom_temp_feels_like:
+  - name: 'Loungeroom Temp Feels Like'
+    state: >-
+      {% if (states('sensor.loungeroom_temperature')|float > 27 and states('sensor.loungeroom_humidity')|float > 40) %}
+      {{ (((-42.379 + (2.04901523 * (states('sensor.loungeroom_temperature')|float * 1.8 + 32)|float) + (10.14333127 * (states('sensor.loungeroom_humidity'))|float) + (-0.22475541 * (states('sensor.loungeroom_temperature')|float * 1.8 + 32)|float * (states('sensor.loungeroom_humidity'))|float) + ((-6.83783*(10**-3)) * ((states('sensor.loungeroom_temperature')|float * 1.8 + 32)|float**2)) + ((-5.481717*(10**-2)) * ((states('sensor.loungeroom_humidity'))|float**2)) + ((1.22874*(10**-3)) * ((states('sensor.loungeroom_temperature')|float * 1.8 + 32)|float**2) * (states('sensor.loungeroom_humidity'))|float) + ((8.5282*(10**-4)) * (states('sensor.loungeroom_temperature')|float * 1.8 + 32)|float * ((states('sensor.loungeroom_humidity'))|float**2)) + ((-1.99*(10**-6)) * ((states('sensor.loungeroom_temperature')|float * 1.8 + 32)|float**2) * ((states('sensor.loungeroom_humidity'))|float**2)))|float - 32) * 5 / 9)|round(2) }}
+      {% else %}
+      {{ states('sensor.loungeroom_temperature')|round(2) }}
+      {% endif %}
+    unit_of_measurement: "°C"
+    availability: "{{ is_number(states('sensor.loungeroom_temperature')) and is_number(states('sensor.loungeroom_humidity')) }}"
+
+    #outside_temp_feels_like:
+  - name: 'Outside Temp Feels Like'
+    state: >-    
+      {% if (states('sensor.weather_pws_temperature')|float > 27 and states('sensor.weather_pws_humidity')|float > 40) %}
+      {{ (((-42.379 + (2.04901523 * (states('sensor.weather_pws_temperature')|float * 1.8 + 32)|float) + (10.14333127 * (states('sensor.weather_pws_humidity'))|float) + (-0.22475541 * (states('sensor.weather_pws_temperature')|float * 1.8 + 32)|float * (states('sensor.weather_pws_humidity'))|float) + ((-6.83783*(10**-3)) * ((states('sensor.weather_pws_temperature')|float * 1.8 + 32)|float**2)) + ((-5.481717*(10**-2)) * ((states('sensor.weather_pws_humidity'))|float**2)) + ((1.22874*(10**-3)) * ((states('sensor.weather_pws_temperature')|float * 1.8 + 32)|float**2) * (states('sensor.weather_pws_humidity'))|float) + ((8.5282*(10**-4)) * (states('sensor.weather_pws_temperature')|float * 1.8 + 32)|float * (states('sensor.weather_pws_humidity')|float**2)) + ((-1.99*(10**-6)) * ((states('sensor.weather_pws_temperature')|float * 1.8 + 32)|float**2) * ((states('sensor.weather_pws_humidity'))|float**2)))|float - 32) * 5 / 9)|round(2) }}
+      {% else %}
+      {{ states('sensor.weather_pws_temperature')|round(2) }}
+      {% endif %}
+    unit_of_measurement: "°C"
+    availability: "{{ is_number(states('sensor.weather_pws_temperature')) and is_number(states('sensor.weather_pws_humidity')) }}"
+
+    #garage_temp_feels_like:
+  - name: 'Garage Temp Feels Like'
+    state: >-
+      {% if (states('sensor.garage_temperature')|float > 27 and states('sensor.garage_humidity')|float > 40) %}
+      {{ (((-42.379 + (2.04901523 * (states('sensor.garage_temperature')|float * 1.8 + 32)|float) + (10.14333127 * (states('sensor.garage_humidity'))|float) + (-0.22475541 * (states('sensor.garage_temperature')|float * 1.8 + 32)|float * (states('sensor.garage_humidity'))|float) + ((-6.83783*(10**-3)) * ((states('sensor.garage_temperature')|float * 1.8 + 32)|float**2)) + ((-5.481717*(10**-2)) * ((states('sensor.garage_humidity'))|float**2)) + ((1.22874*(10**-3)) * ((states('sensor.garage_temperature')|float * 1.8 + 32)|float**2) * (states('sensor.garage_humidity'))|float) + ((8.5282*(10**-4)) * (states('sensor.garage_temperature')|float * 1.8 + 32)|float * ((states('sensor.garage_humidity'))|float**2)) + ((-1.99*(10**-6)) * ((states('sensor.garage_temperature')|float * 1.8 + 32)|float**2) * ((states('sensor.garage_humidity'))|float**2)))|float - 32) * 5 / 9)|round(2) }}
+      {% else %}
+      {{ states('sensor.garage_temperature')|round(2) }}
+      {% endif %}
+    unit_of_measurement: "°C"
+    availability: "{{ is_number(states('sensor.garage_temperature')) and is_number(states('sensor.garage_humidity')) }}"

@@ -1,4 +1,126 @@
+- alias: GoodWe SEMS Portal Polling
+  id: goodwe_sems_polling
+  trigger:
+    - platform: time_pattern
+      seconds: 00
+  condition:
+    - condition: time
+      after: "00:10:00"
+      before: "23:59:00"
+  action:
+    - service: homeassistant.update_entity
+      data: {}
+      target:
+        entity_id:
+          - sensor.homekit_91000hku21b00500
+          - sensor.homekit_91000hku21b00500_export
+         # - sensor.homekit_91000hku21b00500_export_compensation
+          - sensor.homekit_91000hku21b00500_import
+         # - sensor.homekit_91000hku21b00500_import_cost
+          - sensor.inverter_5010kmst233w0080
+          - sensor.inverter_5010kmst233w0080_energy
+  mode: single
+
 ####GARAGE#####
+- alias: 'Garage open light flash kitchen 2 min Lights On'
+  id: garage_open_light_flash_kitchen_lights_on
+  trigger:
+    platform: time_pattern
+    minutes: '/2'
+    seconds: 00
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: cover.garage_door
+        state: 'open'
+      - condition: state
+        entity_id: light.kitchen
+        state: 'on'
+      - condition: state  
+        entity_id: switch.cooking_light
+        state: 'off'           
+  action:
+    - service: light.turn_on
+      entity_id: light.kitchen_1
+      data:
+        brightness: 255
+        rgb_color: 
+          - 255 
+          - 0
+          - 0
+    - delay: 00:00:01
+    - service: adaptive_lighting.set_manual_control
+      data:
+        manual_control: false
+        entity_id: switch.adaptive_lighting_adapt_brightness_kitchen
+
+- alias: 'Garage open light flash kitchen 2 min Cooking Light On'
+  id: garage_open_light_flash_kitchen_cooking_light_on
+  trigger:
+    platform: time_pattern
+    minutes: '/2'
+    seconds: 00
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: cover.garage_door
+        state: 'open'
+      - condition: state
+        entity_id: light.kitchen
+        state: 'on'
+      - condition: state  
+        entity_id: switch.cooking_light
+        state: 'on'           
+  action:
+    - service: light.turn_on
+      entity_id: light.kitchen_1
+      data:
+        brightness: 255
+        rgb_color: 
+          - 255 
+          - 0
+          - 0
+    - delay: 00:00:01
+    - service: light.turn_on
+      data:
+        entity_id: light.kitchen
+        brightness: 255
+        color_temp: 153
+
+- alias: 'Garage open light flash kitchen 2 min Lights off'
+  id: garage_open_light_flash_kitchen_lights_off
+  trigger:
+    platform: time_pattern
+    minutes: '/2'
+    seconds: 00
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: cover.garage_door
+        state: 'open'
+      - condition: state
+        entity_id: light.kitchen
+        state: 'off'
+  action:
+    - service: switch.turn_off
+      entity_id: switch.adaptive_lighting_kitchen   
+    - service: light.turn_on
+      entity_id: light.kitchen_1
+      data:
+        brightness: 255
+        rgb_color: 
+          - 255 
+          - 0
+          - 0
+    - delay: 00:00:02
+    - service: light.turn_off
+      entity_id: light.kitchen_1
+    - service: switch.turn_on
+      entity_id: switch.adaptive_lighting_kitchen   
+
 - alias: 'Garage night alarm 15 min'
   trigger:
     platform: time_pattern
@@ -299,7 +421,7 @@
 
 ###Coffee Machine###
 - alias: 'Turn on coffee machine weekday morning'
-  #id: turnoncoffeemachinewkday
+  id: turnoncoffeemachineweekday
   #initial_state: True
   trigger:
     platform: time
@@ -326,7 +448,7 @@
     entity_id: switch.coffee_machine
 
 - alias: 'Turn on coffee machine wednesday morning'
-  #id: turnoncoffeemachinewkday
+  id: turnoncoffeemachinewedmorn
   #initial_state: True
   trigger:
     platform: time
@@ -346,7 +468,7 @@
     entity_id: switch.coffee_machine    
 
 - alias: 'Turn on coffee machine holidays weekday morning'
-  #id: turnoncoffeemachinewkday
+  id: turnoncoffeemachineholidayswkdaymorning
   #initial_state: True
   trigger:
     platform: time
@@ -369,7 +491,7 @@
     entity_id: switch.coffee_machine
 
 - alias: 'Turn on coffee machine weekend morning'
-  #id: turnoncoffeemachinewkday
+  id: turnoncoffeemachineweekendmorning
   #initial_state: True
   trigger:
     platform: time
@@ -392,6 +514,7 @@
     entity_id: switch.coffee_machine
 
 - alias: 'Turn off Coffee Machine 2 hours'
+  id: turnoffcoffeemachine2hours
   trigger:
     platform: state
     entity_id: switch.coffee_machine
@@ -404,6 +527,7 @@
     entity_id: switch.coffee_machine
 
 - alias: 'Alert Coffee Machine 15 mins'
+  id: alertcoffeemachine15mins
   trigger:
     platform: state
     entity_id: switch.coffee_machine
@@ -432,26 +556,6 @@
     service: switch.turn_off
     entity_id: switch.mozzie_zapper
 
-#- alias: 'T300 Wheel Turn on With Racing PC'
-#  trigger:
-#    platform: state
-#    entity_id: switch.racing_pc
-#    from: 'off'
-#    to: 'on'
-#  action:
-#    service: switch.turn_on
-#    entity_id: switch.t300_wheel_switch
-
-#- alias: 'T300 Wheel Turn off With Racing PC'
-#  trigger:
-#    platform: state
-#    entity_id: switch.racing_pc
-#    from: 'on'
-#    to: 'off'
-#  action:
-#    service: switch.turn_off
-#    entity_id: switch.t300_wheel_switch
-
 - alias: 'Cat Fountain Turn off at bedtime'
   trigger:
     platform: state
@@ -472,6 +576,7 @@
 
 ###HOLIDAYS####
 - alias: 'Turn off on-holidays on arrive home'
+  id: turn_off_on_holidays_arrive_home
   trigger:
     platform: state
     entity_id: group.at_home
@@ -485,7 +590,7 @@
 ###DEPART HOME###
 
 - alias: 'Depart Home'
-  #id: departhome
+  id: departhome
   #initial_state: True
   trigger:
     - platform: state
@@ -499,7 +604,7 @@
 
 ###ARRIVE HOME###
 - alias: 'Arrive Home after dark'
-  #id: departhome
+  id: arrive_home_after_Dark
   #initial_state: True
   trigger:
     - platform: state
@@ -541,6 +646,7 @@
 
 ###DARK AT HOME###
 - alias: 'Got dark at home'
+  id: got_dark_at_home
   #initial_state: True
   trigger:
     - platform: numeric_state
@@ -635,7 +741,6 @@
   trigger:
     platform: state
     entity_id: binary_sensor.motion_sensor_pantry
-    from: 'off'
     to: 'on'
   condition:
     condition: and
@@ -673,7 +778,6 @@
   trigger:
     platform: state
     entity_id: binary_sensor.motion_sensor_wardrobe
-    from: 'off'
     to: 'on'
   condition:
     condition: and
@@ -1257,6 +1361,7 @@
 ##OFFICE LIGHTS##
 - alias: 'Turn On Office Lights with Danny PC'
   #initial_state: True
+  id: turn_on_office_lights_danny_pc
   trigger:
     - platform: state
       entity_id: group.office_active #switch.danny_s_pc
@@ -1269,15 +1374,45 @@
     - condition: state
       entity_id: group.at_home
       state: 'home'
-    - condition: sun
-      after: sunset
-      after_offset: "-00:45:00"
+    - condition: numeric_state
+      below: 80
+      entity_id: sensor.office_illuminance
+
+  action:
+    - service: light.turn_on
+      entity_id: light.office
+
+- alias: 'Turn On Office Lights with Motion Sensor'
+  #initial_state: True
+  id: turn_on_office_lights_motion_sensor
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.motion_sensor_office
+      from: 'off'
+      to: 'on'
+  
+  condition:
+    condition: and
+    conditions:
+    - condition: state
+      entity_id: group.at_home
+      state: 'home'
+    - condition: numeric_state
+      below: 80
+      entity_id: sensor.office_illuminance
+    - condition: state
+      entity_id: switch.danny_s_pc
+      state: 'on'
+    - condition: state
+      entity_id: light.office
+      state: 'off'      
 
   action:
     - service: light.turn_on
       entity_id: light.office
 
 - alias: 'Turn Off Office Lights with Danny PC'
+  id: turn_off_office_lights_danny_pc
   #initial_state: True
   trigger:
     - platform: state
@@ -1291,6 +1426,7 @@
       entity_id: light.office
 
 - alias: Office Light Toggle
+  id: office_light_toggle
   trigger:
     - platform: event
       event_type: zha_event
@@ -1522,6 +1658,7 @@
     platform: numeric_state
     entity_id: sensor.weather_pws_precip_12am
     below: 0.001
+    value_template: "state.state != 'unavailable' and  state.state != 'unknown' }}"
   action:
     - service: input_number.set_value
       data_template: 
@@ -1655,3 +1792,29 @@
       data:
         message: 'Yikes'
         title: Power Monitor switch turned off!
+
+- alias: 'Server RAM full'
+  id: server_ram_full
+  trigger:
+    platform: numeric_state
+    entity_id: sensor.server_ram
+    above: 92
+
+  action:
+    - service: notify.mobile_app_ichicane
+      data:
+        title: 'Server RAM above 92%'
+        message: "Palworld at it again"        
+
+- alias: 'Test Office Temp Zigbee'
+  id: test_office_temp_zigbee
+  trigger:
+    platform: state
+    entity_id: sensor.office_test_temperature
+    to: 'unavailable'
+
+  action:
+    - service: notify.mobile_app_ichicane
+      data:
+        title: 'Office temp died'
+        message: "he dead"       

@@ -17,6 +17,7 @@
     attributes: 
       days: >-
         {{ ((state_attr('calendar.recycling_bin', 'start_time') | as_timestamp - today_at('00:00') | as_timestamp) / 86400 | int) }}
+    availability: " {{ state_attr('calendar.recycling_bin', 'start_time') != 'unknown' and state_attr('calendar.recycling_bin', 'start_time') != 'unavailable' }} "
 
 
   - name: Green Bin Today
@@ -39,3 +40,4 @@
     attributes: 
       days: >-
         {{ ((state_attr('calendar.green_bin', 'start_time') | as_timestamp - today_at('00:00') | as_timestamp) / 86400 | int) }}
+    availability: " {{ state_attr('calendar.green_bin', 'start_time') != 'unknown' and state_attr('calendar.green_bin', 'start_time') != 'unavailable' }} "

@@ -7,6 +7,9 @@
   condition:
     - condition: and
       conditions: 
+        - condition: state
+          entity_id: group.main_aircons
+          state: 'off'      
         - condition: numeric_state
           entity_id: sensor.caloundra_west_temp_max_0
           above: 26
@@ -16,11 +19,11 @@
         - condition: or
           conditions: 
             - condition: numeric_state
-              entity_id: proximity.danny_home_proximity
-              below: 20             
+              entity_id: sensor.home_ichicane_distance # proximity.danny_home_proximity
+              below: 20000             
             - condition: numeric_state
-              entity_id: proximity.liz_home_proximity
-              below: 20   
+              entity_id: sensor.home_2_duffel_distance
+              below: 20000   
   action:
     - service: climate.set_temperature
       target:
@@ -36,7 +39,7 @@
         temperature: 22
     - service: climate.set_temperature
       target:
-        entity_id: climate.gym_aircon
+        entity_id: climate.theatre_aircon
       data:
         hvac_mode: auto
         temperature: 24
@@ -67,6 +70,9 @@
   condition:
     - condition: and
       conditions: 
+        - condition: state
+          entity_id: group.main_aircons
+          state: 'off'
         - condition: numeric_state
           entity_id: sensor.caloundra_west_temp_max_0
           above: 26
@@ -76,11 +82,11 @@
         - condition: or
           conditions: 
             - condition: numeric_state
-              entity_id: proximity.danny_home_proximity
-              below: 20             
+              entity_id: sensor.ichicane_distance #proximity.danny_home_proximity
+              below: 20000          
             - condition: numeric_state
-              entity_id: proximity.liz_home_proximity
-              below: 20   
+              entity_id: sensor.home_2_duffel_distance #proximity.liz_home_proximity
+              below: 20000   
   action:
     - service: climate.set_temperature
       target:
@@ -96,7 +102,7 @@
         temperature: 22
     - service: climate.set_temperature
       target:
-        entity_id: climate.gym_aircon
+        entity_id: climate.theatre_aircon
       data:
         hvac_mode: auto
         temperature: 24
@@ -125,6 +131,12 @@
     platform: numeric_state
     entity_id: sensor.solar_export_hourly_snapshot
     below: 0.8
+  condition:
+    - condition: not
+      conditions:  
+        - condition: state
+          entity_id: group.main_aircons
+          state: 'off'
   #condition:
   #  - condition: and
   #    conditions: 
@@ -161,7 +173,13 @@
   trigger:
     platform: numeric_state
     entity_id: sensor.solar_export_hourly_snapshot
-    below: 0.0
+    below: 0.1
+  condition:
+    - condition: not
+      conditions:  
+        - condition: state
+          entity_id: climate.office_aircon
+          state: 'off'
   #condition:
   #  - condition: and
   #    conditions: 
@@ -199,7 +217,7 @@
         entity_id: climate.loungeroom_aircon
     - service: climate.turn_off
       target:
-        entity_id: climate.gym_aircon         
+        entity_id: climate.theatre_aircon         
 #    - condition: numeric_state
 #      entity_id: sensor.office_temperature
 #      below: 25
@@ -247,11 +265,14 @@
           entity_id: sensor.solar_export_hourly_snapshot
           above: 1.5
         - condition: numeric_state
-          entity_id: proximity.danny_home_proximity
-          below: 8     
+          entity_id: sensor.home_ichicane_distance #proximity.danny_home_proximity
+          below: 8000    
         - condition: state
           entity_id: input_boolean.office_aircon_disabled_day  
-          below: off             
+          state: 'off'    
+        - condition: state
+          entity_id: climate.office_aircon
+          state: 'off'              
         - condition: not
           conditions:
             - condition: state
@@ -289,11 +310,14 @@
           entity_id: sensor.office_temperature
           above: 25          
         - condition: numeric_state
-          entity_id: proximity.danny_home_proximity
-          below: 8     
+          entity_id: sensor.home_ichicane_distance #proximity.danny_home_proximity
+          below: 8000     
         - condition: state
           entity_id: input_boolean.office_aircon_disabled_day  
-          below: off                 
+          state: 'off'             
+        - condition: state
+          entity_id: climate.office_aircon
+          state: 'off'              
         - condition: not
           conditions:
             - condition: state
@@ -317,3 +341,28 @@
              destructive: true           
            - action: 'DO_NOTHING'
              title: 'Do nothing'    
+
+#--------------------Switch Loungeroom aircon to swing momentarily when turned on------------------------
+
+- alias: 'Aircon Loungeroom Turn On Flick Swing On and Off'
+  id: aircon_loungeroom_flick_swing_on_off
+  trigger:
+    platform: state
+    entity_id: climate.loungeroom_aircon
+    from: 'off'
+  condition:
+    - condition: template
+      value_template:  "{{ is_state_attr('climate.loungeroom_aircon', 'swing_mode', 'static') }}"       
+
+  action:
+    - service: climate.set_swing_mode
+      target:
+        entity_id: climate.loungeroom_aircon
+      data:
+        swing_mode: swing
+    - delay: 00:00:02
+    - service: climate.set_swing_mode
+      target:
+        entity_id: climate.loungeroom_aircon
+      data:
+        swing_mode: static

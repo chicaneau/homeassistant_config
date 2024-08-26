@@ -1,0 +1,53 @@
+- sensor:
+  #chicane_pc_idle_minutes:
+  - name: "Chicane PC Idle Minutes"
+    state: " {{ ((as_timestamp(now()) - as_timestamp(states('sensor.chicane_lastactive'))) / 60) | round(2) }} "
+    unit_of_measurement: "mins"
+    availability: " {{ not(is_state('sensor.chicane_lastactive','unavailable') or is_state('sensor.chicane_lastactive','unknown')) }} "
+
+### Chicane Active ###
+  #chicane_active:
+  - name: 'Chicane Active'
+    state: >
+      {% if as_timestamp(states.sensor.chicane_lastactive.last_updated) > as_timestamp(now())-7 %}
+        {{  'on' }}
+      {% else %}
+        {{ 'off' }}
+      {% endif %}
+    availability: " {{ states.sensor.chicane_lastactive.last_updated != 'unknown' and states.sensor.chicane_lastactive.last_updated != 'unavailable' }} "
+
+  #server_raid_capacity:
+  - name: "Server RAID Capacity"
+    state: " {{ state_attr('sensor.server_storage_g','UsedSpacePercentage') }} "
+    unit_of_measurement: "%"
+    icon: mdi:harddisk   
+    availability: " {{ is_number(state_attr('sensor.server_storage_g','UsedSpacePercentage')) }} "  
+
+  #server_raid_free:
+  - name: "Server RAID Free"
+    state: " {{ (state_attr('sensor.server_storage_g','AvailableSpaceMB') / 1024)|round(2) }} "
+    unit_of_measurement: "GB"
+    icon: mdi:harddisk-plu 
+    availability: " {{ is_number(state_attr('sensor.server_storage_g','AvailableSpaceMB')) }} "  
+     
+
+  #server_torrents_capacity:
+  - name: "Server Torrents Capacity"
+    state: " {{ state_attr('sensor.server_storage_d','UsedSpacePercentage') }} "
+    unit_of_measurement: "%"
+    icon: mdi:harddisk  
+    availability: " {{ is_number(state_attr('sensor.server_storage_d','UsedSpacePercentage')) }} "  
+
+    #server_torrents_free:
+  - name: "Server Torrents Free"
+    state: " {{ (state_attr('sensor.server_storage_d','AvailableSpaceMB') / 1024)|round(2) }} "
+    unit_of_measurement: "GB"
+    icon: mdi:harddisk-plu
+    availability: " {{ is_number(state_attr('sensor.server_storage_d','AvailableSpaceMB')) }} "
+
+    #server_ram_free:
+  - name: "Server RAM Free"
+    state: " {{ ((states('sensor.server_ram_capacity')|float * (100-states('sensor.server_ram')|float)) / 1024 / 1024 / 1024 /100)|round(2) }} "
+    unit_of_measurement: "GB"
+    icon: mdi:memory    
+    availability: " {{ is_number(states('sensor.server_ram_capacity')) and is_number(states('sensor.server_ram')) }} "

@@ -119,15 +119,15 @@
   default_sleep_mode: "-1" #optional - default "-1" string value
   
 - platform: tasmota_irhvac
-  name: "Gym Aircon"
-  command_topic: "cmnd/gym/irhvac"
+  name: "Theatre Aircon"
+  command_topic: "cmnd/theatre/irhvac"
   # Pick one of the following:
   # State is updated when the tasmota device receives an IR signal (includes own transmission and original remote)
   # useful when a normal remote is in use alongside the tasmota device, may be less reliable than the second option.
   #state_topic: "tele/bedroom/RESULT"
   # State is updated when the tasmota device completes IR transmissionm, should be pretty reliable.
-  state_topic: "stat/gym/RESULT"
-  temperature_sensor: sensor.gym_temperature
+  state_topic: "stat/theatre/RESULT"
+  temperature_sensor: sensor.theatre_temperature
   vendor: "FUJITSU_AC"
   min_temp: 18 #optional - default 16 int value
   max_temp: 28 #optional - default 32 int value
@@ -241,7 +241,7 @@
 - platform: smartir
   name: Lounge AC 2
   unique_id: office_ac_2
-  device_code: 1281 #1287
+  device_code: 1294 #1281 #1287
   controller_data: remote.lounge_broadlink_remote_remote
   temperature_sensor: sensor.loungeroom_temperature
   #humidity_sensor: sensor.loungeroom_humidity

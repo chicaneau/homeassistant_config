@@ -68,28 +68,28 @@ sensor:
 #    device_class: pressure
 #    unit_of_measurement: "hPa"
 
-  - name: "Gym Temperature"
-    state_topic: "tele/gym/SENSOR"
+  - name: "Theatre Temperature"
+    state_topic: "tele/theatre/SENSOR"
     value_template: "{{ value_json['BME280'].Temperature }}"
-    availability_topic: "tele/gym/LWT"
+    availability_topic: "tele/theatre/LWT"
     payload_available: "Online"
     payload_not_available: "Offline"
     device_class: temperature
     unit_of_measurement: "°C"
 
-  - name: "Gym Humidity"
-    state_topic: "tele/gym/SENSOR"
+  - name: "Theatre Humidity"
+    state_topic: "tele/theatre/SENSOR"
     value_template: "{{ value_json['BME280'].Humidity }}"
-    availability_topic: "tele/gym/LWT"
+    availability_topic: "tele/theatre/LWT"
     payload_available: "Online"
     payload_not_available: "Offline"
     device_class: humidity
     unit_of_measurement: "%"
 
-  - name: "Gym Pressure"
-    state_topic: "tele/gym/SENSOR"
+  - name: "Theatre Pressure"
+    state_topic: "tele/theatre/SENSOR"
     value_template: "{{ value_json['BME280'].Pressure }}"
-    availability_topic: "tele/gym/LWT"
+    availability_topic: "tele/theatre/LWT"
     payload_available: "Online"
     payload_not_available: "Offline"
     unit_of_measurement: "hPa"
@@ -122,59 +122,59 @@ sensor:
     unit_of_measurement: "hPa"
     device_class: pressure
 
-  - name: "Outside Temperature"
-    state_topic: "tele/outside_temp/SENSOR"
-    value_template: "{{ value_json['BME280'].Temperature }}"
-    availability_topic: "tele/outside_temp/LWT"
-    payload_available: "Online"
-    payload_not_available: "Offline"
-    device_class: temperature
-    unit_of_measurement: "°C"
+#  - name: "Outside Temperature"
+#    state_topic: "tele/outside_temp/SENSOR"
+#    value_template: "{{ value_json['BME280'].Temperature }}"
+#    availability_topic: "tele/outside_temp/LWT"
+#    payload_available: "Online"
+#    payload_not_available: "Offline"
+#    device_class: temperature
+#    unit_of_measurement: "°C"
+#
+#  - name: "Outside Pressure"
+#    state_topic: "tele/outside_temp/SENSOR"
+#    value_template: "{{ value_json['BME280'].Pressure }}"
+#    availability_topic: "tele/outside_temp/LWT"
+#    payload_available: "Online"
+#    payload_not_available: "Offline"
+#    unit_of_measurement: "hPa"
+#    device_class: pressure
+#
+#  - name: "Outside Humidity"
+#    state_topic: "tele/outside_temp/SENSOR"
+#    value_template: "{{ value_json['BME280'].Humidity }}"
+#    availability_topic: "tele/outside_temp/LWT"
+#    payload_available: "Online"
+#    payload_not_available: "Offline"
+#    device_class: humidity
+#    unit_of_measurement: "%"
 
-  - name: "Outside Pressure"
-    state_topic: "tele/outside_temp/SENSOR"
-    value_template: "{{ value_json['BME280'].Pressure }}"
-    availability_topic: "tele/outside_temp/LWT"
-    payload_available: "Online"
-    payload_not_available: "Offline"
-    unit_of_measurement: "hPa"
-    device_class: pressure
-
-  - name: "Outside Humidity"
-    state_topic: "tele/outside_temp/SENSOR"
-    value_template: "{{ value_json['BME280'].Humidity }}"
-    availability_topic: "tele/outside_temp/LWT"
-    payload_available: "Online"
-    payload_not_available: "Offline"
-    device_class: humidity
-    unit_of_measurement: "%"
-
-  - name: "Office Temperature"
-    state_topic: "tele/office/SENSOR"
-    value_template: "{{ value_json['BME280'].Temperature }}"
-    availability_topic: "tele/office/LWT"
-    payload_available: "Online"
-    payload_not_available: "Offline"
-    device_class: temperature
-    unit_of_measurement: "°C"
-
-  - name: "Office Pressure"
-    state_topic: "tele/office/SENSOR"
-    value_template: "{{ value_json['BME280'].Pressure }}"
-    availability_topic: "tele/office/LWT"
-    payload_available: "Online"
-    payload_not_available: "Offline"
-    unit_of_measurement: "hPa"
-    device_class: pressure
-
-  - name: "Office Humidity"
-    state_topic: "tele/office/SENSOR"
-    value_template: "{{ value_json['BME280'].Humidity }}"
-    availability_topic: "tele/office/LWT"
-    payload_available: "Online"
-    payload_not_available: "Offline"
-    device_class: humidity
-    unit_of_measurement: "%"
+#  - name: "Office Temperature"
+#    state_topic: "tele/office/SENSOR"
+#    value_template: "{{ value_json['BME280'].Temperature }}"
+#    availability_topic: "tele/office/LWT"
+#    payload_available: "Online"
+#    payload_not_available: "Offline"
+#    device_class: temperature
+#    unit_of_measurement: "°C"
+#
+#  - name: "Office Pressure"
+#    state_topic: "tele/office/SENSOR"
+#    value_template: "{{ value_json['BME280'].Pressure }}"
+#    availability_topic: "tele/office/LWT"
+#    payload_available: "Online"
+#    payload_not_available: "Offline"
+#    unit_of_measurement: "hPa"
+#    device_class: pressure
+#
+#  - name: "Office Humidity"
+#    state_topic: "tele/office/SENSOR"
+#    value_template: "{{ value_json['BME280'].Humidity }}"
+#    availability_topic: "tele/office/LWT"
+#    payload_available: "Online"
+#    payload_not_available: "Offline"
+#    device_class: humidity
+#    unit_of_measurement: "%"
 
   - name: "Garage Temperature"
     state_topic: "garage/stats/temperature"
@@ -191,15 +191,15 @@ sensor:
     unit_of_measurement: "hPa"
 
 light:
-  - name: Gym
-    command_topic: "gymlights/lights/cmnd/POWER"
-    availability_topic: "gymlights/lights/tele/LWT"
-    state_topic: "gymlights/lights/tele/STATE"
-    state_value_template: "{{ value_json.POWER }}"
-    payload_on: "ON"
-    payload_off: "OFF"
-    payload_available: "Online"
-    payload_not_available: "Offline"
+#  - name: Theatre
+#    command_topic: "theatrelights/lights/cmnd/POWER"
+#    availability_topic: "theatrelights/lights/tele/LWT"
+#    state_topic: "theatrelights/lights/tele/STATE"
+#    state_value_template: "{{ value_json.POWER }}"
+#    payload_on: "ON"
+#    payload_off: "OFF"
+#    payload_available: "Online"
+#    payload_not_available: "Offline"
 
   - name: Outside Real
     command_topic: "outside/lights/cmnd/POWER"

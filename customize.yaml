@@ -25,8 +25,8 @@ switch.racing_pc:
   icon: mdi:steering
 switch.coffee_machine:
   icon: mdi:coffee
-switch.bedroom_heater:
-  icon: mdi:radiator
+#switch.bedroom_heater:
+#  icon: mdi:radiator
 sensor.bom_sunshine_coast_rain_today:
   icon: mdi:weather-rainy
 sensor.bom_sunshine_coast_wind_direction:
@@ -66,8 +66,8 @@ binary_sensor.door_outside_rear:
   friendly_name: Door Sensor 1
 light.bathroom:
   friendly_name: Bathroom Light
-sensor.outside_humidity:
-  friendly_name: Outside Humidity
+#sensor.outside_humidity:
+#  friendly_name: Outside Humidity
 sensor.hacs:
   friendly_name: HACS Package Updates
 sensor.home_chicane_me:

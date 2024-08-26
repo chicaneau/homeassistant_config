@@ -101,26 +101,26 @@ lounge_air_fan_high:
         entity_id: climate.loungeroom_aircon
         fan_mode: 'high'
 
-gym_air_fan_low:
-  alias: 'Gym Aircon Fan Low'
+theatre_air_fan_low:
+  alias: 'Theatre Aircon Fan Low'
   sequence:
     - service: climate.set_fan_mode
       data:
-        entity_id: climate.gym_aircon
+        entity_id: climate.theatre_aircon
         fan_mode: 'low'
-gym_air_fan_medium:  
-  alias: 'Gym Aircon Fan Medium'
+theatre_air_fan_medium:  
+  alias: 'Theatre Aircon Fan Medium'
   sequence:
     - service: climate.set_fan_mode
       data:
-        entity_id: climate.gym_aircon
+        entity_id: climate.theatre_aircon
         fan_mode: 'medium'
-gym_air_fan_high:
-  alias: 'Gym Aircon Fan High'
+theatre_air_fan_high:
+  alias: 'Theatre Aircon Fan High'
   sequence:
     - service: climate.set_fan_mode
       data:
-        entity_id: climate.gym_aircon
+        entity_id: climate.theatre_aircon
         fan_mode: 'high'
 
 #bedroom_air_fan_low:
@@ -228,8 +228,8 @@ roborock_clean_office:
         params:
           - 19
 
-roborock_clean_gym:
-  alias: 'Vacuum Gym'
+roborock_clean_theatre:
+  alias: 'Vacuum Theatre'
   sequence:
     - service: vacuum.send_command
       entity_id: vacuum.roborock_s6_pure

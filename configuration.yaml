@@ -46,7 +46,7 @@ automation: !include_dir_merge_list automation/
 
 scene: !include scenes.yaml
 
-map:
+#map:
 
 zeroconf:
 
@@ -161,9 +161,10 @@ zha:
   zigpy_config:
     ota:
       otau_directory: /config/zigpy_ota
-      ikea_provider: true 
+#      ikea_provider: true 
+  custom_quirks_path: /config/custom_zha_quirks/      
 
-#zha_toolkit:
+zha_toolkit:
 
 #hue:
 #  bridges:
@@ -211,7 +212,7 @@ api:
 
 logger:
   default: error
- # logs:
+  #logs:
     #homeassistant.components.google_assistant: debug
     #google_assistant: debug
     #custom_components.zha_toolkit: debug
@@ -220,7 +221,7 @@ logger:
     #homeassistant.components.zha: debug
     #bellows.zigbee.application: debug
     #bellows.ezsp: debug
-    #zigpy: debug
+   # zigpy: debug
     #zigpy_deconz.zigbee.application: debug
     #zigpy_deconz.api: debug
     #zigpy_xbee.zigbee.application: debug
@@ -287,8 +288,6 @@ template: !include_dir_merge_list template/
   #sensor: !include_dir_merge_list template_sensor/
   
 
-
-
 #circadian_lighting:
 
 adaptive_lighting:
@@ -319,19 +318,19 @@ adaptive_lighting:
 
 smartir:
 
-proximity:
-  danny_home_proximity:
-    zone: home
-    devices:
-      - device_tracker.ichicane
-    tolerance: 50
-    unit_of_measurement: km
-  liz_home_proximity:
-    zone: home
-    devices:
-      - device_tracker.duffel
-    tolerance: 50
-    unit_of_measurement: km    
+#proximity:
+#  danny_home_proximity:
+#    zone: home
+#    devices:
+#      - device_tracker.ichicane
+#    tolerance: 50
+#    unit_of_measurement: km
+#  liz_home_proximity:
+#    zone: home
+#    devices:
+#      - device_tracker.duffel
+#    tolerance: 50
+#    unit_of_measurement: km    
 
 #garbage_collection:
 #  sensors:
@@ -387,21 +386,21 @@ input_boolean:
     name: Office Aircon Disabled for Day
 
 input_number:
-  heater_on_below_temp:
-    name: "Heater On Below"
-    min: 16
-    max: 24
-    step: 0.5
-    unit_of_measurement: "°C"
-    icon: mdi:snowman
+  #heater_on_below_temp:
+  #  name: "Heater On Below"
+  #  min: 16
+  #  max: 24
+  #  step: 0.5
+  #  unit_of_measurement: "°C"
+  #  icon: mdi:snowman
 
-  heater_off_above_temp:
-    name: "Heater Off Above"
-    min: 20
-    max: 26
-    step: 0.5
-    unit_of_measurement: "°C"
-    icon: mdi:hot-tub
+  #heater_off_above_temp:
+  #  name: "Heater Off Above"
+  #  min: 20
+  #  max: 26
+  #  step: 0.5
+  #  unit_of_measurement: "°C"
+  #  icon: mdi:hot-tub
 
   test_num:
     name: "test num"
@@ -447,10 +446,10 @@ google_assistant:
       name: Loungeroom Aircon
       expose: true
       room: Lounge Room
-    climate.gym_aircon:
-      name: Gym Aircon
+    climate.theatre_aircon:
+      name: Theatre Aircon
       expose: true
-      room: Gym
+      room: Theatre
     climate.office_aircon:
       name: Office Aircon
       expose: true
@@ -483,10 +482,10 @@ google_assistant:
       name: Dining Light
       expose: true
       room: Dining Room
-    light.gym:
-      name: Gym Light
+    light.theatre:
+      name: Theatre Lights
       expose: true
-      room: Gym
+      room: Theatre
     light.niche:
       name: Niche Light
       expose: true
@@ -536,6 +535,10 @@ google_assistant:
       name: Pool Lights
       expose: true
       room: Pool
+    switch.fairy_lights:
+      name: Fairy Lights
+      expose: true
+      room: Outside
       # light.pantry:
       #   name: Pantry Light
       #   expose: true
@@ -544,15 +547,17 @@ google_assistant:
 homekit:
   #auto_start: false
   entity_config:
-    sensor.outside_temperature:
-      name: Outside Temperature
-    sensor.outside_humidity:
-      name: Outside Humidity
+#    sensor.outside_temperature:
+#      name: Outside Temperature
+#    sensor.outside_humidity:
+#      name: Outside Humidity
     binary_sensor.door_outside_rear:
       name: Outside Door
     switch.mozzie_zapper:
       type: outlet
     switch.cooking_light:
+      type: outlet
+    switch.fairy_lights:
       type: outlet
     light.dining_room:
       name: Dining Rooms Lights
@@ -631,6 +636,7 @@ homekit:
       - switch.mozzie_zapper
       - switch.back_sprinkler
       - switch.pool_lights
+      - switch.fairy_lights
       - light.bathroom
       - light.loungeroom_1
       - light.loungeroom_2
@@ -639,7 +645,7 @@ homekit:
       - light.kitchen_1
       - light.kitchen_2
       - light.outside
-      - light.gym
+      - light.theatre
       - light.niche
       - light.dining_room
       - light.garage
@@ -653,16 +659,16 @@ homekit:
       - light.hallway_2
       - light.office
       - sensor.garage_temperature
-      - sensor.gym_temperature
+      - sensor.theatre_temperature
       - sensor.bedroom_temperature
       - sensor.loungeroom_temperature
-      - sensor.outside_temperature
+#      - sensor.outside_temperature
       - sensor.pantry_temperature
       - sensor.garage_humidity
-      - sensor.gym_humidity
+      - sensor.theatre_humidity
       - sensor.bedroom_humidity
       - sensor.loungeroom_humidity
-      - sensor.outside_humidity
+#      - sensor.outside_humidity
       - sensor.pantry_humidity    
 
 #miio_gateway:

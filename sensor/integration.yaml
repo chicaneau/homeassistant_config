@@ -1,0 +1,13 @@
+  - platform: integration
+    source: sensor.energy_grid_export
+    name: Energy Grid Export Total
+    unique_id: energy_grid_export_total
+    unit_prefix: k
+    round: 2
+
+  - platform: integration
+    source: sensor.energy_grid_import
+    name: Energy Grid Import Total
+    unique_id: energy_grid_import_total
+    unit_prefix: k
+    round: 2    

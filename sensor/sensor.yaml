@@ -128,28 +128,28 @@
   name: Loungeroom Mould
   indoor_temp_sensor: sensor.loungeroom_temperature
   indoor_humidity_sensor: sensor.loungeroom_humidity
-  outdoor_temp_sensor: sensor.outside_temperature
+  outdoor_temp_sensor: sensor.weather_pws_temperature
   calibration_factor: 2
 
 - platform: mold_indicator
   name: Bedroom Mould
   indoor_temp_sensor: sensor.bedroom_temperature
   indoor_humidity_sensor: sensor.bedroom_humidity
-  outdoor_temp_sensor: sensor.outside_temperature
+  outdoor_temp_sensor: sensor.weather_pws_temperature
   calibration_factor: 2
 
 - platform: mold_indicator
-  name: Gym Mould
-  indoor_temp_sensor: sensor.gym_temperature
-  indoor_humidity_sensor: sensor.gym_humidity
-  outdoor_temp_sensor: sensor.outside_temperature
+  name: Theatre Mould
+  indoor_temp_sensor: sensor.theatre_temperature
+  indoor_humidity_sensor: sensor.theatre_humidity
+  outdoor_temp_sensor: sensor.weather_pws_temperature
   calibration_factor: 2
 
 - platform: mold_indicator
   name: Garage Mould
   indoor_temp_sensor: sensor.garage_temperature
   indoor_humidity_sensor: sensor.garage_humidity
-  outdoor_temp_sensor: sensor.outside_temperature
+  outdoor_temp_sensor: sensor.weather_pws_temperature
   calibration_factor: 2
 
 #- platform: version
@@ -310,308 +310,16 @@
   scan_interval: 180 #3 mins
   force_update: true
 
-- platform: template
-  sensors:
+#- platform: template
+#  sensors:
     
-    weather_pws_precip_month:
-      friendly_name: Rain This Month
-      value_template: >-
-       {{ states('input_number.weather_pws_precip_month') | float + states('sensor.weather_pws_precip_12am') | float }}
-  
- #        {% if states('sensor.weather_pws_precip_month') == 'unknown' or states('sensor.weather_pws_precip_12am') == 'unknown' %}
- #         unknown
- #        {% elif is_state('sensor.weather_pws_precip_month','unavailable') or is_state('sensor.weather_pws_precip_12am','unavailable') %}
- #         unknown
- #        {% else %}
- #        
- #        {% endif %}
-#
-#        {%- if now().strftime('%T') < strptime('23:59:58', '%T') and now().strftime('%T') >= strptime('00:00:00', '%T') -%}
-#        {{ states.input_number.weather_pws_precip_month.state | float + states.sensor.weather_pws_precip_12am.state | float }}
-#        {%- else -%}
-#        {{ states.input_number.weather_pws_precip_month.state | float }}
-#        {%- endif -%}
-      unit_of_measurement: "mm"
+   
 
-    weather_pws_precip_12am:
-      friendly_name: Rain Since 12AM
-      value_template: '{{ states.sensor.caloundra_west_pws.attributes["observations"][0]["metric"]["precipTotal"] }}'
-      unit_of_measurement: "mm"
-
-    weather_pws_precip_rate:
-      friendly_name: Rain Rate
-      value_template: '{{ states.sensor.caloundra_west_pws.attributes["observations"][0]["metric"]["precipRate"] }}'
-      unit_of_measurement: "mm/hr"  
-
-    weather_pws_wind_speed:
-      friendly_name: Wind Speed
-      value_template: '{{ states.sensor.caloundra_west_pws.attributes["observations"][0]["metric"]["windSpeed"] }}'
-      unit_of_measurement: "km/h"  
-
-    weather_pws_wind_gust:
-      friendly_name: Wind Gust
-      value_template: '{{ states.sensor.caloundra_west_pws.attributes["observations"][0]["metric"]["windGust"] }}'
-      unit_of_measurement: "km/h"        
-
-    weather_pws_wind_dir:
-      friendly_name: Wind Direction
-      value_template: >
-        {% set direction = ['N','NNE','NE','ENE','E','ESE','SE','SSE','S','SSW','SW','WSW','W','WNW','NW','NNW','N'] %}
-        {% set degree = states.sensor.caloundra_west_pws.attributes["observations"][0]["winddir"]|float %}
-        {{ direction[((degree+11.25)/22.5)|int] }}
-
-    weather_pws_temperature:
-      friendly_name: Outside Temperature
-      value_template: '{{ states.sensor.caloundra_west_pws.attributes["observations"][0]["metric"]["temp"] }}'
-      unit_of_measurement: "°C" 
-
-    weather_pws_humidity:
-      friendly_name: Outside Humidity
-      value_template: '{{ states.sensor.caloundra_west_pws.attributes["observations"][0]["humidity"] }}'
-      unit_of_measurement: "%"        
-
-      #unit_of_measurement: "°"       
-
-#    recycling_bin_today_old:
-#      friendly_name: Recycling Bin Today Old
-#      value_template: >-
-#        {% if is_state('sensor.recycling_bin', 'today') %}
-#          Today
-#        {% elif not is_state('sensor.recycling_bin', 'Today') %}
-#          Not Today
-#        {% else %}
-#          failed
-#        {% endif %}
-#    normal_bin_today_old:
-#      friendly_name: Normal Bin Today Old
-#      value_template: >-
-#        {% if is_state('sensor.normal_bin', 'today') %}
-#          Today
-#        {% elif not is_state('sensor.normal_bin', 'today') %}
-#          Not Today
-#        {% else %}
-#          failed
-#        {% endif %}
-  
+    
 
 
-#    server_raid_capacity:
-#       friendly_name: Server RAID Capacity
-#       value_template: >
-#         {{ ((states.sensor.server_raid_used.state|int * states.sensor.server_raid_allocation_units.state|int * 100) / (states.sensor.server_raid_size.state|int * states.sensor.server_raid_allocation_units.state|int))|round(2) }}
-#       unit_of_measurement: "%"
-#       icon_template: mdi:harddisk
-    server_raid_capacity:
-       friendly_name: Server RAID Capacity
-      # value_template: >
-      #   {% if states.sensor.server_raid_free_2.state|float > 0 %}
-      #     {{ (((states.sensor.server_raid_size.state|int - states.sensor.server_raid_free_2.state|int) / (states.sensor.server_raid_size.state|int)|round(2)) * 100)|round(2) }}
-      #   {% endif %}
-       value_template: >-
-        {% if states.sensor.server_storage_g.attributes.UsedSpacePercentage is not defined %}
-         unknown
-        {% elif is_state_attr('sensor.server_storage_g','UsedSpacePercentage','unknown') or is_state_attr('sensor.server_storage_g','UsedSpacePercentage','unavailable') %}
-         unknown
-        {% else %}
-         {{ state_attr('sensor.server_storage_g','UsedSpacePercentage') }}
-        {% endif %}
-       unit_of_measurement: "%"
-       icon_template: mdi:harddisk     
-#    server_raid_free:
-#       friendly_name: Server RAID Free
-#       value_template: >
-#         {{ (((states.sensor.server_raid_size.state|int * states.sensor.server_raid_allocation_units.state|int) - (states.sensor.server_raid_used.state|int * states.sensor.server_raid_allocation_units.state|int)) / 1024 / 1024 / 1024)|round(2) }}
-#       unit_of_measurement: "GB"
-#       icon_template: mdi:harddisk-plu 
-    server_raid_free:
-       friendly_name: Server RAID Free
-      # value_template: >
-      #   {% if states.sensor.server_raid_free_2.state|float > 0 %}
-      #     {{ (states.sensor.server_raid_free_2.state|int / 1024 / 1024 / 1024)|round(2) }}
-      #   {% endif %}
-       value_template: >-
-        {% if states.sensor.server_storage_g.attributes.AvailableSpaceMB is not defined %}
-         unknown
-        {% elif is_state_attr('sensor.server_storage_g','AvailableSpaceMB','unknown') or is_state_attr('sensor.server_storage_g','AvailableSpaceMB','unavailable') %}
-         unknown
-        {% else %}
-         {{ (state_attr('sensor.server_storage_g','AvailableSpaceMB') / 1024)|round(2) }}
-        {% endif %}
-       unit_of_measurement: "GB"
-       icon_template: mdi:harddisk-plu  
-#    server_torrents_capacity:
-#       friendly_name: Server Torrents Capacity
-#       value_template: >
-#         {{ ((states.sensor.server_torrents_used.state|int * states.sensor.server_torrents_allocation_units.state|int * 100) / (states.sensor.server_torrents_size.state|int * states.sensor.server_torrents_allocation_units.state|int))|round(2) }}
-#       unit_of_measurement: "%"
-#       icon_template: mdi:harddisk
-    server_torrents_capacity:
-       friendly_name: Server Torrents Capacity
-       #value_template: >
-       # {% if states.sensor.server_torrents_free_2.state|float > 0 %}
-       #   {{ (((states.sensor.server_torrents_size.state|int - states.sensor.server_torrents_free_2.state|int) / (states.sensor.server_torrents_size.state|int)|round(2)) * 100)|round(2) }}
-       # {% endif %}
-       value_template: >-
-        {% if states.sensor.server_storage_e.attributes.UsedSpacePercentage is not defined %}
-         unknown
-        {% elif is_state_attr('sensor.server_storage_e','UsedSpacePercentage','unknown') or is_state_attr('sensor.server_storage_e','UsedSpacePercentage','unavailable') %}
-         unknown
-        {% else %}
-         {{ state_attr('sensor.server_storage_e','UsedSpacePercentage') }}
-        {% endif %}
-       unit_of_measurement: "%"
-       icon_template: mdi:harddisk       
-#    server_torrents_free:
-#       friendly_name: Server Torrents Free
-#       value_template: >
-#         {{ (((states.sensor.server_torrents_size.state|int * states.sensor.server_torrents_allocation_units.state|int) - (states.sensor.server_torrents_used.state|int * states.sensor.server_torrents_allocation_units.state|int)) / 1024 / 1024 / 1024)|round(2) }}
-#       unit_of_measurement: "GB"
-#       icon_template: mdi:harddisk-plu 
-    server_torrents_free:
-       friendly_name: Server Torrents Free
-       #value_template: >
-       #  {% if states.sensor.server_torrents_free_2.state|float > 0 %}
-       #    {{ (states.sensor.server_torrents_free_2.state|int / 1024 / 1024 / 1024)|round(2) }}
-       #  {% endif %}
-       value_template: >-
-        {% if states.sensor.server_storage_e.attributes.AvailableSpaceMB is not defined %}
-         unknown
-        {% elif is_state_attr('sensor.server_storage_e','AvailableSpaceMB','unknown') or is_state_attr('sensor.server_storage_e','AvailableSpaceMB','unavailable') %}
-         unknown
-        {% else %}
-         {{ (state_attr('sensor.server_storage_e','AvailableSpaceMB') / 1024)|round(2) }}
-        {% endif %}
-       unit_of_measurement: "GB"
-       icon_template: mdi:harddisk-plu        
-#    server_ram_capacity:
-#       friendly_name: Server RAM Capacity
-#       value_template: >
-#         {{ ((states.sensor.server_ram_used.state|int * states.sensor.server_ram_allocation_units.state|int * 100) / (states.sensor.server_ram_size.state|int * states.sensor.server_ram_allocation_units.state|int))|round(2) }}
-#       unit_of_measurement: "%"
-#       icon_template: mdi:memory    
-#    server_ram_capacity:
-#       friendly_name: Server RAM Capacity
-#       value_template: >
-#         {{ ((states.sensor.server_ram_used.state|int * states.sensor.server_ram_allocation_units.state|int * 100) / (states.sensor.server_ram_size.state|int * states.sensor.server_ram_allocation_units.state|int))|round(2) }}
-#       unit_of_measurement: "%"
-#       icon_template: mdi:memory
-#    server_ram_free:
-#       friendly_name: Server RAM Free
-#       value_template: >
-#         {{ (((states.sensor.server_ram_size.state|int * states.sensor.server_ram_allocation_units.state|int) - (states.sensor.server_ram_used.state|int * states.sensor.server_ram_allocation_units.state|int)) / 1024 / 1024 / 1024)|round(2) }}
-#       unit_of_measurement: "GB"
-#       icon_template: mdi:memory
-    server_ram_free:
-       friendly_name: Server RAM Free
-       value_template: >-
-         {% if is_state('sensor.server_ram','unknown') or is_state('sensor.server_ram_capacity','unknown') or is_state('sensor.server_ram','unavailable') or is_state('sensor.server_ram_capacity','unavailable') %}
-          unknown
-         {% else %}
-           {{ ((states('sensor.server_ram_capacity')|float * (100-states('sensor.server_ram')|float)) / 1024 / 1024 / 1024 /100)|round(2) }}
-         {% endif %}
-       unit_of_measurement: "GB"
-       icon_template: mdi:memory
-    outside_door:
-      friendly_name: Outside Door
-      value_template: >-
-        {% if is_state('binary_sensor.door_outside_rear', 'off') %}
-          Closed
-        {% elif is_state('binary_sensor.door_outside_rear', 'on') %}
-          Open
-        {% else %}
-          failed
-        {% endif %}
-      icon_template: >-
-        {% if is_state('binary_sensor.door_outside_rear', 'off') %}
-          mdi:door-closed
-        {% elif is_state('binary_sensor.door_outside_rear', 'on') %}
-          mdi:door-open
-        {% endif %}
-    bedroom_temp_feels_like:
-      friendly_name: 'Bedroom Temp Feels Like'
-      value_template: >-
-       {% if states('sensor.bedroom_temperature') =='unknown' or states('sensor.bedroom_humidity') == 'unknown' %}
-          unknown  
-       {% elif is_state('sensor.bedroom_temperature','unavailable') or is_state('sensor.bedroom_humidity','unavailable') %}
-          unknown       
-       {% elif (states('sensor.bedroom_temperature')|float > 27 and states('sensor.bedroom_humidity')|float > 40) %}
-        {{ (((-42.379 + (2.04901523 * (states('sensor.bedroom_temperature')|float * 1.8 + 32)|float) + (10.14333127 * (states('sensor.bedroom_humidity'))|float) + (-0.22475541 * (states('sensor.bedroom_temperature')|float * 1.8 + 32)|float * (states('sensor.bedroom_humidity'))|float) + ((-6.83783*(10**-3)) * ((states('sensor.bedroom_temperature')|float * 1.8 + 32)|float**2)) + ((-5.481717*(10**-2)) * ((states('sensor.bedroom_humidity'))|float**2)) + ((1.22874*(10**-3)) * ((states('sensor.bedroom_temperature')|float * 1.8 + 32)|float**2) * (states('sensor.bedroom_humidity'))|float) + ((8.5282*(10**-4)) * (states('sensor.bedroom_temperature')|float * 1.8 + 32)|float * ((states('sensor.bedroom_humidity'))|float**2)) + ((-1.99*(10**-6)) * ((states('sensor.bedroom_temperature')|float * 1.8 + 32)|float**2) * ((states('sensor.bedroom_humidity'))|float**2)))|float - 32) * 5 / 9)|round(2) }}
-       {% else %}
-        {{ states('sensor.bedroom_temperature')|round(2) }}
-       {% endif %}
-      unit_of_measurement: "°C"
 
-    gym_temp_feels_like:
-      friendly_name: 'Gym Temp Feels Like'
-      value_template: >-
-       {% if states('sensor.gym_temperature') =='unknown' or states('sensor.gym_humidity') == 'unknown' %}
-          unknown 
-       {% elif is_state('sensor.gym_temperature','unavailable') or is_state('sensor.gym_humidity','unavailable') %}
-          unknown           
-       {% elif (states('sensor.gym_temperature')|float > 27 and states('sensor.gym_humidity')|float > 40) %}
-        {{ (((-42.379 + (2.04901523 * (states('sensor.gym_temperature')|float * 1.8 + 32)|float) + (10.14333127 * (states('sensor.gym_humidity'))|float) + (-0.22475541 * (states('sensor.gym_temperature')|float * 1.8 + 32)|float * (states('sensor.gym_humidity'))|float) + ((-6.83783*(10**-3)) * ((states('sensor.gym_temperature')|float * 1.8 + 32)|float**2)) + ((-5.481717*(10**-2)) * ((states('sensor.gym_humidity'))|float**2)) + ((1.22874*(10**-3)) * ((states('sensor.gym_temperature')|float * 1.8 + 32)|float**2) * (states('sensor.gym_humidity'))|float) + ((8.5282*(10**-4)) * (states('sensor.gym_temperature')|float * 1.8 + 32)|float * ((states('sensor.gym_humidity'))|float**2)) + ((-1.99*(10**-6)) * ((states('sensor.gym_temperature')|float * 1.8 + 32)|float**2) * ((states('sensor.gym_humidity'))|float**2)))|float - 32) * 5 / 9)|round(2) }}
-       {% else %}
-        {{ states('sensor.gym_temperature')|round(2) }}
-       {% endif %}
-      unit_of_measurement: "°C"
 
-    loungeroom_temp_feels_like:
-      friendly_name: 'Loungeroom Temp Feels Like'
-      value_template: >-
-       {% if states('sensor.loungeroom_temperature') =='unknown' or states('sensor.loungeroom_humidity') == 'unknown' %}
-          unknown        
-       {% elif is_state('sensor.loungeroom_temperature','unavailable') or is_state('sensor.loungeroom_humidity','unavailable') %}
-          unknown    
-       {% elif (states('sensor.loungeroom_temperature')|float > 27 and states('sensor.loungeroom_humidity')|float > 40) %}
-        {{ (((-42.379 + (2.04901523 * (states('sensor.loungeroom_temperature')|float * 1.8 + 32)|float) + (10.14333127 * (states('sensor.loungeroom_humidity'))|float) + (-0.22475541 * (states('sensor.loungeroom_temperature')|float * 1.8 + 32)|float * (states('sensor.loungeroom_humidity'))|float) + ((-6.83783*(10**-3)) * ((states('sensor.loungeroom_temperature')|float * 1.8 + 32)|float**2)) + ((-5.481717*(10**-2)) * ((states('sensor.loungeroom_humidity'))|float**2)) + ((1.22874*(10**-3)) * ((states('sensor.loungeroom_temperature')|float * 1.8 + 32)|float**2) * (states('sensor.loungeroom_humidity'))|float) + ((8.5282*(10**-4)) * (states('sensor.loungeroom_temperature')|float * 1.8 + 32)|float * ((states('sensor.loungeroom_humidity'))|float**2)) + ((-1.99*(10**-6)) * ((states('sensor.loungeroom_temperature')|float * 1.8 + 32)|float**2) * ((states('sensor.loungeroom_humidity'))|float**2)))|float - 32) * 5 / 9)|round(2) }}
-       {% else %}
-        {{ states('sensor.loungeroom_temperature')|round(2) }}
-       {% endif %}
-      unit_of_measurement: "°C"
-    outside_temp_feels_like:
-        friendly_name: 'Outside Temp Feels Like'
-        value_template: >-
-         {% if states('sensor.outside_temperature') =='unknown' or states('sensor.outside_humidity') == 'unknown' %}
-          unknown 
-         {% elif is_state('sensor.outside_temperature','unavailable') or is_state('sensor.outside_humidity','unavailable') %}
-          unknown           
-         {% elif (states('sensor.outside_temperature')|float > 27 and states('sensor.outside_humidity')|float > 40) %}
-          {{ (((-42.379 + (2.04901523 * (states('sensor.outside_temperature')|float * 1.8 + 32)|float) + (10.14333127 * (states('sensor.outside_humidity'))|float) + (-0.22475541 * (states('sensor.outside_temperature')|float * 1.8 + 32)|float * (states('sensor.outside_humidity'))|float) + ((-6.83783*(10**-3)) * ((states('sensor.outside_temperature')|float * 1.8 + 32)|float**2)) + ((-5.481717*(10**-2)) * ((states('sensor.outside_humidity'))|float**2)) + ((1.22874*(10**-3)) * ((states('sensor.outside_temperature')|float * 1.8 + 32)|float**2) * (states('sensor.outside_humidity'))|float) + ((8.5282*(10**-4)) * (states('sensor.outside_temperature')|float * 1.8 + 32)|float * (states('sensor.outside_humidity')|float**2)) + ((-1.99*(10**-6)) * ((states('sensor.outside_temperature')|float * 1.8 + 32)|float**2) * ((states('sensor.outside_humidity'))|float**2)))|float - 32) * 5 / 9)|round(2) }}
-         {% else %}
-          {{ states('sensor.outside_temperature')|round(2) }}
-         {% endif %}
-        unit_of_measurement: "°C"
-### GARAGE###### 
-    garage_temp_feels_like:
-        friendly_name: 'Garage Temp Feels Like'
-        value_template: >-
-         {% if states('sensor.garage_temperature') =='unknown' or states('sensor.garage_humidity') == 'unknown' %}
-          unknown
-         {% elif is_state('sensor.garage_temperature','unavailable') or is_state('sensor.garage_humidity','unavailable') %}
-          unknown
-         {% elif (states('sensor.garage_temperature')|float > 27 and states.sensor.garage_humidity.state|float > 40) %}
-          {{ (((-42.379 + (2.04901523 * (states('sensor.garage_temperature')|float * 1.8 + 32)|float) + (10.14333127 * (states.sensor.garage_humidity.state)|float) + (-0.22475541 * (states('sensor.garage_temperature')|float * 1.8 + 32)|float * (states.sensor.garage_humidity.state)|float) + ((-6.83783*(10**-3)) * ((states('sensor.garage_temperature')|float * 1.8 + 32)|float**2)) + ((-5.481717*(10**-2)) * ((states.sensor.garage_humidity.state)|float**2)) + ((1.22874*(10**-3)) * ((states('sensor.garage_temperature')|float * 1.8 + 32)|float**2) * (states.sensor.garage_humidity.state)|float) + ((8.5282*(10**-4)) * (states('sensor.garage_temperature')|float * 1.8 + 32)|float * ((states.sensor.garage_humidity.state)|float**2)) + ((-1.99*(10**-6)) * ((states('sensor.garage_temperature')|float * 1.8 + 32)|float**2) * ((states.sensor.garage_humidity.state)|float**2)))|float - 32) * 5 / 9)|round(2) }}
-         {% else %}
-          {{ states('sensor.garage_temperature')|round(2) }}
-         {% endif %}
-        unit_of_measurement: "°C"
-
-    chicane_pc_idle_minutes:
-      friendly_name: "Chicane PC Idle Minutes"
-      value_template: >-
-         {% if is_state('sensor.chicane_lastactive','unavailable') or is_state('sensor.chicane_lastactive','unknown') %}
-          unknown
-         {% else %}
-          {{ ((as_timestamp(now()) - as_timestamp(states('sensor.chicane_lastactive'))) / 60) | round(2) }}
-         {% endif %}
-      unit_of_measurement: "mins"
-
-### POWER CONSUMPTION###
-    cooking_light_load_power:
-      friendly_name: "Cooking Light Power Use"
-      value_template: "{{ states.switch.cooking_light.attributes.power_cons_electric_power }}"
-      unit_of_measurement: "Wh"
-      device_class: power 
 #    pc_speaker_load_power:
 #      friendly_name: "PC Speaker Power Use"
 #      value_template: "{{ states.switch.pc_speaker.attributes.load_power }}"  
@@ -845,45 +553,10 @@
 #       friendly_name: "BOM Caloundra West Humidity"
 #       value_template: "{{ state_attr('weather.caloundra_west', 'humidity') }}"
 #       unit_of_measurement: "% 
-### CERTIFICATES#### 
-    home_chicane_me:
-      friendly_name: "home.chicane.me"
-      value_template: >
-        {% if states('sensor.cert_expiry_timestamp_home_chicane_me')  != 'unavailable' %}
-        {{ ((as_timestamp(states('sensor.cert_expiry_timestamp_home_chicane_me')) - as_timestamp(now())) /60 /60/24) | round(0) }}
-        {% else %}
-        {{states('sensor.cert_expiry_timestamp_home_chicane_me') }}
-        {% endif %}
-      unit_of_measurement: "days" 
-    chicane_me:
-      friendly_name: "chicane.me"
-      value_template: >
-        {% if states('sensor.cert_expiry_timestamp_chicane_me')  != 'unavailable' %}
-        {{ ((as_timestamp(states('sensor.cert_expiry_timestamp_chicane_me')) - as_timestamp(now())) /60 /60/24) | round(0) }}
-        {% else %}
-        {{states('sensor.cert_expiry_timestamp_chicane_me') }}
-        {% endif %}
-      unit_of_measurement: "days"
-    whitehavendesignhouse_com_au:
-      friendly_name: "whitehavendesignhouse.com.au"
-      value_template: > #"{{ ((as_timestamp(states('sensor.cert_expiry_timestamp_whitehavendesignhouse_com_au')) - as_timestamp(now())) /60 /60/24) | round(0) }}"
-        {% if states('sensor.cert_expiry_timestamp_whitehavendesignhouse_com_au')  != 'unavailable' %}
-        {{ ((as_timestamp(states('sensor.cert_expiry_timestamp_whitehavendesignhouse_com_au')) - as_timestamp(now())) /60 /60/24) | round(0) }}
-        {% else %}
-        {{states('sensor.cert_expiry_timestamp_whitehavendesignhouse_com_au') }}
-        {% endif %}
-      unit_of_measurement: "days"
 
 
-### Chicane Active ###
-    chicane_active:
-      friendly_name: 'Chicane Active'
-      value_template: >
-        {% if as_timestamp(states.sensor.chicane_lastactive.last_updated) > as_timestamp(now())-7 %}
-          {{  'on' }}
-        {% else %}
-          {{ 'off' }}
-        {% endif %}
+
+
 #- platform: statistics
 #  name: today_temp_bom
 #  sampling_size: 150

@@ -1,0 +1,18 @@
+- sensor:
+  #home_chicane_me:
+  - name: "home.chicane.me"
+    state: " {{ ((as_timestamp(states('sensor.cert_expiry_timestamp_home_chicane_me')) - as_timestamp(now())) /60 /60/24) | round(0) }} "
+    unit_of_measurement: "days" 
+    availability: " {{ states('sensor.cert_expiry_timestamp_home_chicane_me') != 'unknown' and states('sensor.cert_expiry_timestamp_home_chicane_me') != 'unavailable' }} "
+
+  #chicane_me:
+  - name: "chicane.me"
+    state: " {{ ((as_timestamp(states('sensor.cert_expiry_timestamp_chicane_me')) - as_timestamp(now())) /60 /60/24) | round(0) }} "
+    unit_of_measurement: "days"
+    availability: " {{ states('sensor.cert_expiry_timestamp_chicane_me') != 'unknown' and states('sensor.cert_expiry_timestamp_chicane_me') != 'unavailable' }} "
+
+  #whitehavendesignhouse_com_au:
+  - name: "whitehavendesignhouse.com.au"
+    state: " {{ ((as_timestamp(states('sensor.cert_expiry_timestamp_whitehavendesignhouse_com_au')) - as_timestamp(now())) /60 /60/24) | round(0) }} "
+    unit_of_measurement: "days"
+    availability: " {{ states('sensor.cert_expiry_timestamp_whitehavendesignhouse_com_au') != 'unknown' and states('sensor.cert_expiry_timestamp_whitehavendesignhouse_com_au') != 'unavailable' }} "
