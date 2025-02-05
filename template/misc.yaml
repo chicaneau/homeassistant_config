@@ -16,3 +16,12 @@
         mdi:door-open
       {% endif %}
     availability: " {{ not(is_state('binary_sensor.door_outside_rear','unavailable') and is_state('binary_sensor.door_outside_rear','unknown')) }} "
+
+  - name: Hallway Adaptive Manual Status
+    state: " {{ state_attr('switch.adaptive_lighting_hallway','manual_control') }} "
+    availability: " {{ not(is_state('switch.adaptive_lighting_hallway','unavailable') and is_state('switch.adaptive_lighting_hallway','unknown')) }} "  
+
+#  - name: Office AC Temperature
+#    unique_id: office_ac_temperature
+#    state: "{{ state_attr('climate.office_aircon','current_temperature') }}"
+#    unit_of_measurement: "°C"     

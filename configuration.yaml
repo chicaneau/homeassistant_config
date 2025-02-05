@@ -143,7 +143,7 @@ recorder:
   db_url: !secret db_url
   purge_keep_days: 31
 
-mobile_app:
+#mobile_app:
 
 ios:
 
@@ -582,6 +582,7 @@ homekit:
       - switch
       - vacuum
       - alarm_control_panel
+      - camera
     exclude_entities:
       #- climate.office_aircon
       - button.chicane_sleep
@@ -631,7 +632,7 @@ homekit:
       - switch.coffee_machine
       - switch.cooking_light
       - switch.danny_s_pc
-      - switch.racing_pc
+      #- switch.racing_pc
       - switch.amiibo_cabinet_switch
       - switch.mozzie_zapper
       - switch.back_sprinkler
@@ -658,6 +659,7 @@ homekit:
       - light.hallway_1
       - light.hallway_2
       - light.office
+      - light.pantry
       - sensor.garage_temperature
       - sensor.theatre_temperature
       - sensor.bedroom_temperature

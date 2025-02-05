@@ -230,10 +230,7 @@
       state_value: false
       friendly_name: Cooking Light
       state: 'off'
-    switch.christmas_tree:
-      icon: mdi:tree
-      friendly_name: Christmas Tree
-      state: 'off'
+
 - id: '1576734523139'
   name: Goodnight
   entities:
@@ -453,6 +450,16 @@
       icon: mdi:theme-light-dark
       friendly_name: 'Adaptive Lighting: Bedroom'
       state: 'off'
+    switch.adaptive_lighting_hallway:
+      brightness_pct:
+      color_temp_kelvin:
+      rgb_color:
+      xy_color:
+      hs_color:
+      sun_position:
+      icon: mdi:theme-light-dark
+      friendly_name: 'Adaptive Lighting: Hallway'
+      state: 'on'      
     switch.cooking_light:
       model: chuangmi.plug.212a01
       lan_ip: 10.0.2.23
@@ -764,7 +771,7 @@
       state: 'off'
     light.theatre:
       state: 'off'
-    light.dining:
+    light.dining_room:
       state: 'off'
     light.outside:
       state: 'off'

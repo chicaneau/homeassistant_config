@@ -556,22 +556,22 @@
     service: switch.turn_off
     entity_id: switch.mozzie_zapper
 
-- alias: 'Cat Fountain Turn off at bedtime'
-  trigger:
-    platform: state
-    entity_id: input_boolean.bedtime_triggered
-    to: 'on'
-  action:
-    service: switch.turn_off
-    entity_id: switch.cat_fountain_switch
-
-- alias: 'Cat Fountain Turn on at morning'
-  trigger:
-    - platform: sun
-      event: sunrise
-  action:
-    service: switch.turn_on
-    entity_id: switch.cat_fountain_switch
+#- alias: 'Cat Fountain Turn off at bedtime'
+#  trigger:
+#    platform: state
+#    entity_id: input_boolean.bedtime_triggered
+#    to: 'on'
+#  action:
+#    service: switch.turn_off
+#    entity_id: switch.cat_fountain_switch
+#
+#- alias: 'Cat Fountain Turn on at morning'
+#  trigger:
+#    - platform: sun
+#      event: sunrise
+#  action:
+#    service: switch.turn_on
+#    entity_id: switch.cat_fountain_switch
 
 
 ###HOLIDAYS####
@@ -880,12 +880,7 @@
         media_content_type: 'music'
       target:
         entity_id: media_player.chicane
-    - service: media_player.play_media
-      data:
-        media_content_id: 'http://10.0.1.4:8123/local/jetsons-doorbell.mp3'
-        media_content_type: 'music'
-      target:
-        entity_id: media_player.gamer  
+ 
     #- service: media_player.turn_on
     #  data:
     #    entity_id: media_player.whole_house 
@@ -1022,84 +1017,6 @@
     - service: light.turn_off
       entity_id: light.kitchen
 
-- alias: Test Hue Dimmer Down
-  trigger:
-    platform: event
-    event_type: hue_event
-    event_data:
-      entity_id: remote.hue_dimmer_switch_1
-      event: 3002
-  condition:
-    condition: and
-    conditions:
-      - condition: state
-        entity_id: light.kitchen
-        state: 'on'
-#    - condition: template
-#      value_template: "{{ trigger.event.data.new_state.state == '3_click_up' }}"
-  action:
-    - service: light.turn_on
-      entity_id: light.kitchen
-      data_template:
-        brightness: '{{states.light.kitchen.attributes.brightness | int - 25}}'
-
-- alias: Test Hue Dimmer Hold Down
-  trigger:
-    platform: event
-    event_type: hue_event
-    event_data:
-      entity_id: remote.hue_dimmer_switch_1
-      event: 3003
-  condition:
-    condition: and
-    conditions:
-      - condition: state
-        entity_id: light.kitchen
-        state: 'on'
-#    - condition: template
-#      value_template: "{{ trigger.event.data.new_state.state == '3_hold_up' }}"
-  action:
-    - service: light.turn_on
-      entity_id: light.kitchen
-      data_template:
-        brightness: >
-          {% if states.light.kitchen.attributes.brightness > 192 %}
-            192
-          {% elif states.light.kitchen.attributes.brightness > 128 %}
-            128
-          {% elif states.light.kitchen.attributes.brightness > 64 %}
-            64
-          {% elif states.light.kitchen.attributes.brightness > 0 %}
-            1
-          {% endif %}
-
-- alias: Test Hue Dimmer Hold Up
-  trigger:
-    platform: event
-    event_type: hue_event
-    event_data:
-      entity_id: remote.hue_dimmer_switch_1
-      event: 2003
-  condition:
-    condition: and
-    conditions:
-      - condition: state
-        entity_id: light.kitchen
-        state: 'on'
-  action:
-    - service: light.turn_on
-      entity_id: light.kitchen
-      data_template:
-        brightness: >
-          {% if states.light.kitchen.attributes.brightness < 64 %}
-            64
-          {% elif states.light.kitchen.attributes.brightness < 128 %}
-            128
-          {% elif states.light.kitchen.attributes.brightness < 192 %}
-            192
-          {% elif states.light.kitchen.attributes.brightness <= 255 %}
-            255
-          {% endif %}
 
 #- alias: Loungeroom Double Click
 #  trigger:
@@ -1538,13 +1455,20 @@
       entity_id: input_boolean.bedtime_triggered
     - service: input_boolean.turn_off
       entity_id: input_boolean.office_aircon_disabled_day      
+    - service: adaptive_lighting.set_manual_control
+      data:
+        entity_id:
+          - switch.adaptive_lighting_kitchen
+          - switch.adaptive_lighting_bedroom
+          - switch.adaptive_lighting_hallway
+          - switch.adaptive_lighting_loungeroom
+        manual_control: false
     - service: switch.turn_on
-      entity_id:
+      entity_id:  
         - switch.adaptive_lighting_kitchen
         - switch.adaptive_lighting_bedroom
         - switch.adaptive_lighting_hallway
         - switch.adaptive_lighting_loungeroom
-
 
 #Roku Emulations
 - id: turn_all_lights_off
@@ -1620,13 +1544,13 @@
 - alias: Server Torrents Low
   trigger:
     - platform: numeric_state
-      entity_id: sensor.server_torrents_free
+      entity_id: sensor.system_monitor_disk_free_data_downloads
       below: 30.0
   action:
     - delay: 00:00:10
     - service: notify.mobile_app_ichicane
       data:
-        message: "Torrent drive in server has {{states.sensor.server_torrents_free.state}} GB Free"
+        message: "Torrent drive in server has {{states.sensor.system_monitor_disk_free_data_downloads.state}} GB Free"
         title: 'Server torrent drive is low!'
 
 - alias: Server RAID Low
@@ -1646,7 +1570,7 @@
   #initial_state: 'on'
   trigger:
     - platform: state
-      entity_id: media_player.loungeroom
+      entity_id: media_player.lounge
       to: 'playing'
   action:
     - service: switch.turn_off
@@ -1772,15 +1696,15 @@
     service: switch.turn_off
     entity_id: switch.back_sprinkler
 
-- id: '1686468739793'
-  alias: Update Map Extractor camera
-  description: ''
-  use_blueprint:
-    path: PiotrMachowski/update_map_extractor.yaml
-    input:
-      mode_to_handle: turn_off_when_docked
-      vacuum: vacuum.roborock_s6_pure
-      camera: camera.xiaomi_cloud_map_extractor
+#- id: '1686468739793'
+#  alias: Update Map Extractor camera
+#  description: ''
+#  use_blueprint:
+#    path: PiotrMachowski/update_map_extractor.yaml
+#    input:
+#      mode_to_handle: turn_off_when_docked
+#      vacuum: vacuum.roborock_s6_pure
+#      camera: camera.xiaomi_cloud_map_extractor
 
 - alias: 'Turn off Power Monitor'
   trigger:
@@ -1806,15 +1730,81 @@
         title: 'Server RAM above 92%'
         message: "Palworld at it again"        
 
-- alias: 'Test Office Temp Zigbee'
-  id: test_office_temp_zigbee
-  trigger:
-    platform: state
-    entity_id: sensor.office_test_temperature
-    to: 'unavailable'
+#- alias: 'Test Office Temp Zigbee'
+#  id: test_office_temp_zigbee
+#  trigger:
+#    platform: state
+#    entity_id: sensor.office_test_temperature
+#    to: 'unavailable'
+#
+#  action:
+#    - service: notify.mobile_app_ichicane
+#      data:
+#        title: 'Office temp died'
+#        message: "he dead"       
 
+- alias: 'Turn off Server RDP Firewall rule'
+  id: TurnoffServerRDPFirewallrule
+  trigger:
+  #  platform: state
+  #  entity_id: switch.pfsense_home_nat_port_forward_rule_1295623043_server_rdp
+  #  to: 'on'  
+  #  for:     
+  #    hours: 18  trigger:
+    platform: time
+    at: '03:00:00'
+  condition:
+    condition: state
+    entity_id: switch.pfsense_home_nat_port_forward_rule_1295623043_server_rdp
+    state: 'on'    
   action:
+    - service: switch.turn_off
+      entity_id: switch.pfsense_home_nat_port_forward_rule_1295623043_server_rdp
     - service: notify.mobile_app_ichicane
       data:
-        title: 'Office temp died'
-        message: "he dead"       
+        message: 'Server RDP open at 3am'
+        title: Disabling Server RDP Firewall Allow! 
+
+- alias: 'Turn off Chicane RDP Firewall rule'
+  id: TurnoffChicaneRDPFirewallrule
+  trigger:
+  #  platform: state
+  #  entity_id: switch.pfsense_home_nat_port_forward_rule_1295623043_server_rdp
+  #  to: 'on'  
+  #  for:     
+  #    hours: 18  trigger:
+    platform: time
+    at: '03:00:00'
+  condition:
+    condition: state
+    entity_id: switch.pfsense_home_nat_port_forward_rule_1295623011_chic_rdp
+    state: 'on'    
+  action:
+    - service: switch.turn_off
+      entity_id: switch.pfsense_home_nat_port_forward_rule_1295623011_chic_rdp
+    - service: notify.mobile_app_ichicane
+      data:
+        message: 'Chicane RDP open at 3am'
+        title: Disabling Chicane RDP Firewall Allow!         
+
+- alias: 'Turn off RTMP Stream Firewall rule'
+  id: TurnoffRTMPStreamFirewallrule
+  trigger:
+  #  platform: state
+  #  entity_id: switch.pfsense_home_nat_port_forward_rule_1295623043_server_rdp
+  #  to: 'on'  
+  #  for:     
+  #    hours: 18  trigger:
+    platform: time
+    at: '03:00:00'
+  condition:
+    condition: state
+    entity_id: switch.pfsense_home_nat_port_forward_rule_1729725645_rtmp_forward
+    state: 'on'    
+  action:
+    - service: switch.turn_off
+      entity_id: switch.pfsense_home_nat_port_forward_rule_1729725645_rtmp_forward
+    - service: notify.mobile_app_ichicane
+      data:
+        message: 'Chicane RTMP Stream at 3am'
+        title: Disabling RTMP Stream Firewall Allow!

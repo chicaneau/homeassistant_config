@@ -31,19 +31,20 @@
     availability: " {{ is_number(state_attr('sensor.server_storage_g','AvailableSpaceMB')) }} "  
      
 
-  #server_torrents_capacity:
-  - name: "Server Torrents Capacity"
-    state: " {{ state_attr('sensor.server_storage_d','UsedSpacePercentage') }} "
-    unit_of_measurement: "%"
-    icon: mdi:harddisk  
-    availability: " {{ is_number(state_attr('sensor.server_storage_d','UsedSpacePercentage')) }} "  
+ ## #server_torrents_capacity:
+ ## - name: "Server Torrents Capacity"
+ ##   state: " {{ state_attr('sensor.server_storage_d','UsedSpacePercentage') }} "
+ ##   unit_of_measurement: "%"
+ ##   icon: mdi:harddisk  
+ ##   availability: " {{ is_number(state_attr('sensor.server_storage_d','UsedSpacePercentage')) }} "  
+##
 
-    #server_torrents_free:
-  - name: "Server Torrents Free"
-    state: " {{ (state_attr('sensor.server_storage_d','AvailableSpaceMB') / 1024)|round(2) }} "
-    unit_of_measurement: "GB"
-    icon: mdi:harddisk-plu
-    availability: " {{ is_number(state_attr('sensor.server_storage_d','AvailableSpaceMB')) }} "
+ #   #server_torrents_free:
+ # - name: "Server Torrents Free"
+ #   state: " {{ (state_attr('sensor.server_storage_d','AvailableSpaceMB') / 1024)|round(2) }} "
+ #   unit_of_measurement: "GB"
+ #   icon: mdi:harddisk-plu
+ #   availability: " {{ is_number(state_attr('sensor.server_storage_d','AvailableSpaceMB')) }} "
 
     #server_ram_free:
   - name: "Server RAM Free"

@@ -1,0 +1,47 @@
+###THEATRE LIGHTS APPLE TV#####
+- alias: 'Theatre Lights off on play'
+  trigger:
+    platform: state
+    entity_id: media_player.theatre
+    to: 'playing'
+
+#  condition:
+#    condition: and
+#    conditions:
+#      - condition: time
+#        before: '23:59:59'
+#        after: '14:00:00'
+##        entity_id: sensor.recycling_bin_today
+#        state: 'Today'
+#      - condition: state
+#        entity_id: input_boolean.danny_bin_alerted
+#        state: 'off'
+  action:
+    - service: light.turn_off
+      entity_id: light.theatre
+      data:
+        transition: 3
+
+- alias: 'Theatre Lights on on pause'
+  trigger:
+    platform: state
+    entity_id: media_player.theatre
+    from: 'playing'
+
+#  condition:
+#    condition: and
+#    conditions:
+#      - condition: time
+#        before: '23:59:59'
+#        after: '14:00:00'
+##        entity_id: sensor.recycling_bin_today
+#        state: 'Today'
+#      - condition: state
+#        entity_id: input_boolean.danny_bin_alerted
+#        state: 'off'
+  action:
+    - service: light.turn_on
+      entity_id: light.theatre
+      data:
+        brightness_pct: 25
+        transition: 3

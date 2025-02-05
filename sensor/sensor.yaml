@@ -155,14 +155,14 @@
 #- platform: version
 #  name: 'Installed HASS Release'
 
-- platform: cert_expiry
-  host: !secret cert1
-
-- platform: cert_expiry
-  host: !secret cert2
-
-- platform: cert_expiry
-  host: !secret cert3
+#- platform: cert_expiry
+#  host: !secret cert1
+#
+#- platform: cert_expiry
+#  host: !secret cert2
+#
+#- platform: cert_expiry
+#  host: !secret cert3
 
   #device_class: temperature
   #unit_of_measurement: "°C"

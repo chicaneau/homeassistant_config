@@ -40,4 +40,5 @@
   - name: Outside Humidity
     unique_id: weather_pws_humidity
     state: "{{ state_attr('sensor.caloundra_west_pws', 'observations')[0]['humidity'] }}"
+    state_class: measurement
     unit_of_measurement: "%"     

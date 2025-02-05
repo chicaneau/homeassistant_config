@@ -218,8 +218,8 @@ views:
         - type: button
           entity: switch.danny_s_pc
           icon: mdi:desktop-classic
-        - type: button
-          entity: switch.racing_pc
+        #- type: button
+        #  entity: switch.racing_pc
          # icon: mdi:google-controller 
         - type: button
           entity: switch.pc_speaker    
@@ -995,7 +995,7 @@ views:
         entities:
           - entity: sensor.coffee_machine_load_power
             name: Coffee Machine
-          - entity: sensor.cooking_light_load_power
+          - entity: sensor.cooking_light_electricalmeasurement
             name: Cooking Light
           - entity: sensor.pc_speaker_load_power
             name: PC Speaker
@@ -1354,6 +1354,34 @@ views:
       - type: vertical-stack
         cards:  
         - type: entities
+          title: Port Forwards  
+          entities: 
+            - entity: switch.port_forward_assetto_corsa
+              name: Assetto Corsa Server on Server
+              icon: mdi:network
+            - entity: switch.pfsense_home_nat_port_forward_rule_1295623043_server_rdp
+              name: Server RDP     
+            - type: divider 
+            - entity: switch.pfsense_home_nat_port_forward_rule_1295623011_chic_rdp
+              name: Chicane RDP
+            - entity: switch.pfsense_home_nat_port_forward_rule_1729725645_rtmp_forward
+              name: RTMP Stream              
+            - entity: switch.pfsense_home_nat_port_forward_rule_1295623072_vm_ssh
+              name: UbuntuVM SSH
+            - entity: switch.pfsense_home_nat_port_forward_rule_1295623100_airvideo
+              name: Air Video
+            - entity: switch.port_forward_ftp
+              name: Server FTP
+              icon: mdi:network
+            - entity: switch.pfsense_home_nat_port_forward_rule_1295623183_ser_qbit_web
+              name: Qbittorrent Web Interface
+            - entity: switch.port_forward_rfactor
+              name: RFactor Server on Server
+              icon: mdi:network
+            - entity: switch.port_forward_sunshine
+              name: Sunshine/Moonlight
+              icon: mdi:network        
+        - type: entities
           title: Server
           show_header_toggle: false
           entities:
@@ -1361,13 +1389,50 @@ views:
             - sensor.server_ram_free
             - sensor.server_raid_capacity
             - sensor.server_raid_free
-            - sensor.server_torrents_capacity
-            - sensor.server_torrents_free
+            - sensor.system_monitor_disk_usage_data_downloads
+            - sensor.system_monitor_disk_free_data_downloads
 
        # - type: history-graph
        #   entities:
        #     - entity: sensor.server_cpu
        #       name: Server CPU Used
+      
+      - type: vertical-stack
+        cards:
+        - type: custom:mini-graph-card
+          name: WAN Inbound Bandwidth
+          entities:
+            - entity: sensor.pfsense_home_interface_wan_inbytes_kilobytes_per_second
+          hours_to_show: 72
+          points_per_hour: 20
+          #color_thresholds:
+          #  - value: 0
+          #    color: "#5DADE2"
+          #  - value: 15
+          #    color: "#5DADE2"
+          #  - value: 24
+          #    color: "#9CCC65"
+          #  - value: 30
+          #    color: "#F44336"
+          show:
+            labels: true      
+        - type: custom:mini-graph-card
+          name: WAN Outbound Bandwidth
+          entities:
+            - entity: sensor.pfsense_home_interface_wan_outbytes_kilobytes_per_second
+          hours_to_show: 72
+          points_per_hour: 20
+          #color_thresholds:
+          #  - value: 0
+          #    color: "#5DADE2"
+          #  - value: 15
+          #    color: "#5DADE2"
+          #  - value: 24
+          #    color: "#9CCC65"
+          #  - value: 30
+          #    color: "#F44336"
+          show:
+            labels: true       
         - type: custom:mini-graph-card
           name: Server CPU Used
           hours_to_show: 72
@@ -1413,70 +1478,7 @@ views:
         #- type: history-graph
         #  entities:
         #    - entity: sensor.server_ram
-        #      name: Server RAM Used
-      
-      - type: vertical-stack
-        cards:
-        - type: entities
-          title: Port Forwards  
-          entities: 
-            - entity: switch.port_forward_assetto_corsa
-              name: Assetto Corsa Server on Server
-              icon: mdi:network
-            - entity: switch.pfsense_home_nat_port_forward_rule_1295623043_server_rdp
-              name: Server RDP     
-            - type: divider 
-            - entity: switch.pfsense_home_nat_port_forward_rule_1295623011_chic_rdp
-              name: Chicane RDP
-            - entity: switch.pfsense_home_nat_port_forward_rule_1295623072_vm_ssh
-              name: UbuntuVM SSH
-            - entity: switch.pfsense_home_nat_port_forward_rule_1295623100_airvideo
-              name: Air Video
-            - entity: switch.port_forward_ftp
-              name: Server FTP
-              icon: mdi:network
-            - entity: switch.pfsense_home_nat_port_forward_rule_1295623183_ser_qbit_web
-              name: Qbittorrent Web Interface
-            - entity: switch.port_forward_rfactor
-              name: RFactor Server on Server
-              icon: mdi:network
-            - entity: switch.port_forward_sunshine
-              name: Sunshine/Moonlight
-              icon: mdi:network
-        - type: custom:mini-graph-card
-          name: WAN Inbound Bandwidth
-          entities:
-            - entity: sensor.pfsense_home_interface_wan_inbytes_kilobytes_per_second
-          hours_to_show: 72
-          points_per_hour: 20
-          #color_thresholds:
-          #  - value: 0
-          #    color: "#5DADE2"
-          #  - value: 15
-          #    color: "#5DADE2"
-          #  - value: 24
-          #    color: "#9CCC65"
-          #  - value: 30
-          #    color: "#F44336"
-          show:
-            labels: true      
-        - type: custom:mini-graph-card
-          name: WAN Outbound Bandwidth
-          entities:
-            - entity: sensor.pfsense_home_interface_wan_outbytes_kilobytes_per_second
-          hours_to_show: 72
-          points_per_hour: 20
-          #color_thresholds:
-          #  - value: 0
-          #    color: "#5DADE2"
-          #  - value: 15
-          #    color: "#5DADE2"
-          #  - value: 24
-          #    color: "#9CCC65"
-          #  - value: 30
-          #    color: "#F44336"
-          show:
-            labels: true                  
+        #      name: Server RAM Used                       
       - type: vertical-stack
         cards:
         - type: custom:mini-graph-card

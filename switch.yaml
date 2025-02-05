@@ -6,10 +6,10 @@
       service: button.press
       entity_id: button.chicane_sleep
 
-  - platform: wake_on_lan
-    mac: !secret racing_pc_mac
-    name: "Racing PC"
-    host: !secret racing_pc_ip      
+  #- platform: wake_on_lan
+  #  mac: !secret racing_pc_mac
+  #  name: "Racing PC"
+  #  host: !secret racing_pc_ip      
 
   - platform: template
     switches:
@@ -46,18 +46,18 @@
     #      service: script.turn_on
     #      data:
     #        entity_id: script.harm_living_turn_off
-    #  christmas_tree:
-    #    friendly_name: 'Christmas Tree'
-    #    value_template: "{{ states.switch.fairy_lights.state == 'on' }}"
-    #    turn_on:
-    #      service: switch.turn_on
-    #      data:
-    #        entity_id: switch.fairy_lights
-    #    turn_off:
-    #      service: switch.turn_off
-    #      data:
-    #        entity_id: switch.fairy_lights
-    #    icon_template: mdi:tree
+      christmas_tree:
+        friendly_name: 'Christmas Tree'
+        value_template: "{{ states.switch.amiibo_cabinet_switch.state == 'on' }}"
+        turn_on:
+          service: switch.turn_on
+          data:
+            entity_id: switch.amiibo_cabinet_switch
+        turn_off:
+          service: switch.turn_off
+          data:
+            entity_id: switch.amiibo_cabinet_switch
+        icon_template: mdi:tree
 
       port_forward_ftp:
         friendly_name: Port Forward FTP
