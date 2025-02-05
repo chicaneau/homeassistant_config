@@ -21,8 +21,8 @@ switch.living_room_harmony_watch_smart_tv:
   icon: mdi:youtube-tv
 switch.dannys_pc:
   icon: mdi:windows
-switch.racing_pc:
-  icon: mdi:steering
+#switch.racing_pc:
+#  icon: mdi:steering
 switch.coffee_machine:
   icon: mdi:coffee
 #switch.bedroom_heater:
