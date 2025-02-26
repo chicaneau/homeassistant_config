@@ -69,19 +69,7 @@
         turn_off: 
           service: script.turn_on
           data:
-              entity_id: script.port_forward_ftp_turn_off
-  
-      port_forward_rfactor:
-        friendly_name: Port Forward rFactor Server
-        value_template: "{{ states.group.port_forward_rfactor_server.state == 'on' }}"
-        turn_on: 
-          service: script.turn_on
-          data:
-              entity_id: script.port_forward_rfactor_turn_on
-        turn_off: 
-          service: script.turn_on
-          data:
-              entity_id: script.port_forward_rfactor_turn_off          
+              entity_id: script.port_forward_ftp_turn_off         
   
       port_forward_sunshine:
         friendly_name: Port Forward Sunshine/Moonlight
@@ -130,29 +118,3 @@
 #      - light.hallway
 #    min_brightness: 20
 
-
-#### GROUPS ####
-#  - platform: group
-#    name: Port Forward FTP
-#    entities:
-#      - switch.pfsense_home_nat_port_forward_rule_1295623160_ftp
-#      - switch.pfsense_home_nat_port_forward_rule_1562559015_ftp_pasv_ports 
-#  - platform: group
-#    name: Port Forward rFactor Server
-#    entities:
-#      - switch.pfsense_home_nat_port_forward_rule_1658297923_rfactor_racing_rig_1
-#      - switch.pfsense_home_nat_port_forward_rule_1658297951_rfactor_racing_rig_2
-#      - switch.pfsense_home_nat_port_forward_rule_1658297969_rfactor_racing_rig_3
-#  - platform: group
-#    name: Port Forward Sunshine/Moonlight
-#    entities:
-#      - switch.pfsense_home_nat_port_forward_rule_1669849028_gamestream_tcp_1
-#      - switch.pfsense_home_nat_port_forward_rule_1669849059_gamestream_tcp_2
-#      - switch.pfsense_home_nat_port_forward_rule_1669849081_gamestream_tcp_3
-#      - switch.pfsense_home_nat_port_forward_rule_1669849146_gamestream_udp_1
-#      - switch.pfsense_home_nat_port_forward_rule_1669849163_gamestream_udp_2
-#  - platform: group
-#    name: Port Forward Assetto Corsa
-#    entities: 
-#      - switch.pfsense_home_nat_port_forward_rule_1641534405_assetto_on_server_http
-#      - switch.pfsense_home_nat_port_forward_rule_1641534374_assetto_on_server
