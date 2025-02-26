@@ -1,0 +1,40 @@
+- platform: netdata
+  host: !secret proxmox_ip
+  name: Proxmox 1
+  resources:
+    load_15:
+      data_group: system.load
+      element: load15
+    load_5:  
+      data_group: system.load
+      element: load5
+    load_1:  
+      data_group: system.load
+      element: load1            
+    cpu_percent_guest:
+      data_group: system.cpu
+      element: guest
+    cpu_percent_system:
+      data_group: system.cpu
+      element: system      
+    ram_used:
+      data_group: system.ram
+      element: used      
+    ram_free:
+      data_group: system.ram
+      element: free                  
+    #cpu_percent_total:
+    #  data_group: system.cpu
+    #  element: user,nice,system,idle,iowait,irq,softirq,steal,guest    
+    #cpu_percent_plex_ct:
+    #  data_group: cgroup_plexct.cpu
+    #  element: user,system
+    #  #cgroup_name: "plexct"
+    #cpu_percent_ubuntuvm:
+    #  data_group: cgroup_qemu_ubuntu1.cpu
+    #  element: user,system
+    #  #cgroup_name: "qemu_ubuntu1"
+    #cpu_percent_winserver:
+    #  data_group: cgroup_qemu_winserver.cpu
+    #  element: user,system
+    #  #cgroup_name: "qemu_winserver"
