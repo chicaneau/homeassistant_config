@@ -18,17 +18,17 @@
 
   #server_raid_capacity:
   - name: "Server RAID Capacity"
-    state: " {{ state_attr('sensor.server_storage_g','UsedSpacePercentage') }} "
+    state: " {{ state_attr('sensor.winserver_storage_g','UsedSpacePercentage') }} "
     unit_of_measurement: "%"
     icon: mdi:harddisk   
-    availability: " {{ is_number(state_attr('sensor.server_storage_g','UsedSpacePercentage')) }} "  
+    availability: " {{ is_number(state_attr('sensor.winserver_storage_g','UsedSpacePercentage')) }} "  
 
   #server_raid_free:
   - name: "Server RAID Free"
-    state: " {{ (state_attr('sensor.server_storage_g','AvailableSpaceMB') / 1024)|round(2) }} "
+    state: " {{ (state_attr('sensor.winserver_storage_g','AvailableSpaceMB') / 1024)|round(2) }} "
     unit_of_measurement: "GB"
     icon: mdi:harddisk-plu 
-    availability: " {{ is_number(state_attr('sensor.server_storage_g','AvailableSpaceMB')) }} "  
+    availability: " {{ is_number(state_attr('sensor.winserver_storage_g','AvailableSpaceMB')) }} "  
      
 
  ## #server_torrents_capacity:
@@ -52,3 +52,9 @@
     unit_of_measurement: "GB"
     icon: mdi:memory    
     availability: " {{ is_number(states('sensor.server_ram_capacity')) and is_number(states('sensor.server_ram')) }} "
+
+  - name: "Proxmox RAM Percent"
+    state: " {{ ((states('sensor.proxmox_1_ram_used')|float / (states('sensor.proxmox_1_ram_free')|float + states('sensor.proxmox_1_ram_used')|float) ) * 100)|round(2) }} "
+    unit_of_measurement: "%"
+    icon: mdi:memory    
+    availability: " {{ is_number(states('sensor.proxmox_1_ram_used')) and is_number(states('sensor.proxmox_1_ram_free')) }} "    
