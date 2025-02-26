@@ -841,7 +841,7 @@
         state: 'on'
   action:
     - service: light.turn_off
-      entity_id: light.garage           
+      entity_id: light.garage   
 
 #- alias: Loungeroom Single Click
 #  trigger:
@@ -864,7 +864,7 @@
       event_type: nest_event
       event_data:
         #nest_event_id: WyIxNjc3NjYzNTM4IiwgIm46MSJd
-        device_id: 12fcd95a91d26f57a7d65c60e1355017
+        device_id: 5c65af05df52f38a223e3cc870a55275
         type: doorbell_chime
      # event_type: zha_event
      # event_data:
@@ -880,6 +880,7 @@
         media_content_type: 'music'
       target:
         entity_id: media_player.chicane
+      
  
     #- service: media_player.turn_on
     #  data:
@@ -975,7 +976,7 @@
     event_type: zha_event
     event_data:
       #entity_id:  sensor.philips_switch_1_power
-      device_id: "09dee5ea04536b04e35ccbcef7b38f2f"
+      device_id: "0d2b5921884ce9319f0ac3310e2106ac"
       command: "on_short_release"
       #new_state: '3_click_up'
 #  condition:
@@ -1003,7 +1004,7 @@
     platform: event
     event_type: zha_event
     event_data:
-      device_id: "09dee5ea04536b04e35ccbcef7b38f2f"
+      device_id: "0d2b5921884ce9319f0ac3310e2106ac"
       command: "off_short_release"
   condition:
     condition: and
@@ -1390,9 +1391,9 @@
     - service: frontend.set_theme
       data:
         name: midnight_blue
-    - service: button.press
-      target:
-        entity_id: button.server_publishallsensors
+#    - service: button.press
+#      target:
+#        entity_id: button.server_publishallsensors
 #    - delay: "00:00:30"
 #    - wait_template: >-
 #        {% if not states.light.loungeroom_1 %}
@@ -1721,7 +1722,7 @@
   id: server_ram_full
   trigger:
     platform: numeric_state
-    entity_id: sensor.server_ram
+    entity_id: sensor.proxmox_ram_percent
     above: 92
 
   action:
