@@ -124,33 +124,33 @@
    {% endfor %}
 
 
-- platform: mold_indicator
-  name: Loungeroom Mould
-  indoor_temp_sensor: sensor.loungeroom_temperature
-  indoor_humidity_sensor: sensor.loungeroom_humidity
-  outdoor_temp_sensor: sensor.weather_pws_temperature
-  calibration_factor: 2
-
-- platform: mold_indicator
-  name: Bedroom Mould
-  indoor_temp_sensor: sensor.bedroom_temperature
-  indoor_humidity_sensor: sensor.bedroom_humidity
-  outdoor_temp_sensor: sensor.weather_pws_temperature
-  calibration_factor: 2
-
-- platform: mold_indicator
-  name: Theatre Mould
-  indoor_temp_sensor: sensor.theatre_temperature
-  indoor_humidity_sensor: sensor.theatre_humidity
-  outdoor_temp_sensor: sensor.weather_pws_temperature
-  calibration_factor: 2
-
-- platform: mold_indicator
-  name: Garage Mould
-  indoor_temp_sensor: sensor.garage_temperature
-  indoor_humidity_sensor: sensor.garage_humidity
-  outdoor_temp_sensor: sensor.weather_pws_temperature
-  calibration_factor: 2
+#- platform: mold_indicator
+#  name: Loungeroom Mould
+#  indoor_temp_sensor: sensor.loungeroom_temperature
+#  indoor_humidity_sensor: sensor.loungeroom_humidity
+#  outdoor_temp_sensor: sensor.weather_pws_temperature
+#  calibration_factor: 2
+#
+#- platform: mold_indicator
+#  name: Bedroom Mould
+#  indoor_temp_sensor: sensor.bedroom_temperature
+#  indoor_humidity_sensor: sensor.bedroom_humidity
+#  outdoor_temp_sensor: sensor.weather_pws_temperature
+#  calibration_factor: 2
+#
+#- platform: mold_indicator
+#  name: Theatre Mould
+#  indoor_temp_sensor: sensor.theatre_temperature
+#  indoor_humidity_sensor: sensor.theatre_humidity
+#  outdoor_temp_sensor: sensor.weather_pws_temperature
+#  calibration_factor: 2
+#
+#- platform: mold_indicator
+#  name: Garage Mould
+#  indoor_temp_sensor: sensor.garage_temperature
+#  indoor_humidity_sensor: sensor.garage_humidity
+#  outdoor_temp_sensor: sensor.weather_pws_temperature
+#  calibration_factor: 2
 
 #- platform: version
 #  name: 'Installed HASS Release'

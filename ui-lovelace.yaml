@@ -964,19 +964,19 @@ views:
           #  name: Outside            
 #          - entity: sensor.bom_sunshine_coast_pressure_msl
 #            name: BOM Sunshine Coast
-      - type: history-graph
-        title: Mould Graph
-        hours_to_show: 48
-        refresh_interval: 60
-        entities:
-          - entity: sensor.bedroom_mould
-            name: Bedroom
-          - entity: sensor.loungeroom_mould
-            name: Loungeroom
-          - entity: sensor.theatre_mould
-            name: Theatre
-          - entity: sensor.garage_mould
-            name: Garage
+#      - type: history-graph
+#        title: Mould Graph
+#        hours_to_show: 48
+#        refresh_interval: 60
+#        entities:
+#          - entity: sensor.bedroom_mould
+#            name: Bedroom
+#          - entity: sensor.loungeroom_mould
+#            name: Loungeroom
+#          - entity: sensor.theatre_mould
+#            name: Theatre
+#          - entity: sensor.garage_mould
+#            name: Garage
       - type: history-graph
         title: Certificate
         hours_to_show: 2000
@@ -1040,7 +1040,7 @@ views:
           map_source:
             camera: camera.roborock_s6_pure_map   
           calibration_source:
-            camera: true      
+            camera: true    
           map_modes:
             - template: vacuum_clean_zone
             - template: vacuum_goto
@@ -1198,6 +1198,7 @@ views:
                       - 36900
                     - - 38850
                       - 36900
+
                    
           #stats:
 #        - type: custom:xiaomi-vacuum-map-card
@@ -1306,19 +1307,19 @@ views:
             name: Garage
 #          - entity: sensor.bom_sunshine_coast_pressure_msl
 #            name: BOM Sunshine Coast
-      - type: history-graph
-        title: Mould Graph
-        hours_to_show: 672
-        refresh_interval: 60
-        entities:
-          - entity: sensor.bedroom_mould
-            name: Bedroom
-          - entity: sensor.loungeroom_mould
-            name: Loungeroom
-          - entity: sensor.theatre_mould
-            name: Theatre
-          - entity: sensor.garage_mould
-            name: Garage
+#      - type: history-graph
+#        title: Mould Graph
+#        hours_to_show: 672
+#        refresh_interval: 60
+#        entities:
+#          - entity: sensor.bedroom_mould
+#            name: Bedroom
+#          - entity: sensor.loungeroom_mould
+#            name: Loungeroom
+#          - entity: sensor.theatre_mould
+#            name: Theatre
+#          - entity: sensor.garage_mould
+#            name: Garage
 
   #- title: Remote
   #  icon: mdi:remote
@@ -1368,15 +1369,8 @@ views:
               name: RTMP Stream              
             - entity: switch.pfsense_home_nat_port_forward_rule_1295623072_vm_ssh
               name: UbuntuVM SSH
-            - entity: switch.pfsense_home_nat_port_forward_rule_1295623100_airvideo
-              name: Air Video
             - entity: switch.port_forward_ftp
               name: Server FTP
-              icon: mdi:network
-            - entity: switch.pfsense_home_nat_port_forward_rule_1295623183_ser_qbit_web
-              name: Qbittorrent Web Interface
-            - entity: switch.port_forward_rfactor
-              name: RFactor Server on Server
               icon: mdi:network
             - entity: switch.port_forward_sunshine
               name: Sunshine/Moonlight
@@ -1385,8 +1379,8 @@ views:
           title: Server
           show_header_toggle: false
           entities:
-            - sensor.server_lastboot
-            - sensor.server_ram_free
+            #- sensor.server_lastboot
+            #- sensor.server_ram_free
             - sensor.server_raid_capacity
             - sensor.server_raid_free
             - sensor.system_monitor_disk_usage_data_downloads
@@ -1434,11 +1428,11 @@ views:
           show:
             labels: true       
         - type: custom:mini-graph-card
-          name: Server CPU Used
+          name: Proxmox CPU Used
           hours_to_show: 72
           points_per_hour: 25
           entities:
-            - entity: sensor.server_cpu
+            - entity: sensor.proxmox_1_cpu_percent_guest
           color_thresholds:
             - value: 0
               color: "#5DADE2"
@@ -1456,11 +1450,11 @@ views:
 #            - sensor.server_cpu_4
 #            - sensor.server_cpu_avg
         - type: custom:mini-graph-card
-          name: Server RAM Used
+          name: Proxmox RAM Used
           hours_to_show: 72
           points_per_hour: 25
           entities:
-            - entity: sensor.server_ram
+            - entity: sensor.proxmox_ram_percent
           color_thresholds:
             - value: 0
               color: "#5DADE2"

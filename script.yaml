@@ -362,30 +362,6 @@ port_forward_ftp_turn_off:
     - service: switch.turn_off
       entity_id: switch.pfsense_home_nat_port_forward_rule_1562559015_ftp_pasv_ports       
 
-port_forward_rfactor_turn_on:
-  alias: Port Forward rFactor Server Turn On
-  sequence:
-    - service: switch.turn_on
-      entity_id: switch.pfsense_home_nat_port_forward_rule_1658297923_rfactor_racing_rig_1
-    - delay: 00:00:01
-    - service: switch.turn_on
-      entity_id: switch.pfsense_home_nat_port_forward_rule_1658297951_rfactor_racing_rig_2
-    - delay: 00:00:01   
-    - service: switch.turn_on
-      entity_id: switch.pfsense_home_nat_port_forward_rule_1658297969_rfactor_racing_rig_3
-
-port_forward_rfactor_turn_off:
-  alias: Port Forward rFactor Server Turn Off
-  sequence:
-    - service: switch.turn_off
-      entity_id: switch.pfsense_home_nat_port_forward_rule_1658297923_rfactor_racing_rig_1
-    - delay: 00:00:01
-    - service: switch.turn_off
-      entity_id: switch.pfsense_home_nat_port_forward_rule_1658297951_rfactor_racing_rig_2
-    - delay: 00:00:01   
-    - service: switch.turn_off
-      entity_id: switch.pfsense_home_nat_port_forward_rule_1658297969_rfactor_racing_rig_3
-
 port_forward_sunshine_turn_on:      
   alias: Port Forward Sunshine/Moonlight Turn On
   sequence:
