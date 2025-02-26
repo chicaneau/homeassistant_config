@@ -366,3 +366,109 @@
         entity_id: climate.loungeroom_aircon
       data:
         swing_mode: static
+
+#--------------------Office aircon ramp up when hot------------------------
+
+- alias: 'Aircon Office Too Hot'
+  id: aircon_office_too_hot
+  trigger:
+    platform: numeric_state
+    entity_id: sensor.office_temperature
+    above: 24.3
+  condition:
+    - condition: and
+      conditions: 
+        - condition: state
+          entity_id: group.office_active
+          state: 'on'  
+        - condition: not
+          conditions:          
+          - condition: state
+            entity_id: climate.office_aircon
+            state: 'off'               
+  action:
+    - service: climate.set_temperature
+      target:
+        entity_id: climate.office_aircon
+      data:
+        hvac_mode: heat_cool
+        temperature: 23
+    - service: climate.set_fan_mode
+      target:
+        entity_id: climate.office_aircon
+      data:  
+        fan_mode: MID_HIGH
+
+- alias: 'Aircon Office on Room Active Too Hot'
+  id: aircon_office_on_room_active_too_hot
+  trigger:
+    platform: state
+    entity_id: group.office_active
+    to: 'on' 
+  condition:
+    - condition: and
+      conditions: 
+        - condition: numeric_state
+          entity_id: sensor.office_temperature
+          above: 24.3
+           
+        - condition: not
+          conditions:          
+          - condition: state
+            entity_id: climate.office_aircon
+            state: 'off'               
+  action:
+    - service: climate.set_temperature
+      target:
+        entity_id: climate.office_aircon
+      data:
+        hvac_mode: heat_cool
+        temperature: 23
+    - service: climate.set_fan_mode
+      target:
+        entity_id: climate.office_aircon
+      data:  
+        fan_mode: MID_HIGH        
+
+- alias: 'Aircon Office Cooled off'
+  id: aircon_office_cooled_off
+  trigger:
+    platform: numeric_state
+    entity_id: sensor.office_temperature
+    below: 23.3
+  condition:
+    - condition: and
+      conditions: 
+        - condition: template
+          value_template: "{{ is_state_attr('climate.office_aircon', 'temperature', 23) }}"
+        #- condition: state
+        #  entity_id: group.office_active
+        #  state: 'on'  
+        - condition: not
+          conditions:          
+          - condition: state
+            entity_id: climate.office_aircon
+            state: 'off'               
+  action:
+    - service: climate.set_temperature
+      target:
+        entity_id: climate.office_aircon
+      data:
+        hvac_mode: heat_cool
+        temperature: 24   
+    - service: climate.set_fan_mode
+      target:
+        entity_id: climate.office_aircon
+      data:               
+        fan_mode: diffuse
+
+            
+#    - condition: state
+#      entity_id: climate.office_aircon
+#      state: "off"
+#    - service: climate.set_temperature
+#      target:
+#        entity_id: climate.office_aircon
+#      data:
+#        hvac_mode: heat_cool
+#        temperature: 24  
