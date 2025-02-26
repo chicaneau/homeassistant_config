@@ -29,7 +29,8 @@ Port Forward FTP:
   entities:
     - switch.pfsense_home_nat_port_forward_rule_1295623160_ftp
     - switch.pfsense_home_nat_port_forward_rule_1562559015_ftp_pasv_ports 
-
+    
+Port Forward Sunshine/Moonlight:
   entities:
     - switch.pfsense_home_nat_port_forward_rule_1669849028_gamestream_tcp_1
     - switch.pfsense_home_nat_port_forward_rule_1669849059_gamestream_tcp_2
